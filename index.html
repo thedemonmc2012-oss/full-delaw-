@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DELAW AI – by Desadu Chirandith</title>
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #09090e 0%, #171527 100%);
+      --card-bg: rgba(30, 30, 46, 0.6);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent-primary: #8b5cf6;
+      --accent-secondary: #ec4899;
+      --accent-gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+      --accent-glow: 0 4px 20px rgba(139, 92, 246, 0.4);
+      --text-color: #ffffff;
+      --text-muted: #a1a1aa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-color);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: -20%; left: -10%; width: 50%; height: 50%;
+      background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 60%);
+      z-index: -1;
+    }
+
+    /* Sidebar */
+    aside {
+      width: 280px;
+      background: rgba(20, 20, 30, 0.4);
+      backdrop-filter: blur(12px);
+      padding: 30px 20px;
+      border-right: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 5px 0 25px rgba(0,0,0,0.2);
+    }
+
+    aside h2 {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 800;
+    }
+
+    .producer {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+    }
+    .producer strong {
+      color: var(--accent-secondary);
+    }
+
+    .profile-showcase {
+      display: flex;
+      align-items: center;
+      padding-bottom: 25px;
+      margin-bottom: 25px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .profile-pic {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+      padding: 3px;
+      background: var(--accent-gradient);
+    }
+    .profile-info h3 { font-size: 1.05rem; margin-bottom: 4px; font-weight: 600; }
+    .profile-info p { font-size: 0.85rem; color: var(--accent-secondary); font-weight: 500; }
+
+    aside ul { list-style: none; flex-grow: 1; }
+    aside li {
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+    }
+    aside li:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-color);
+      transform: translateX(5px);
+    }
+    aside li.active {
+      background: var(--accent-gradient);
+      color: #fff;
+      box-shadow: var(--accent-glow);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .sidebar-footer {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 20px;
+      line-height: 1.5;
+    }
+    .sidebar-footer strong {
+      color: var(--accent-primary);
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      padding: 40px 50px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    header { margin-bottom: 30px; }
+    header h1 { font-size: 2.2rem; margin-bottom: 8px; font-weight: 700; }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-out;
+      flex-direction: column;
+      flex: 1;
+    }
+    .tab-content.active-tab { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Dashboard Cards */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(139, 92, 246, 0.2);
+      border-color: rgba(139, 92, 246, 0.3);
+    }
+    .card h3 { font-size: 1.3rem; margin-bottom: 12px; color: #fff; }
+    .card p { color: var(--text-muted); font-size: 0.95em; line-height: 1.5; }
+
+    /* Chat Interface (from my earlier code) */
+    .chat-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      max-height: 620px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .message {
+      max-width: 80%;
+      padding: 14px 18px;
+      border-radius: 16px;
+      line-height: 1.55;
+      font-size: 0.95rem;
+      animation: fadeIn 0.3s ease;
+    }
+    .message.ai {
+      background: rgba(139, 92, 246, 0.15);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+    .message.user {
+      background: rgba(236, 72, 153, 0.2);
+      border: 1px solid rgba(236, 72, 153, 0.3);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-input-area {
+      display: flex;
+      gap: 12px;
+      padding: 18px;
+      border-top: 1px solid var(--card-border);
+      background: rgba(0,0,0,0.2);
+    }
+    .chat-input-area input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0,0,0,0.3);
+      color: white;
+      font-size: 1rem;
+      outline: none;
+    }
+    .chat-input-area input:focus { border-color: var(--accent-primary); }
+    .chat-input-area button {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      padding: 0 28px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      box-shadow: var(--accent-glow);
+    }
+    .chat-input-area button:hover { transform: translateY(-2px); }
+
+    .typing {
+      display: flex;
+      gap: 5px;
+      padding: 6px 0;
+    }
+    .typing span {
+      width: 8px;
+      height: 8px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .typing span:nth-child(1) { animation-delay: -0.32s; }
+    .typing span:nth-child(2) { animation-delay: -0.16s; }
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Voice Control */
+    .voice-box {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      border: 2px dashed rgba(236, 72, 153, 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 700px;
+    }
+    .mic-btn {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      padding: 16px 35px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 20px;
+      box-shadow: var(--accent-glow);
+      transition: all 0.3s ease;
+    }
+    .mic-btn:hover { transform: scale(1.05); }
+    .mic-btn.recording {
+      background: #ef4444;
+      animation: pulse-red 1.5s infinite;
+    }
+    @keyframes pulse-red {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+      70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+    #transcript-output {
+      margin-top: 25px;
+      padding: 18px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      min-height: 80px;
+      color: var(--text-color);
+      font-weight: 500;
+      font-size: 1.05rem;
+      border: 1px solid var(--card-border);
+      text-align: left;
+    }
+
+    /* Settings */
+    .settings-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 35px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      max-width: 600px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--text-color);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .form-group input:focus {
+      border-color: var(--accent-primary);
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .save-btn {
+      background: var(--accent-gradient);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: var(--accent-glow);
+      transition: 0.3s;
+    }
+    .save-btn:hover { transform: translateY(-2px); }
+    #settings-message {
+      margin-top: 15px;
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    /* Suggestions */
+    .suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .suggestion {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--card-border);
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: 0.2s;
+    }
+    .suggestion:hover {
+      border-color: var(--accent-primary);
+      color: var(--accent-primary);
+    }
+
+    @media (max-width: 800px) {
+      body { flex-direction: column; }
+      aside { width: 100%; }
+      main { padding: 25px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside>
+    <h2>DELAW</h2>
+    <div class="producer">Produced by <strong>Desadu Chirandith</strong></div>
+
+    <div class="profile-showcase">
+      <img src="https://ui-avatars.com/api/?name=Desadu+Chirandith&background=8b5cf6&color=fff" alt="Profile" class="profile-pic" id="sidebar-pic">
+      <div class="profile-info">
+        <h3 id="sidebar-name">Desadu Chirandith</h3>
+        <p>Producer / Creator</p>
+      </div>
+    </div>
+
+    <ul>
+      <li class="nav-item active" onclick="switchTab('dashboard', this)">Dashboard</li>
+      <li class="nav-item" onclick="switchTab('chat', this)">AI Chat Studio</li>
+      <li class="nav-item" onclick="switchTab('voice', this)">Voice Control</li>
+      <li class="nav-item" onclick="switchTab('settings', this)">Settings</li>
+    </ul>
+
+    <div class="sidebar-footer">
+      Delaw AI<br>
+      Produced by <strong>Desadu Chirandith</strong>
+    </div>
+  </aside>
+
+  <!-- Main Workspace -->
+  <main>
+
+    <!-- DASHBOARD -->
+    <div id="dashboard" class="tab-content active-tab">
+      <header>
+        <h1>DELAW Dashboard</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">
+          Welcome! Select a category or go to AI Chat Studio.
+        </p>
+      </header>
+
+      <section class="tools-grid">
+        <div class="card" onclick="switchTab('chat', document.querySelectorAll('.nav-item')[1])">
+          <h3>AI Chat Studio</h3>
+          <p>Talk with Delaw – the AI assistant created by Desadu Chirandith.</p>
+        </div>
+        <div class="card" onclick="switchTab('voice', document.querySelectorAll('.nav-item')[2])">
+          <h3>Voice Control</h3>
+          <p>Speak to Delaw using your microphone.</p>
+        </div>
+        <div class="card">
+          <h3>Education</h3>
+          <p>Learning resources and simple explanations for students.</p>
+        </div>
+        <div class="card">
+          <h3>Fun & Games</h3>
+          <p>Creative prompts, fun facts, and light challenges.</p>
+        </div>
+      </section>
+    </div>
+
+    <!-- AI CHAT STUDIO (My earlier full chat code) -->
+    <div id="chat" class="tab-content">
+      <header>
+        <h1>Delaw AI Chat</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">
+          Chat with Delaw • Produced by <strong style="color:#ec4899">Desadu Chirandith</strong>
+        </p>
+      </header>
+
+      <div class="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <div class="message ai">
+            Hello! I’m <strong>Delaw</strong>, your friendly AI assistant.<br>
+            I was created and produced by <strong>Desadu Chirandith</strong>.<br>
+            How can I help you today?
+          </div>
+        </div>
+
+        <div class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Message Delaw..." autocomplete="off">
+          <button id="chat-send-btn">Send</button>
+        </div>
+      </div>
+
+      <div class="suggestions">
+        <div class="suggestion" onclick="askSuggestion(this)">Who created you?</div>
+        <div class="suggestion" onclick="askSuggestion(this)">Tell me a fun science fact</div>
+        <div class="suggestion" onclick="askSuggestion(this)">Help me with homework ideas</div>
+        <div class="suggestion" onclick="askSuggestion(this)">Give me a creative writing prompt</div>
+      </div>
+    </div>
+
+    <!-- VOICE CONTROL -->
+    <div id="voice" class="tab-content">
+      <header>
+        <h1>Voice Access</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">
+          Speak to Delaw (created by Desadu Chirandith)
+        </p>
+      </header>
+
+      <section class="voice-box">
+        <h2>Voice Assistant</h2>
+        <p style="color: var(--text-muted); margin-top: 8px;">
+          Try saying “Who made you?”, “Tell me a fun fact”, or “Open dashboard”
+        </p>
+        <button id="start-mic" class="mic-btn">Start Listening</button>
+        <p style="margin-top: 15px; font-size: 0.85rem; color: var(--text-muted);">
+          Shortcut: Press <kbd style="background:rgba(255,255,255,0.1);padding:3px 6px;border-radius:4px;">Shift</kbd> + <kbd style="background:rgba(255,255,255,0.1);padding:3px 6px;border-radius:4px;">V</kbd>
+        </p>
+        <div id="transcript-output">Waiting for your voice command...</div>
+      </section>
+    </div>
+
+    <!-- SETTINGS -->
+    <div id="settings" class="tab-content">
+      <header>
+        <h1>Account Settings</h1>
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Manage your profile</p>
+      </header>
+      <section class="settings-card">
+        <h2 style="margin-bottom: 15px;">Profile Configuration</h2>
+        <form id="profile-form">
+          <div class="form-group">
+            <label for="username">Full Name</label>
+            <input type="text" id="username" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" required>
+          </div>
+          <button type="submit" class="save-btn">Save Changes</button>
+          <div id="settings-message"></div>
+        </form>
+      </section>
+    </div>
+
+  </main>
+
+  <script>
+    // ======================
+    // DELAW AI – Produced by Desadu Chirandith
+    // ======================
+    const PRODUCER = "Desadu Chirandith";
+    const AI_NAME = "Delaw";
+
+    // ----- TAB SWITCHING -----
+    function switchTab(tabId, element) {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active-tab'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active-tab');
+      if (element) element.classList.add('active');
+    }
+
+    // ----- PROFILE -----
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedName = localStorage.getItem('ai_user_name') || 'Desadu Chirandith';
+      const savedEmail = localStorage.getItem('ai_user_email') || 'desadu@example.com';
+      document.getElementById('username').value = savedName;
+      document.getElementById('email').value = savedEmail;
+      document.getElementById('sidebar-name').innerText = savedName;
+      document.getElementById('sidebar-pic').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(savedName)}&background=8b5cf6&color=fff`;
+    });
+
+    document.getElementById('profile-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const updatedName = document.getElementById('username').value;
+      const updatedEmail = document.getElementById('email').value;
+      localStorage.setItem('ai_user_name', updatedName);
+      localStorage.setItem('ai_user_email', updatedEmail);
+      document.getElementById('sidebar-name').innerText = updatedName;
+      document.getElementById('sidebar-pic').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(updatedName)}&background=8b5cf6&color=fff`;
+      const msg = document.getElementById('settings-message');
+      msg.innerText = `Settings saved successfully!`;
+      setTimeout(() => { msg.innerText = ''; }, 4000);
+    });
+
+    // ----- TEXT TO SPEECH -----
+    function speakAI(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.pitch = 1.05;
+        window.speechSynthesis.speak(utterance);
+      }
+    }
+
+    // ----- AI RESPONSE SYSTEM (Family-friendly) -----
+    const responses = {
+      greetings: [
+        `Hi there! I'm ${AI_NAME}, created by ${PRODUCER}. How can I help you today?`,
+        `Hello! ${AI_NAME} here, produced by ${PRODUCER}. What's on your mind?`,
+        `Hey! Nice to meet you. I'm ${AI_NAME}, your AI friend made by ${PRODUCER}.`
+      ],
+      whoAreYou: [
+        `I'm ${AI_NAME}, a friendly AI assistant. My producer is ${PRODUCER}. I'm here to help you learn, create, and explore ideas!`,
+        `My name is ${AI_NAME} and I was created by ${PRODUCER}. I love answering questions and helping with creative tasks.`
+      ],
+      producer: [
+        `I was produced and created by ${PRODUCER}. All credit goes to him!`,
+        `Desadu Chirandith is my producer. He built me to be helpful and fun for everyone.`
+      ],
+      thanks: [
+        "You're very welcome! Happy to help anytime.",
+        "Glad I could help! Feel free to ask more.",
+        "Anytime! That's what I'm here for."
+      ],
+      science: [
+        "Did you know that octopuses have three hearts? Two pump blood to the gills, and one pumps it to the rest of the body!",
+        "Fun fact: A day on Venus is longer than a year on Venus! It takes 243 Earth days to rotate once, but only 225 Earth days to go around the Sun.",
+        "Lightning is hotter than the surface of the Sun! A lightning bolt can reach about 30,000°C."
+      ],
+      creative: [
+        "Here's a writing prompt: Write a story about a kid who discovers a door in their school that leads to a library that only appears at night.",
+        "Try this: Imagine you found a pencil that can draw real objects. What would you draw first and why?",
+        "Creative challenge: Describe your perfect treehouse using only five sentences."
+      ],
+      default: [
+        "That's an interesting question! Let me think... I'd say the best approach is to break it down into smaller parts and explore each one carefully.",
+        "Great question! From what I know, the key is to stay curious and keep learning. Would you like me to explain it in a simpler way?",
+        "I love questions like this! Here's a helpful way to look at it: start with what you already know and build from there.",
+        "Nice one! A good way to understand this is to think about real-life examples. Want me to give you one?"
+      ]
+    };
+
+    function random(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function getAIResponse(userText) {
+      const text = userText.toLowerCase().trim();
+
+      // Navigation commands
+      if (text.includes('open setting') || text.includes('settings')) {
+        switchTab('settings', document.querySelectorAll('.nav-item')[3]);
+        return "Opening your settings page right now.";
+      }
+      if (text.includes('dashboard') || text.includes('home')) {
+        switchTab('dashboard', document.querySelectorAll('.nav-item')[0]);
+        return "Taking you back to the main dashboard.";
+      }
+      if (text.includes('chat') || text.includes('chat studio')) {
+        switchTab('chat', document.querySelectorAll('.nav-item')[1]);
+        return "Opening the AI Chat Studio.";
+      }
+
+      // Knowledge responses
+      if (/^(hi|hello|hey|hola|good morning|good afternoon)/.test(text)) {
+        return random(responses.greetings);
+      }
+      if (/who are you|what are you|your name|introduce/.test(text)) {
+        return random(responses.whoAreYou);
+      }
+      if (/who (made|created|built|produced)|producer|desadu|chirandith/.test(text)) {
+        return random(responses.producer);
+      }
+      if (/thank|thanks|thx/.test(text)) {
+        return random(responses.thanks);
+      }
+      if (/science|fact|fun fact|space|animal|nature/.test(text)) {
+        return random(responses.science);
+      }
+      if (/story|write|creative|prompt|idea for/.test(text)) {
+        return random(responses.creative);
+      }
+      if (/homework|study|learn|explain|help me/.test(text)) {
+        return "I'd love to help you learn! Tell me the subject or the specific topic, and I'll explain it in a clear and simple way.";
+      }
+      if (text.includes('time')) {
+        return `The current local time is ${new Date().toLocaleTimeString()}.`;
+      }
+
+      return random(responses.default);
+    }
+
+    // ----- CHAT LOGIC -----
+    const chatMessages = document.getElementById('chat-messages');
+    const chatInput = document.getElementById('chat-input');
+    const chatSendBtn = document.getElementById('chat-send-btn');
+
+    function askSuggestion(el) {
+      chatInput.value = el.textContent;
+      handleUserMessage(chatInput.value);
+    }
+
+    async function handleUserMessage(text) {
+      if (!text.trim()) return;
+
+      // User message
+      const userDiv = document.createElement('div');
+      userDiv.className = 'message user';
+      userDiv.textContent = text;
+      chatMessages.appendChild(userDiv);
+      chatInput.value = '';
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Typing indicator
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message ai';
+      typingDiv.id = 'typing';
+      typingDiv.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      // Simulate thinking
+      await new Promise(r => setTimeout(r, 700 + Math.random() * 800));
+
+      // Remove typing and show reply
+      typingDiv.remove();
+      const aiResponse = getAIResponse(text);
+
+      const aiDiv = document.createElement('div');
+      aiDiv.className = 'message ai';
+      aiDiv.textContent = aiResponse;
+      chatMessages.appendChild(aiDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+
+      speakAI(aiResponse);
+    }
+
+    chatSendBtn.addEventListener('click', () => handleUserMessage(chatInput.value));
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') handleUserMessage(chatInput.value);
+    });
+
+    // ----- VOICE RECOGNITION -----
+    const micBtn = document.getElementById('start-mic');
+    const output = document.getElementById('transcript-output');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      output.innerText = "Speech Recognition API not supported in this browser. Use Chrome or Edge.";
+      micBtn.disabled = true;
+    } else {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = 'en-US';
+
+      micBtn.addEventListener('click', () => {
+        if (micBtn.classList.contains('recording')) recognition.stop();
+        else recognition.start();
+      });
+
+      recognition.onstart = () => {
+        micBtn.textContent = 'Listening...';
+        micBtn.classList.add('recording');
+        output.innerText = "Listening... Speak your command or question.";
+      };
+
+      recognition.onend = () => {
+        micBtn.textContent = 'Start Listening';
+        micBtn.classList.remove('recording');
+      };
+
+      recognition.onresult = async (event) => {
+        const transcript = event.results[0][0].transcript;
+        output.innerHTML = `<strong style="color:var(--text-muted);">You:</strong> ${transcript}<br><br><strong style="color:var(--accent-secondary);">DELAW:</strong> Thinking...`;
+        const reply = getAIResponse(transcript);
+        output.innerHTML = `<strong style="color:var(--text-muted);">You:</strong> ${transcript}<br><br><strong style="color:var(--accent-secondary);">DELAW:</strong> ${reply}`;
+        speakAI(reply);
+      };
+    }
+
+    // Keyboard shortcut Shift + V
+    document.addEventListener('keydown', (e) => {
+      if (e.shiftKey && e.key.toLowerCase() === 'v') {
+        if (document.activeElement.tagName !== 'INPUT') {
+          e.preventDefault();
+          micBtn.click();
+        }
+      }
+    });
+  </script>
+</body>
+</html>
