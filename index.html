@@ -421,6 +421,117 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
   z-index: 90;
 }
 .overlay.show { display: block; }
+
+/* ===== NEW EDUCATION STYLES ===== */
+.edu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.xp-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 16px;
+  min-width: 200px;
+}
+.xp-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
+.xp-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+.xp-fill {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 10px;
+  transition: width 0.4s ease;
+}
+.gateway-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.gateway-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.gateway-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+}
+.gateway-icon { font-size: 1.8rem; margin-bottom: 8px; }
+.gateway-card h4 { font-size: 0.95rem; margin-bottom: 4px; }
+.gateway-card p { font-size: 0.75rem; color: var(--muted); }
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+.formula-item {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+.formula-item strong { color: var(--primary); display: block; margin-bottom: 4px; }
+.formula-item span { font-size: 0.85rem; color: var(--muted); }
+.path-item {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.path-item:hover { border-color: var(--primary); }
+.path-item h4 { margin-bottom: 4px; }
+.path-item p { font-size: 0.85rem; color: var(--muted); }
+.flash-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 20px;
+  text-align: center;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.flash-card:hover { border-color: var(--primary); }
+.flash-front { font-size: 1.1rem; }
+.flash-back { font-size: 1rem; color: var(--success); display: none; }
+.flash-card.flipped .flash-front { display: none; }
+.flash-card.flipped .flash-back { display: block; }
+.subject-panel { display: none; }
+.subject-panel.active { display: block; }
+.back-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+}
+.back-btn:hover { color: var(--text); border-color: var(--primary); }
+
 @media (max-width: 860px) {
   aside {
     position: fixed;
@@ -431,12 +542,12 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
   .menu-btn { display: block; }
   .content { padding: 18px 14px; }
   .chat-wrap { height: calc(100vh - 150px); }
+  .edu-header { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
 <body>
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-
 <aside id="sidebar">
   <h2>DELAW</h2>
   <div class="producer">Produced by <strong>Desadu Chirandith</strong></div>
@@ -460,10 +571,9 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
   <div class="sidebar-footer">
     Delaw AI<br>
     Produced by <strong>Desadu Chirandith</strong><br>
-    Full Featured Edition (1500+ lines)
+    Full Featured Edition
   </div>
 </aside>
-
 <main>
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:10px">
@@ -475,9 +585,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
       <button class="btn" onclick="newChat()">＋ New Chat</button>
     </div>
   </div>
-
   <div class="content">
-
     <!-- DASHBOARD -->
     <div id="dashboard" class="tab active">
       <h1>DELAW Dashboard</h1>
@@ -492,8 +600,8 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
           <p>Talk to Delaw using your microphone.</p>
         </div>
         <div class="card" onclick="switchTab('education')">
-          <h3>Education</h3>
-          <p>Simple explanations, study tips and learning help.</p>
+          <h3>Education <span class="badge">Upgraded</span></h3>
+          <p>Subject gateways, formulas, learning paths, XP system and more.</p>
         </div>
         <div class="card" onclick="switchTab('fun')">
           <h3>Fun & Games</h3>
@@ -559,28 +667,236 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
       </div>
     </div>
 
-    <!-- EDUCATION -->
+    <!-- ==================== UPGRADED EDUCATION SECTION ==================== -->
     <div id="education" class="tab">
-      <h1>Education Center</h1>
-      <p class="subtitle">Simple learning help • Produced by Desadu Chirandith</p>
-      <div class="module-box">
-        <h3>Quick Study Tips</h3>
-        <div class="fact-card">Break big topics into small parts. Study 25 minutes, then rest 5 minutes.</div>
-        <div class="fact-card">Teach the topic to someone else (or to Delaw). Teaching helps you remember.</div>
-        <div class="fact-card">Write short notes in your own words instead of copying everything.</div>
-        <div class="fact-card">Sleep well. Your brain organizes what you learned while you sleep.</div>
-        <div class="fact-card">Review your notes the next day. Spaced repetition is powerful.</div>
-      </div>
-      <div class="module-box">
-        <h3>Ask Delaw to Explain</h3>
-        <p style="color:var(--muted);margin-bottom:12px">Type any topic and Delaw will explain it simply.</p>
-        <div class="chat-input">
-          <input type="text" id="edu-input" placeholder="Example: What is photosynthesis?">
-          <button onclick="eduExplain()">Explain</button>
+      <div class="edu-header">
+        <div>
+          <h1>Delaw Academy</h1>
+          <p class="subtitle" style="margin-bottom:0">Learn • Practice • Level Up • Produced by Desadu Chirandith</p>
         </div>
-        <div id="edu-result" class="story-box" style="margin-top:14px">Explanation will appear here...</div>
+        <div class="xp-box">
+          <div class="xp-label">Level <span id="edu-level">1</span> • <span id="edu-xp">0</span>/100 XP</div>
+          <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- Subject Gateways -->
+      <div id="edu-home">
+        <h3 style="margin-bottom:14px">Subject Gateways</h3>
+        <div class="gateway-grid">
+          <div class="gateway-card" onclick="openSubject('math')">
+            <div class="gateway-icon">📐</div>
+            <h4>Math Gateway</h4>
+            <p>Algebra • Geometry • Basics</p>
+          </div>
+          <div class="gateway-card" onclick="openSubject('science')">
+            <div class="gateway-icon">🔬</div>
+            <h4>Science Gateway</h4>
+            <p>Biology • Chemistry • Facts</p>
+          </div>
+          <div class="gateway-card" onclick="openSubject('space')">
+            <div class="gateway-icon">🚀</div>
+            <h4>Space Gateway</h4>
+            <p>Planets • Stars • Universe</p>
+          </div>
+          <div class="gateway-card" onclick="openSubject('coding')">
+            <div class="gateway-icon">💻</div>
+            <h4>Coding Gateway</h4>
+            <p>HTML • CSS • JS Basics</p>
+          </div>
+          <div class="gateway-card" onclick="openSubject('physics')">
+            <div class="gateway-icon">⚡</div>
+            <h4>Physics Gateway</h4>
+            <p>Motion • Forces • Energy</p>
+          </div>
+          <div class="gateway-card" onclick="openSubject('history')">
+            <div class="gateway-icon">📜</div>
+            <h4>History Gateway</h4>
+            <p>Ancient • Inventions • Events</p>
+          </div>
+        </div>
+
+        <!-- Formula Library -->
+        <div class="module-box">
+          <h3>Formula Library</h3>
+          <div class="formula-grid">
+            <div class="formula-item"><strong>Area of Circle</strong><span>A = π × r²</span></div>
+            <div class="formula-item"><strong>Speed</strong><span>Speed = Distance ÷ Time</span></div>
+            <div class="formula-item"><strong>Force</strong><span>F = m × a</span></div>
+            <div class="formula-item"><strong>Pythagoras</strong><span>a² + b² = c²</span></div>
+            <div class="formula-item"><strong>Perimeter of Rectangle</strong><span>P = 2(l + w)</span></div>
+            <div class="formula-item"><strong>Density</strong><span>Density = Mass ÷ Volume</span></div>
+            <div class="formula-item"><strong>Kinetic Energy</strong><span>KE = ½ × m × v²</span></div>
+            <div class="formula-item"><strong>Average</strong><span>Average = Sum ÷ Count</span></div>
+          </div>
+        </div>
+
+        <!-- Learning Paths -->
+        <div class="module-box">
+          <h3>Learning Paths</h3>
+          <div class="path-item" onclick="showLesson('fractions')">
+            <h4>Understanding Fractions</h4>
+            <p>Learn what fractions are and how to use them in daily life.</p>
+          </div>
+          <div class="path-item" onclick="showLesson('gravity')">
+            <h4>What is Gravity?</h4>
+            <p>Simple explanation of why things fall and how planets stay in orbit.</p>
+          </div>
+          <div class="path-item" onclick="showLesson('photosynthesis')">
+            <h4>Photosynthesis Basics</h4>
+            <p>How plants make their own food using sunlight.</p>
+          </div>
+          <div class="path-item" onclick="showLesson('variables')">
+            <h4>Variables in Coding</h4>
+            <p>What variables are and why programmers use them.</p>
+          </div>
+        </div>
+
+        <!-- AI Explainer -->
+        <div class="module-box">
+          <h3>Ask Delaw to Explain</h3>
+          <p style="color:var(--muted);margin-bottom:12px">Type any topic and get a simple explanation.</p>
+          <div class="chat-input">
+            <input type="text" id="edu-input" placeholder="Example: What is photosynthesis?">
+            <button onclick="eduExplain()">Explain</button>
+          </div>
+          <div id="edu-result" class="story-box" style="margin-top:14px">Explanation will appear here...</div>
+        </div>
+
+        <!-- Flashcards -->
+        <div class="module-box">
+          <h3>Flashcards</h3>
+          <p style="color:var(--muted);margin-bottom:12px">Click the card to flip it.</p>
+          <div class="flash-card" id="flashcard" onclick="flipCard()">
+            <div class="flash-front" id="flash-front">What is the speed of light?</div>
+            <div class="flash-back" id="flash-back">Approximately 300,000 km per second</div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button class="btn" onclick="nextFlash()">Next Card</button>
+            <button class="btn" onclick="addXP(5)">I Knew It (+5 XP)</button>
+          </div>
+        </div>
+
+        <!-- Study Tips -->
+        <div class="module-box">
+          <h3>Quick Study Tips</h3>
+          <div class="fact-card">Break big topics into small parts. Study 25 minutes, then rest 5 minutes.</div>
+          <div class="fact-card">Teach the topic to someone else (or to Delaw). Teaching helps you remember.</div>
+          <div class="fact-card">Write short notes in your own words instead of copying everything.</div>
+          <div class="fact-card">Sleep well. Your brain organizes what you learned while you sleep.</div>
+          <div class="fact-card">Review your notes the next day. Spaced repetition is powerful.</div>
+        </div>
+      </div>
+
+      <!-- Subject Detail Panels -->
+      <div id="subject-math" class="subject-panel">
+        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
+        <h2>📐 Math Gateway</h2>
+        <p class="subtitle">Core math concepts made simple</p>
+        <div class="module-box">
+          <h3>Quick Lessons</h3>
+          <div class="path-item" onclick="showLesson('fractions')"><h4>Fractions</h4><p>Parts of a whole</p></div>
+          <div class="path-item" onclick="showLesson('percentage')"><h4>Percentages</h4><p>Out of 100</p></div>
+          <div class="path-item" onclick="showLesson('area')"><h4>Area & Perimeter</h4><p>Measuring shapes</p></div>
+        </div>
+        <div class="module-box">
+          <h3>Mini Quiz</h3>
+          <button class="btn" onclick="startSubjectQuiz('math')">Start Math Quiz</button>
+          <div id="math-quiz-area" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <div id="subject-science" class="subject-panel">
+        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
+        <h2>🔬 Science Gateway</h2>
+        <p class="subtitle">Discover how the world works</p>
+        <div class="module-box">
+          <h3>Quick Lessons</h3>
+          <div class="path-item" onclick="showLesson('photosynthesis')"><h4>Photosynthesis</h4><p>How plants make food</p></div>
+          <div class="path-item" onclick="showLesson('states')"><h4>States of Matter</h4><p>Solid, Liquid, Gas</p></div>
+        </div>
+        <div class="module-box">
+          <h3>Mini Quiz</h3>
+          <button class="btn" onclick="startSubjectQuiz('science')">Start Science Quiz</button>
+          <div id="science-quiz-area" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <div id="subject-space" class="subject-panel">
+        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
+        <h2>🚀 Space Gateway</h2>
+        <p class="subtitle">Explore the universe</p>
+        <div class="module-box">
+          <h3>Quick Lessons</h3>
+          <div class="path-item" onclick="showLesson('planets')"><h4>Our Solar System</h4><p>The 8 planets</p></div>
+          <div class="path-item" onclick="showLesson('gravity')"><h4>Gravity in Space</h4><p>Why planets orbit</p></div>
+        </div>
+        <div class="module-box">
+          <h3>Mini Quiz</h3>
+          <button class="btn" onclick="startSubjectQuiz('space')">Start Space Quiz</button>
+          <div id="space-quiz-area" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <div id="subject-coding" class="subject-panel">
+        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
+        <h2>💻 Coding Gateway</h2>
+        <p class="subtitle">Start your coding journey</p>
+        <div class="module-box">
+          <h3>Quick Lessons</h3>
+          <div class="path-item" onclick="showLesson('variables')"><h4>Variables</h4><p>Storing information</p></div>
+          <div class="path-item" onclick="showLesson('html')"><h4>What is HTML?</h4><p>The skeleton of websites</p></div>
+        </div>
+        <div class="module-box">
+          <h3>Mini Quiz</h3>
+          <button class="btn" onclick="startSubjectQuiz('coding')">Start Coding Quiz</button>
+          <div id="coding-quiz-area" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <div id="subject-physics" class="subject-panel">
+        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
+        <h2>⚡ Physics Gateway</h2>
+        <p class="subtitle">Forces, motion and energy</p>
+        <div class="module-box">
+          <h3>Quick Lessons</h3>
+          <div class="path-item" onclick="showLesson('force')"><h4>Force & Motion</h4><p>F = m × a</p></div>
+          <div class="path-item" onclick="showLesson('energy')"><h4>Types of Energy</h4><p>Kinetic & Potential</p></div>
+        </div>
+        <div class="module-box">
+          <h3>Mini Quiz</h3>
+          <button class="btn" onclick="startSubjectQuiz('physics')">Start Physics Quiz</button>
+          <div id="physics-quiz-area" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <div id="subject-history" class="subject-panel">
+        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
+        <h2>📜 History Gateway</h2>
+        <p class="subtitle">Learn from the past</p>
+        <div class="module-box">
+          <h3>Quick Lessons</h3>
+          <div class="path-item" onclick="showLesson('wheel')"><h4>Invention of the Wheel</h4><p>One of humanity’s greatest ideas</p></div>
+          <div class="path-item" onclick="showLesson('printing')"><h4>The Printing Press</h4><p>How books became common</p></div>
+        </div>
+        <div class="module-box">
+          <h3>Mini Quiz</h3>
+          <button class="btn" onclick="startSubjectQuiz('history')">Start History Quiz</button>
+          <div id="history-quiz-area" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <!-- Lesson Modal Content -->
+      <div id="lesson-view" class="subject-panel">
+        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
+        <div class="module-box">
+          <h2 id="lesson-title">Lesson</h2>
+          <div id="lesson-body" style="line-height:1.7;margin-top:12px"></div>
+          <button class="btn" style="margin-top:16px" onclick="addXP(15);backToEduHome()">I Finished This Lesson (+15 XP)</button>
+        </div>
       </div>
     </div>
+    <!-- ==================== END EDUCATION ==================== -->
 
     <!-- FUN & GAMES -->
     <div id="fun" class="tab">
@@ -672,23 +988,20 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
           Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.
         </p>
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
-        <p style="margin-top:6px"><strong>Version:</strong> Full Featured 1500+ lines</p>
+        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + Academy Upgrade</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
-          Features: Chat, Voice, Education, Quizzes, Stories, Knowledge Base, Theme toggle, Mobile support and more.
+          Features: Chat, Voice, Education Academy, Quizzes, Stories, Knowledge Base, Theme toggle, Mobile support and more.
         </p>
       </div>
     </div>
-
   </div>
 </main>
 
 <script>
 // ================================================================
-// DELAW AI - FULL FEATURED EDITION (1500+ LINES TARGET)
+// DELAW AI - FULL FEATURED + ACADEMY UPGRADE
 // Produced by Desadu Chirandith
-// Family-friendly • Educational • Interactive
 // ================================================================
-
 const PRODUCER = "Desadu Chirandith";
 const AI_NAME = "Delaw";
 let isThinking = false;
@@ -697,7 +1010,31 @@ let chatHistory = JSON.parse(localStorage.getItem("delaw_history") || "[]");
 let quizIndex = 0;
 let quizScore = 0;
 
-// -------------------- THEME --------------------
+// XP System
+let eduXP = parseInt(localStorage.getItem("delaw_xp") || "0");
+let eduLevel = parseInt(localStorage.getItem("delaw_level") || "1");
+
+function updateXPDisplay() {
+  const needed = eduLevel * 100;
+  const current = eduXP % 100;
+  document.getElementById("edu-level").textContent = eduLevel;
+  document.getElementById("edu-xp").textContent = current;
+  document.getElementById("xp-fill").style.width = (current / 100 * 100) + "%";
+}
+function addXP(amount) {
+  eduXP += amount;
+  while (eduXP >= eduLevel * 100) {
+    eduXP -= eduLevel * 100;
+    eduLevel++;
+    alert(`Level Up! You are now Level ${eduLevel}`);
+  }
+  localStorage.setItem("delaw_xp", eduXP);
+  localStorage.setItem("delaw_level", eduLevel);
+  updateXPDisplay();
+}
+updateXPDisplay();
+
+// Theme
 function toggleTheme() {
   const html = document.documentElement;
   const next = html.getAttribute("data-theme") === "light" ? "" : "light";
@@ -708,7 +1045,7 @@ if (localStorage.getItem("delaw_theme") === "light") {
   document.documentElement.setAttribute("data-theme", "light");
 }
 
-// -------------------- SIDEBAR --------------------
+// Sidebar
 function toggleSidebar() {
   document.getElementById("sidebar").classList.toggle("open");
   document.getElementById("overlay").classList.toggle("show");
@@ -718,7 +1055,7 @@ function closeSidebar() {
   document.getElementById("overlay").classList.remove("show");
 }
 
-// -------------------- TABS --------------------
+// Tabs
 function switchTab(id, el) {
   document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
   document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
@@ -730,9 +1067,13 @@ function switchTab(id, el) {
   }
   closeSidebar();
   if (id === "chat") renderHistory();
+  if (id === "education") {
+    backToEduHome();
+    updateXPDisplay();
+  }
 }
 
-// -------------------- PROFILE --------------------
+// Profile
 function loadProfile() {
   const name = localStorage.getItem("delaw_name") || "Desadu Chirandith";
   const email = localStorage.getItem("delaw_email") || "desadu@example.com";
@@ -753,13 +1094,12 @@ function saveProfile(e) {
 }
 loadProfile();
 
-// -------------------- HUGE KNOWLEDGE BASE --------------------
+// Knowledge Base
 const KB = {
   greetings: [
     `Hi! I'm ${AI_NAME}, created by ${PRODUCER}. How can I help you today?`,
     `Hello! ${AI_NAME} here, produced by ${PRODUCER}. What's on your mind?`,
-    `Hey! Nice to meet you. I'm ${AI_NAME} made by ${PRODUCER}.`,
-    `Welcome! I'm ${AI_NAME}, your friendly AI built by ${PRODUCER}.`
+    `Hey! Nice to meet you. I'm ${AI_NAME} made by ${PRODUCER}.`
   ],
   who: [
     `I'm ${AI_NAME}, a friendly AI assistant produced by ${PRODUCER}. I help with learning, facts, riddles and creative ideas.`,
@@ -779,12 +1119,7 @@ const KB = {
     "Your brain uses about 20% of your body's energy.",
     "Water can boil and freeze at the same time (triple point).",
     "A single cloud can weigh more than a million pounds.",
-    "Sharks existed before trees.",
-    "The human body contains enough carbon to make thousands of pencils.",
-    "A group of flamingos is called a flamboyance.",
-    "The average person walks the equivalent of five times around the world in a lifetime.",
-    "There is a species of jellyfish that can reverse its life cycle.",
-    "Koala fingerprints are so similar to humans they can confuse investigators."
+    "Sharks existed before trees."
   ],
   space: [
     "Space is completely silent because there is no air.",
@@ -794,9 +1129,7 @@ const KB = {
     "One day on Mercury lasts about 59 Earth days.",
     "Saturn's rings are made of ice and rock.",
     "Neutron stars are incredibly dense.",
-    "There are more stars in the universe than grains of sand on Earth.",
-    "A black hole is a place where gravity is so strong that nothing can escape, not even light.",
-    "The largest volcano in the solar system is Olympus Mons on Mars."
+    "There are more stars in the universe than grains of sand on Earth."
   ],
   animals: [
     "A group of flamingos is called a flamboyance.",
@@ -806,9 +1139,7 @@ const KB = {
     "Cows can have best friends.",
     "A snail can sleep for up to three years.",
     "Goats have rectangular pupils.",
-    "Dolphins have names for each other.",
-    "A blue whale's heart is the size of a small car.",
-    "Sloths can hold their breath longer than dolphins."
+    "Dolphins have names for each other."
   ],
   history: [
     "The Great Wall of China is not one continuous wall.",
@@ -816,9 +1147,7 @@ const KB = {
     "The first Olympic Games were in 776 BC in Greece.",
     "Leonardo da Vinci was a painter, inventor and scientist.",
     "The printing press changed the world around 1440.",
-    "The wheel was invented around 3500 BC.",
-    "The Library of Alexandria was one of the greatest libraries of the ancient world.",
-    "Marco Polo traveled from Europe to Asia and wrote about his adventures."
+    "The wheel was invented around 3500 BC."
   ],
   coding: [
     "HTML is the structure of a webpage (the skeleton).",
@@ -827,9 +1156,7 @@ const KB = {
     "A variable is like a labeled box that stores information.",
     "An if statement lets code make decisions.",
     "Loops repeat instructions until a condition is met.",
-    "The best way to learn coding is by building small projects.",
-    "Comments in code help humans understand what the code does.",
-    "Debugging means finding and fixing errors in your code."
+    "The best way to learn coding is by building small projects."
   ],
   jokes: [
     "Why did the scarecrow win an award? Because he was outstanding in his field!",
@@ -839,9 +1166,7 @@ const KB = {
     "Why did the math book look sad? It had too many problems!",
     "What do you call cheese that isn't yours? Nacho cheese!",
     "Why did the bicycle fall over? It was two-tired!",
-    "What do you call a fish without eyes? Fsh!",
-    "Why are frogs so happy? They eat whatever bugs them!",
-    "What do you get when you cross a snowman and a vampire? Frostbite!"
+    "What do you call a fish without eyes? Fsh!"
   ],
   riddles: [
     "I speak without a mouth and hear without ears. What am I? → An echo",
@@ -849,36 +1174,98 @@ const KB = {
     "What has cities but no houses, forests but no trees? → A map",
     "What can travel around the world while staying in a corner? → A stamp",
     "What gets wetter as it dries? → A towel",
-    "What has hands but cannot clap? → A clock",
-    "I have keys but no locks. I have space but no room. What am I? → A keyboard"
+    "What has hands but cannot clap? → A clock"
   ],
   challenges: [
     "Describe your perfect treehouse in only five sentences.",
     "Invent a new animal that lives in the clouds. What does it eat?",
     "Write a short story that starts with: 'The old map glowed under the moonlight...'",
     "Imagine you found a pencil that can draw real objects. What do you draw first?",
-    "Create a superhero whose only power is making people laugh.",
-    "Describe a school where every subject is taught by a different talking animal."
+    "Create a superhero whose only power is making people laugh."
   ],
   stories: [
     "Once there was a curious fox who found a glowing key in the forest. The key opened a tiny door in an old oak tree. Behind the door was a library of talking books that told stories of bravery and kindness. The fox spent the whole night listening and left wiser than before.",
     "In a quiet village, a young inventor built a small robot from spare parts. The robot could not fly or fight, but it could tell the funniest jokes. Soon the whole village was smiling every day.",
-    "A little girl planted a strange seed. The next morning a tiny tree had grown that grew different colored leaves every hour. Children from nearby came to watch the colors change and learned that nature is full of surprises.",
-    "There once was a boy who collected lost buttons. One day he found a golden button that could grant one small wish. He wished that everyone in his town would have a good friend. From that day on, no one felt lonely."
+    "A little girl planted a strange seed. The next morning a tiny tree had grown that grew different colored leaves every hour. Children from nearby came to watch the colors change and learned that nature is full of surprises."
   ],
   prompts: [
     "Write about a kid who discovers a door at school that only appears at night and leads to a magical library.",
     "Imagine you woke up and could understand what animals were saying. What is the first conversation you hear?",
-    "Describe a world where books can talk and argue with their readers.",
-    "Write a story about a robot who wants to learn how to paint."
+    "Describe a world where books can talk and argue with their readers."
   ],
   default: [
     "Interesting question! The best way is to break it into smaller parts and explore step by step.",
     "Great question! Stay curious. Would you like a simpler explanation?",
-    "I'd love to help with that. Tell me a bit more so I can give a better answer.",
-    "That's a thoughtful question. Let's explore it together."
+    "I'd love to help with that. Tell me a bit more so I can give a better answer."
   ]
 };
+
+const lessons = {
+  fractions: {
+    title: "Understanding Fractions",
+    body: "A fraction shows a part of a whole. The top number (numerator) tells how many parts you have. The bottom number (denominator) tells how many equal parts the whole is divided into. Example: 1/2 means one part out of two equal parts. Fractions are used when sharing pizza, measuring ingredients, or telling time."
+  },
+  gravity: {
+    title: "What is Gravity?",
+    body: "Gravity is the force that pulls objects toward each other. On Earth, gravity pulls everything toward the center of the planet. That is why things fall down when you drop them. The bigger an object is, the stronger its gravity. The Moon has weaker gravity than Earth, which is why astronauts can jump higher there."
+  },
+  photosynthesis: {
+    title: "Photosynthesis Basics",
+    body: "Photosynthesis is how plants make their own food. Plants take in sunlight, water, and carbon dioxide. Using the green chemical called chlorophyll, they turn these into sugar (food) and oxygen. The oxygen is released into the air, which is why plants are so important for life on Earth."
+  },
+  variables: {
+    title: "Variables in Coding",
+    body: "A variable is like a labeled box that stores information in a computer program. You can put a number, a word, or other data inside it and use it later. For example: let score = 10; This creates a variable named score and puts the number 10 inside it. Variables make programs flexible and powerful."
+  },
+  percentage: {
+    title: "Percentages",
+    body: "Percent means 'out of 100'. 50% means 50 out of 100, which is the same as half. Percentages are useful for discounts, test scores, and statistics. To find 20% of 50, you can calculate 0.20 × 50 = 10."
+  },
+  area: {
+    title: "Area & Perimeter",
+    body: "Perimeter is the distance around a shape. For a rectangle it is 2 × (length + width). Area is the space inside a shape. For a rectangle it is length × width. For a circle, area is π × r²."
+  },
+  states: {
+    title: "States of Matter",
+    body: "Matter exists mainly in three states: solid, liquid, and gas. Solids keep their shape. Liquids take the shape of their container. Gases spread out to fill any space. Heating or cooling can change one state into another (like ice melting into water)."
+  },
+  planets: {
+    title: "Our Solar System",
+    body: "Our solar system has 8 planets: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. The Sun is at the center. Earth is the only planet known to have life. Jupiter is the largest planet."
+  },
+  force: {
+    title: "Force & Motion",
+    body: "A force is a push or a pull. Forces can make objects start moving, stop, speed up, slow down, or change direction. The formula F = m × a means Force equals mass times acceleration. Heavier objects need more force to accelerate."
+  },
+  energy: {
+    title: "Types of Energy",
+    body: "Kinetic energy is the energy of movement. Potential energy is stored energy (like a stretched rubber band or an object held up high). Energy can change from one form to another but is never created or destroyed."
+  },
+  html: {
+    title: "What is HTML?",
+    body: "HTML stands for HyperText Markup Language. It is the standard language used to create the structure of web pages. HTML uses tags like <h1> for headings and <p> for paragraphs to organize content."
+  },
+  wheel: {
+    title: "Invention of the Wheel",
+    body: "The wheel was invented around 3500 BC. It is one of the most important inventions in human history. Wheels made it much easier to transport heavy things and later became essential for machines and vehicles."
+  },
+  printing: {
+    title: "The Printing Press",
+    body: "Around 1440, Johannes Gutenberg invented a practical printing press in Europe. This made it possible to produce books much faster and cheaper, which helped spread knowledge and education across the world."
+  }
+};
+
+const flashcards = [
+  { front: "What is the speed of light?", back: "Approximately 300,000 km per second" },
+  { front: "How many planets are in our solar system?", back: "8 planets" },
+  { front: "What does HTML stand for?", back: "HyperText Markup Language" },
+  { front: "What is the formula for force?", back: "F = m × a" },
+  { front: "What is 25% of 80?", back: "20" },
+  { front: "Which planet is known as the Red Planet?", back: "Mars" },
+  { front: "What gas do plants release during photosynthesis?", back: "Oxygen" },
+  { front: "What is the boiling point of water?", back: "100°C (at standard pressure)" }
+];
+let flashIndex = 0;
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -904,7 +1291,7 @@ function getReply(text) {
   if (/open dashboard|go home/.test(t)) { switchTab("dashboard"); return "Back to Dashboard."; }
   if (/open voice/.test(t)) { switchTab("voice"); return "Opening Voice Control."; }
   if (/open quiz/.test(t)) { switchTab("quiz"); return "Opening Quiz Zone."; }
-  if (/open education|study/.test(t)) { switchTab("education"); return "Opening Education Center."; }
+  if (/open education|study|academy/.test(t)) { switchTab("education"); return "Opening Delaw Academy."; }
   if (/open fun|joke|riddle/.test(t)) { switchTab("fun"); return "Opening Fun & Games."; }
   if (/open knowledge|fact/.test(t)) { switchTab("knowledge"); return "Opening Knowledge Base."; }
   if (/open stories|story/.test(t)) { switchTab("stories"); return "Opening Story Time."; }
@@ -913,18 +1300,11 @@ function getReply(text) {
   return pick(KB.default);
 }
 
-// -------------------- CHAT --------------------
-function setStatus(t) {
-  document.getElementById("status").textContent = t;
-}
-
+// Chat functions (same as before)
+function setStatus(t) { document.getElementById("status").textContent = t; }
 function simpleMarkdown(text) {
-  return text
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*(.*?)\*/g, "<em>$1</em>")
-    .replace(/\n/g, "<br>");
+  return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>").replace(/\n/g, "<br>");
 }
-
 function addMessage(content, role, save = true) {
   const box = document.getElementById("messages");
   const div = document.createElement("div");
@@ -946,7 +1326,6 @@ function addMessage(content, role, save = true) {
     localStorage.setItem("delaw_history", JSON.stringify(chatHistory.slice(-80)));
   }
 }
-
 function renderHistory() {
   const box = document.getElementById("messages");
   box.innerHTML = "";
@@ -957,7 +1336,6 @@ function renderHistory() {
   chatHistory.forEach(m => addMessage(m.content, m.role, false));
   box.scrollTop = box.scrollHeight;
 }
-
 function copyMsg(btn) {
   const text = btn.closest(".msg").querySelector(".msg-body").innerText;
   navigator.clipboard.writeText(text).then(() => {
@@ -965,7 +1343,6 @@ function copyMsg(btn) {
     setTimeout(() => btn.textContent = "Copy", 1400);
   });
 }
-
 function regen(btn) {
   const msg = btn.closest(".msg");
   const prev = msg.previousElementSibling;
@@ -975,7 +1352,6 @@ function regen(btn) {
   chatHistory.pop();
   thinkAndReply(userText);
 }
-
 async function thinkAndReply(userText) {
   isThinking = true;
   document.getElementById("send").disabled = true;
@@ -996,7 +1372,6 @@ async function thinkAndReply(userText) {
   document.getElementById("send").disabled = false;
   setStatus("Online • Ready");
 }
-
 function sendMessage() {
   const input = document.getElementById("input");
   const text = input.value.trim();
@@ -1005,12 +1380,10 @@ function sendMessage() {
   addMessage(text, "user");
   thinkAndReply(text);
 }
-
 function quick(text) {
   document.getElementById("input").value = text;
   sendMessage();
 }
-
 function newChat() {
   chatHistory = [];
   localStorage.removeItem("delaw_history");
@@ -1018,11 +1391,9 @@ function newChat() {
   switchTab("chat");
   setStatus("New chat started");
 }
-
 function clearChat() {
   if (confirm("Clear all messages?")) newChat();
 }
-
 function exportChat() {
   let out = `Delaw AI Chat\nProduced by ${PRODUCER}\n\n`;
   chatHistory.forEach(m => out += `[${m.role.toUpperCase()}] ${m.content}\n\n`);
@@ -1031,12 +1402,11 @@ function exportChat() {
   a.download = "delaw-chat.txt";
   a.click();
 }
-
 document.getElementById("input").addEventListener("keydown", e => {
   if (e.key === "Enter") sendMessage();
 });
 
-// -------------------- VOICE --------------------
+// Voice
 function speak(text) {
   if (!window.speechSynthesis) return;
   speechSynthesis.cancel();
@@ -1044,7 +1414,6 @@ function speak(text) {
   u.lang = "en-US";
   speechSynthesis.speak(u);
 }
-
 function toggleMic() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   const out = document.getElementById("voice-out");
@@ -1082,7 +1451,6 @@ function toggleMic() {
   };
   recognition.start();
 }
-
 document.addEventListener("keydown", e => {
   if (e.shiftKey && e.key.toLowerCase() === "v" && document.activeElement.tagName !== "INPUT") {
     e.preventDefault();
@@ -1090,7 +1458,7 @@ document.addEventListener("keydown", e => {
   }
 });
 
-// -------------------- EDUCATION --------------------
+// Education functions
 function eduExplain() {
   const q = document.getElementById("edu-input").value.trim();
   if (!q) return;
@@ -1098,33 +1466,117 @@ function eduExplain() {
   result.innerHTML = "Thinking...";
   setTimeout(() => {
     result.innerHTML = getReply(q + " explain simply");
+    addXP(3);
   }, 400);
 }
 
-// -------------------- FUN --------------------
-function showJoke() {
-  document.getElementById("joke-box").textContent = pick(KB.jokes);
+function openSubject(name) {
+  document.getElementById("edu-home").style.display = "none";
+  document.querySelectorAll(".subject-panel").forEach(p => p.classList.remove("active"));
+  document.getElementById("subject-" + name).classList.add("active");
 }
-function showRiddle() {
-  document.getElementById("riddle-box").textContent = pick(KB.riddles);
+function backToEduHome() {
+  document.querySelectorAll(".subject-panel").forEach(p => p.classList.remove("active"));
+  document.getElementById("edu-home").style.display = "block";
 }
-function showChallenge() {
-  document.getElementById("challenge-box").textContent = pick(KB.challenges);
+function showLesson(key) {
+  const lesson = lessons[key];
+  if (!lesson) return;
+  document.getElementById("edu-home").style.display = "none";
+  document.querySelectorAll(".subject-panel").forEach(p => p.classList.remove("active"));
+  document.getElementById("lesson-view").classList.add("active");
+  document.getElementById("lesson-title").textContent = lesson.title;
+  document.getElementById("lesson-body").textContent = lesson.body;
 }
 
-// -------------------- KNOWLEDGE --------------------
-function randomFact(type) {
-  const map = {
-    science: KB.science,
-    space: KB.space,
-    animals: KB.animals,
-    history: KB.history,
-    coding: KB.coding
+function flipCard() {
+  document.getElementById("flashcard").classList.toggle("flipped");
+}
+function nextFlash() {
+  flashIndex = (flashIndex + 1) % flashcards.length;
+  const card = flashcards[flashIndex];
+  document.getElementById("flash-front").textContent = card.front;
+  document.getElementById("flash-back").textContent = card.back;
+  document.getElementById("flashcard").classList.remove("flipped");
+}
+
+// Subject quizzes
+const subjectQuizzes = {
+  math: [
+    { q: "What is 15% of 200?", options: ["20", "30", "25", "35"], answer: 1 },
+    { q: "What is the area of a rectangle with length 8 and width 5?", options: ["13", "40", "26", "30"], answer: 1 }
+  ],
+  science: [
+    { q: "What gas do plants produce during photosynthesis?", options: ["Carbon dioxide", "Nitrogen", "Oxygen", "Hydrogen"], answer: 2 },
+    { q: "How many states of matter are commonly taught in school?", options: ["2", "3", "4", "5"], answer: 1 }
+  ],
+  space: [
+    { q: "Which planet is closest to the Sun?", options: ["Venus", "Earth", "Mercury", "Mars"], answer: 2 },
+    { q: "How many planets are in our solar system?", options: ["7", "8", "9", "10"], answer: 1 }
+  ],
+  coding: [
+    { q: "What does HTML stand for?", options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "None"], answer: 0 },
+    { q: "Which language is mainly used to style websites?", options: ["HTML", "Python", "CSS", "Java"], answer: 2 }
+  ],
+  physics: [
+    { q: "What is the formula for force?", options: ["F = m + a", "F = m × a", "F = m ÷ a", "F = m - a"], answer: 1 },
+    { q: "What type of energy does a moving object have?", options: ["Potential", "Thermal", "Kinetic", "Chemical"], answer: 2 }
+  ],
+  history: [
+    { q: "Around when was the wheel invented?", options: ["1000 BC", "3500 BC", "500 AD", "1800 AD"], answer: 1 },
+    { q: "Who is credited with inventing the printing press in Europe?", options: ["Leonardo da Vinci", "Isaac Newton", "Johannes Gutenberg", "Galileo"], answer: 2 }
+  ]
+};
+
+function startSubjectQuiz(subject) {
+  const area = document.getElementById(subject + "-quiz-area");
+  const data = subjectQuizzes[subject];
+  if (!data) return;
+  let idx = 0;
+  let score = 0;
+  function showQ() {
+    if (idx >= data.length) {
+      area.innerHTML = `<p>Quiz finished! Score: ${score}/${data.length}</p><button class="btn" onclick="addXP(score*10)">Claim ${score*10} XP</button>`;
+      return;
+    }
+    const item = data[idx];
+    let html = `<p class="quiz-q">${item.q}</p><div class="quiz-options">`;
+    item.options.forEach((opt, i) => {
+      html += `<button onclick="checkSubAnswer('${subject}',${i},${item.answer},this)">${opt}</button>`;
+    });
+    html += `</div><p style="margin-top:10px;color:var(--muted)">Score: ${score}</p>`;
+    area.innerHTML = html;
+  }
+  window.checkSubAnswer = function(subj, selected, correct, btn) {
+    const buttons = btn.parentElement.querySelectorAll("button");
+    buttons.forEach(b => b.onclick = null);
+    if (selected === correct) {
+      btn.classList.add("correct");
+      score++;
+    } else {
+      btn.classList.add("wrong");
+      buttons[correct].classList.add("correct");
+    }
+    setTimeout(() => {
+      idx++;
+      showQ();
+    }, 800);
   };
+  showQ();
+}
+
+// Fun
+function showJoke() { document.getElementById("joke-box").textContent = pick(KB.jokes); }
+function showRiddle() { document.getElementById("riddle-box").textContent = pick(KB.riddles); }
+function showChallenge() { document.getElementById("challenge-box").textContent = pick(KB.challenges); }
+
+// Knowledge
+function randomFact(type) {
+  const map = { science: KB.science, space: KB.space, animals: KB.animals, history: KB.history, coding: KB.coding };
   document.getElementById("fact-display").textContent = pick(map[type] || KB.science);
 }
 
-// -------------------- QUIZ --------------------
+// Main Quiz
 const quizData = [
   { q: "How many hearts does an octopus have?", options: ["1", "2", "3", "4"], answer: 2 },
   { q: "What planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: 1 },
@@ -1137,14 +1589,12 @@ const quizData = [
   { q: "What is the largest planet in our solar system?", options: ["Earth", "Saturn", "Jupiter", "Neptune"], answer: 2 },
   { q: "Which gas do plants absorb from the air?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"], answer: 2 }
 ];
-
 function startQuiz() {
   quizIndex = 0;
   quizScore = 0;
   document.getElementById("quiz-btn").style.display = "none";
   showQuizQuestion();
 }
-
 function showQuizQuestion() {
   if (quizIndex >= quizData.length) {
     document.getElementById("quiz-question").textContent = `Quiz finished! Your score: ${quizScore}/${quizData.length}`;
@@ -1152,6 +1602,7 @@ function showQuizQuestion() {
     document.getElementById("quiz-score").textContent = "";
     document.getElementById("quiz-btn").style.display = "inline-block";
     document.getElementById("quiz-btn").textContent = "Play Again";
+    addXP(quizScore * 8);
     return;
   }
   const item = quizData[quizIndex];
@@ -1166,7 +1617,6 @@ function showQuizQuestion() {
   });
   document.getElementById("quiz-score").textContent = `Score: ${quizScore}`;
 }
-
 function checkAnswer(selected, correct, btn) {
   const buttons = document.querySelectorAll("#quiz-options button");
   buttons.forEach(b => b.onclick = null);
@@ -1184,7 +1634,7 @@ function checkAnswer(selected, correct, btn) {
   }, 900);
 }
 
-// -------------------- STORIES --------------------
+// Stories
 function generateStory() {
   document.getElementById("story-display").textContent = pick(KB.stories);
 }
@@ -1194,7 +1644,7 @@ function generatePrompt() {
 
 // Init
 renderHistory();
-console.log("%cDelaw AI Full Featured Edition loaded", "color:#8b5cf6;font-weight:bold");
+console.log("%cDelaw AI Full Featured + Academy loaded", "color:#8b5cf6;font-weight:bold");
 console.log("%cProduced by Desadu Chirandith", "color:#ec4899");
 </script>
 </body>
