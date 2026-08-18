@@ -3,547 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DELAW AI – Full Featured Edition | Produced by Desadu Chirandith</title>
+<title>DELAW AI – Full Featured + Tools | Produced by Desadu Chirandith</title>
 <style>
-:root {
-  --bg: #09090e;
-  --bg2: #171527;
-  --card: rgba(30, 30, 46, 0.78);
-  --border: rgba(255, 255, 255, 0.08);
-  --primary: #8b5cf6;
-  --secondary: #ec4899;
-  --gradient: linear-gradient(135deg, #8b5cf6, #ec4899);
-  --text: #ffffff;
-  --muted: #a1a1aa;
-  --success: #34d399;
-  --danger: #ef4444;
-  --radius: 14px;
-}
-[data-theme="light"] {
-  --bg: #f1f5f9;
-  --bg2: #e2e8f0;
-  --card: rgba(255, 255, 255, 0.92);
-  --border: rgba(0, 0, 0, 0.08);
-  --text: #0f172a;
-  --muted: #64748b;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
-body {
-  background: linear-gradient(135deg, var(--bg), var(--bg2));
-  color: var(--text);
-  display: flex;
-  min-height: 100vh;
-  overflow-x: hidden;
-  transition: background 0.3s, color 0.3s;
-}
-aside {
-  width: 270px;
-  background: rgba(20, 20, 30, 0.55);
-  backdrop-filter: blur(18px);
-  border-right: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  padding: 22px 16px;
-  z-index: 100;
-  transition: transform 0.3s ease;
-}
-aside h2 {
-  background: var(--gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 1.45rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
-}
-.producer { font-size: 0.7rem; color: var(--muted); margin-bottom: 18px; }
-.producer strong { color: var(--secondary); }
-.profile {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-.avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: var(--gradient);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: white;
-  font-size: 1rem;
-}
-.nav-item {
-  padding: 11px 14px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: var(--muted);
-  font-weight: 500;
-  margin-bottom: 5px;
-  transition: 0.2s;
-  border: 1px solid transparent;
-}
-.nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
-.nav-item.active {
-  background: var(--gradient);
-  color: white;
-  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35);
-}
-.sidebar-footer {
-  margin-top: auto;
-  font-size: 0.7rem;
-  color: var(--muted);
-  text-align: center;
-  line-height: 1.5;
-}
-.sidebar-footer strong { color: var(--primary); }
-main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(0,0,0,0.18);
-}
-.menu-btn {
-  display: none;
-  background: none;
-  border: none;
-  color: var(--text);
-  font-size: 1.35rem;
-  cursor: pointer;
-}
-.btn {
-  background: rgba(255,255,255,0.07);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 7px 13px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.82rem;
-  transition: 0.2s;
-}
-.btn:hover { background: var(--primary); color: white; }
-.content { flex: 1; overflow-y: auto; padding: 24px 28px; }
-.tab { display: none; animation: fade 0.3s ease; }
-.tab.active { display: block; }
-@keyframes fade {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: none; }
-}
-h1 { font-size: 1.8rem; margin-bottom: 6px; }
-.subtitle { color: var(--muted); margin-bottom: 22px; }
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 16px;
-}
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(139, 92, 246, 0.45);
-  box-shadow: 0 10px 28px rgba(139, 92, 246, 0.15);
-}
-.card h3 { margin-bottom: 7px; font-size: 1.1rem; }
-.card p { color: var(--muted); font-size: 0.88rem; line-height: 1.45; }
-.badge {
-  display: inline-block;
-  background: var(--gradient);
-  color: white;
-  font-size: 0.62rem;
-  padding: 2px 7px;
-  border-radius: 20px;
-  margin-left: 5px;
-}
-.chat-wrap {
-  display: flex;
-  flex-direction: column;
-  height: calc(100vh - 170px);
-  max-height: 640px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.chat-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 9px 14px;
-  border-bottom: 1px solid var(--border);
-  background: rgba(0,0,0,0.2);
-  font-size: 0.82rem;
-  color: var(--muted);
-}
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.msg {
-  max-width: 82%;
-  padding: 11px 15px;
-  border-radius: 15px;
-  line-height: 1.5;
-  font-size: 0.93rem;
-  position: relative;
-  animation: fade 0.25s ease;
-}
-.msg.ai {
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
-}
-.msg.user {
-  background: rgba(236, 72, 153, 0.14);
-  border: 1px solid rgba(236, 72, 153, 0.25);
-  align-self: flex-end;
-  border-bottom-right-radius: 4px;
-}
-.msg-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 5px;
-  font-size: 0.68rem;
-  color: var(--muted);
-  opacity: 0.85;
-}
-.msg-actions button {
-  background: none;
-  border: none;
-  color: var(--muted);
-  cursor: pointer;
-  font-size: 0.72rem;
-  margin-left: 7px;
-}
-.msg-actions button:hover { color: var(--primary); }
-.typing { display: flex; gap: 4px; padding: 3px 0; }
-.typing span {
-  width: 7px; height: 7px;
-  background: var(--muted);
-  border-radius: 50%;
-  animation: bounce 1.3s infinite ease-in-out both;
-}
-.typing span:nth-child(1) { animation-delay: -0.3s; }
-.typing span:nth-child(2) { animation-delay: -0.15s; }
-@keyframes bounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
-}
-.chat-input {
-  display: flex;
-  gap: 9px;
-  padding: 12px 14px;
-  border-top: 1px solid var(--border);
-  background: rgba(0,0,0,0.15);
-}
-.chat-input input {
-  flex: 1;
-  padding: 11px 14px;
-  border-radius: 11px;
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,0.22);
-  color: var(--text);
-  font-size: 0.93rem;
-  outline: none;
-}
-.chat-input input:focus { border-color: var(--primary); }
-.chat-input button {
-  background: var(--gradient);
-  color: white;
-  border: none;
-  padding: 0 20px;
-  border-radius: 11px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.chat-input button:disabled { opacity: 0.5; cursor: not-allowed; }
-.suggestions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 12px;
-}
-.chip {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border);
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.78rem;
-  cursor: pointer;
-  color: var(--muted);
-  transition: 0.2s;
-}
-.chip:hover { border-color: var(--primary); color: var(--primary); }
-.voice-box {
-  background: var(--card);
-  border: 2px dashed rgba(236, 72, 153, 0.4);
-  border-radius: var(--radius);
-  padding: 36px;
-  text-align: center;
-  max-width: 540px;
-}
-.mic-btn {
-  background: var(--gradient);
-  color: white;
-  border: none;
-  padding: 13px 30px;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 16px;
-  transition: 0.25s;
-}
-.mic-btn:hover { transform: scale(1.04); }
-.mic-btn.rec {
-  background: #ef4444;
-  animation: pulse 1.4s infinite;
-}
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.6); }
-  70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); }
-  100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
-}
-#voice-out {
-  margin-top: 18px;
-  padding: 14px;
-  background: rgba(0,0,0,0.28);
-  border-radius: 11px;
-  min-height: 65px;
-  text-align: left;
-  font-size: 0.92rem;
-}
-.settings-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  max-width: 460px;
-}
-.form-group { margin-bottom: 16px; }
-.form-group label {
-  display: block;
-  font-size: 0.78rem;
-  color: var(--muted);
-  margin-bottom: 5px;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-.form-group input {
-  width: 100%;
-  padding: 11px 13px;
-  border-radius: 9px;
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,0.2);
-  color: var(--text);
-  outline: none;
-}
-.form-group input:focus { border-color: var(--primary); }
-.save-btn {
-  background: var(--gradient);
-  color: white;
-  border: none;
-  padding: 11px 22px;
-  border-radius: 9px;
-  font-weight: 600;
-  cursor: pointer;
-}
-.module-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 22px;
-  margin-bottom: 18px;
-}
-.module-box h3 { margin-bottom: 12px; }
-.quiz-q { font-size: 1.05rem; margin-bottom: 14px; }
-.quiz-options button {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 11px 14px;
-  margin-bottom: 8px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  color: var(--text);
-  cursor: pointer;
-  transition: 0.2s;
-}
-.quiz-options button:hover { border-color: var(--primary); }
-.quiz-options button.correct {
-  background: rgba(52, 211, 153, 0.2);
-  border-color: var(--success);
-}
-.quiz-options button.wrong {
-  background: rgba(239, 68, 68, 0.15);
-  border-color: var(--danger);
-}
-.fact-card {
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  border-radius: 11px;
-  padding: 14px 16px;
-  margin-bottom: 10px;
-  line-height: 1.5;
-}
-.story-box {
-  background: rgba(0,0,0,0.2);
-  border-radius: 11px;
-  padding: 16px;
-  line-height: 1.6;
-  min-height: 120px;
-}
-.overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 90;
-}
-.overlay.show { display: block; }
-
-/* ===== EDUCATION STYLES ===== */
-.edu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.xp-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 16px;
-  min-width: 200px;
-}
-.xp-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
-.xp-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 6px;
-}
-.xp-fill {
-  height: 100%;
-  background: var(--gradient);
-  border-radius: 10px;
-  transition: width 0.4s ease;
-}
-.gateway-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
-}
-.gateway-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 18px 14px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.gateway-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(139, 92, 246, 0.5);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
-}
-.gateway-icon { font-size: 1.8rem; margin-bottom: 8px; }
-.gateway-card h4 { font-size: 0.95rem; margin-bottom: 4px; }
-.gateway-card p { font-size: 0.75rem; color: var(--muted); }
-.formula-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
-}
-.formula-item {
-  background: rgba(0,0,0,0.25);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 12px 14px;
-}
-.formula-item strong { color: var(--primary); display: block; margin-bottom: 4px; }
-.formula-item span { font-size: 0.85rem; color: var(--muted); }
-.path-item {
-  background: rgba(0,0,0,0.2);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.path-item:hover { border-color: var(--primary); }
-.path-item h4 { margin-bottom: 4px; }
-.path-item p { font-size: 0.85rem; color: var(--muted); }
-.flash-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 28px 20px;
-  text-align: center;
-  min-height: 140px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  cursor: pointer;
-  transition: 0.25s;
-}
-.flash-card:hover { border-color: var(--primary); }
-.flash-front { font-size: 1.1rem; }
-.flash-back { font-size: 1rem; color: var(--success); display: none; }
-.flash-card.flipped .flash-front { display: none; }
-.flash-card.flipped .flash-back { display: block; }
-.subject-panel { display: none; }
-.subject-panel.active { display: block; }
-.back-btn {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 14px;
-  font-size: 0.85rem;
-}
-.back-btn:hover { color: var(--text); border-color: var(--primary); }
-
-@media (max-width: 860px) {
-  aside {
-    position: fixed;
-    left: 0; top: 0; bottom: 0;
-    transform: translateX(-100%);
-  }
-  aside.open { transform: translateX(0); }
-  .menu-btn { display: block; }
-  .content { padding: 18px 14px; }
-  .chat-wrap { height: calc(100vh - 150px); }
-  .edu-header { flex-direction: column; align-items: flex-start; }
-}
+:root{--bg:#09090e;--bg2:#171527;--card:rgba(30,30,46,.78);--border:rgba(255,255,255,.08);--primary:#8b5cf6;--secondary:#ec4899;--gradient:linear-gradient(135deg,#8b5cf6,#ec4899);--text:#fff;--muted:#a1a1aa;--success:#34d399;--danger:#ef4444;--radius:14px}
+[data-theme=light]{--bg:#f1f5f9;--bg2:#e2e8f0;--card:rgba(255,255,255,.92);--border:rgba(0,0,0,.08);--text:#0f172a;--muted:#64748b}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif}
+body{background:linear-gradient(135deg,var(--bg),var(--bg2));color:var(--text);display:flex;min-height:100vh;overflow-x:hidden;transition:.3s}
+aside{width:270px;background:rgba(20,20,30,.55);backdrop-filter:blur(18px);border-right:1px solid var(--border);display:flex;flex-direction:column;padding:22px 16px;z-index:100;transition:transform .3s}
+aside h2{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.45rem;font-weight:800;letter-spacing:2px;margin-bottom:4px}
+.producer{font-size:.7rem;color:var(--muted);margin-bottom:18px}.producer strong{color:var(--secondary)}
+.profile{display:flex;align-items:center;gap:12px;padding-bottom:16px;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:1rem}
+.nav-item{padding:11px 14px;border-radius:10px;cursor:pointer;color:var(--muted);font-weight:500;margin-bottom:5px;transition:.2s;border:1px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav-item.active{background:var(--gradient);color:#fff;box-shadow:0 4px 15px rgba(139,92,246,.35)}
+.sidebar-footer{margin-top:auto;font-size:.7rem;color:var(--muted);text-align:center;line-height:1.5}.sidebar-footer strong{color:var(--primary)}
+main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.18)}
+.menu-btn{display:none;background:none;border:none;color:var(--text);font-size:1.35rem;cursor:pointer}
+.btn{background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--text);padding:7px 13px;border-radius:8px;cursor:pointer;font-size:.82rem;transition:.2s}
+.btn:hover{background:var(--primary);color:#fff}
+.content{flex:1;overflow-y:auto;padding:24px 28px}
+.tab{display:none;animation:fade .3s ease}.tab.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-size:1.8rem;margin-bottom:6px}.subtitle{color:var(--muted);margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:.25s}
+.card:hover{transform:translateY(-4px);border-color:rgba(139,92,246,.45);box-shadow:0 10px 28px rgba(139,92,246,.15)}
+.card h3{margin-bottom:7px;font-size:1.1rem}.card p{color:var(--muted);font-size:.88rem;line-height:1.45}
+.badge{display:inline-block;background:var(--gradient);color:#fff;font-size:.62rem;padding:2px 7px;border-radius:20px;margin-left:5px}
+.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 170px);max-height:640px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.chat-toolbar{display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2);font-size:.82rem;color:var(--muted)}
+.chat-messages{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px}
+.msg{max-width:82%;padding:11px 15px;border-radius:15px;line-height:1.5;font-size:.93rem;position:relative;animation:fade .25s}
+.msg.ai{background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25);align-self:flex-start;border-bottom-left-radius:4px}
+.msg.user{background:rgba(236,72,153,.14);border:1px solid rgba(236,72,153,.25);align-self:flex-end;border-bottom-right-radius:4px}
+.msg-meta{display:flex;justify-content:space-between;align-items:center;margin-top:5px;font-size:.68rem;color:var(--muted);opacity:.85}
+.msg-actions button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.72rem;margin-left:7px}
+.msg-actions button:hover{color:var(--primary)}
+.typing{display:flex;gap:4px;padding:3px 0}
+.typing span{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:bounce 1.3s infinite ease-in-out both}
+.typing span:nth-child(1){animation-delay:-.3s}.typing span:nth-child(2){animation-delay:-.15s}
+@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+.chat-input{display:flex;gap:9px;padding:12px 14px;border-top:1px solid var(--border);background:rgba(0,0,0,.15)}
+.chat-input input{flex:1;padding:11px 14px;border-radius:11px;border:1px solid var(--border);background:rgba(0,0,0,.22);color:var(--text);font-size:.93rem;outline:none}
+.chat-input input:focus{border-color:var(--primary)}
+.chat-input button{background:var(--gradient);color:#fff;border:none;padding:0 20px;border-radius:11px;font-weight:600;cursor:pointer}
+.chat-input button:disabled{opacity:.5;cursor:not-allowed}
+.suggestions{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.chip{background:rgba(255,255,255,.05);border:1px solid var(--border);padding:6px 12px;border-radius:20px;font-size:.78rem;cursor:pointer;color:var(--muted);transition:.2s}
+.chip:hover{border-color:var(--primary);color:var(--primary)}
+.voice-box{background:var(--card);border:2px dashed rgba(236,72,153,.4);border-radius:var(--radius);padding:36px;text-align:center;max-width:540px}
+.mic-btn{background:var(--gradient);color:#fff;border:none;padding:13px 30px;border-radius:50px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:16px;transition:.25s}
+.mic-btn:hover{transform:scale(1.04)}.mic-btn.rec{background:#ef4444;animation:pulse 1.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(239,68,68,.6)}70%{box-shadow:0 0 0 15px rgba(239,68,68,0)}100%{box-shadow:0 0 0 0 rgba(239,68,68,0)}}
+#voice-out{margin-top:18px;padding:14px;background:rgba(0,0,0,.28);border-radius:11px;min-height:65px;text-align:left;font-size:.92rem}
+.settings-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;max-width:460px}
+.form-group{margin-bottom:16px}.form-group label{display:block;font-size:.78rem;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
+.form-group input{width:100%;padding:11px 13px;border-radius:9px;border:1px solid var(--border);background:rgba(0,0,0,.2);color:var(--text);outline:none}
+.form-group input:focus{border-color:var(--primary)}
+.save-btn{background:var(--gradient);color:#fff;border:none;padding:11px 22px;border-radius:9px;font-weight:600;cursor:pointer}
+.module-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:18px}
+.module-box h3{margin-bottom:12px}
+.quiz-q{font-size:1.05rem;margin-bottom:14px}
+.quiz-options button{display:block;width:100%;text-align:left;padding:11px 14px;margin-bottom:8px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:9px;color:var(--text);cursor:pointer;transition:.2s}
+.quiz-options button:hover{border-color:var(--primary)}
+.quiz-options button.correct{background:rgba(52,211,153,.2);border-color:var(--success)}
+.quiz-options button.wrong{background:rgba(239,68,68,.15);border-color:var(--danger)}
+.fact-card{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.25);border-radius:11px;padding:14px 16px;margin-bottom:10px;line-height:1.5}
+.story-box{background:rgba(0,0,0,.2);border-radius:11px;padding:16px;line-height:1.6;min-height:120px}
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90}.overlay.show{display:block}
+.code-box{background:#0d1117;border:1px solid #30363d;border-radius:10px;padding:14px;font-family:ui-monospace,monospace;font-size:.85rem;overflow-x:auto;white-space:pre-wrap;color:#e6edf3;margin-top:10px}
+.tool-note{background:rgba(236,72,153,.08);border:1px solid rgba(236,72,153,.25);border-radius:10px;padding:12px 14px;font-size:.88rem;color:var(--muted);margin-bottom:14px}
+@media(max-width:860px){aside{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%)}aside.open{transform:translateX(0)}.menu-btn{display:block}.content{padding:18px 14px}.chat-wrap{height:calc(100vh - 150px)}}
 </style>
 </head>
 <body>
@@ -555,25 +87,24 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
     <div class="avatar" id="avatar">DC</div>
     <div>
       <h3 id="user-name">Desadu Chirandith</h3>
-      <p style="font-size:0.78rem;color:var(--secondary)">Producer / Creator</p>
+      <p style="font-size:.78rem;color:var(--secondary)">Producer / Creator</p>
     </div>
   </div>
   <div class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard',this)">Dashboard</div>
   <div class="nav-item" data-tab="chat" onclick="switchTab('chat',this)">AI Chat Studio</div>
   <div class="nav-item" data-tab="voice" onclick="switchTab('voice',this)">Voice Control</div>
   <div class="nav-item" data-tab="education" onclick="switchTab('education',this)">Education</div>
+  <div class="nav-item" data-tab="coding" onclick="switchTab('coding',this)">Coding Helper</div>
+  <div class="nav-item" data-tab="tools" onclick="switchTab('tools',this)">Advanced Tools</div>
   <div class="nav-item" data-tab="fun" onclick="switchTab('fun',this)">Fun & Games</div>
   <div class="nav-item" data-tab="knowledge" onclick="switchTab('knowledge',this)">Knowledge Base</div>
   <div class="nav-item" data-tab="quiz" onclick="switchTab('quiz',this)">Quiz Zone</div>
   <div class="nav-item" data-tab="stories" onclick="switchTab('stories',this)">Story Time</div>
   <div class="nav-item" data-tab="settings" onclick="switchTab('settings',this)">Settings</div>
   <div class="nav-item" data-tab="about" onclick="switchTab('about',this)">About</div>
-  <div class="sidebar-footer">
-    Delaw AI<br>
-    Produced by <strong>Desadu Chirandith</strong><br>
-    Full Featured + Groq (CORS Proxy Test)
-  </div>
+  <div class="sidebar-footer">Delaw AI<br>Produced by <strong>Desadu Chirandith</strong><br>Full Featured + Tools</div>
 </aside>
+
 <main>
   <div class="topbar">
     <div style="display:flex;align-items:center;gap:10px">
@@ -585,51 +116,28 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
       <button class="btn" onclick="newChat()">＋ New Chat</button>
     </div>
   </div>
+
   <div class="content">
     <!-- DASHBOARD -->
     <div id="dashboard" class="tab active">
       <h1>DELAW Dashboard</h1>
-      <p class="subtitle">Everything is fully interactive • Produced by Desadu Chirandith • Groq AI (CORS Proxy Test Mode)</p>
+      <p class="subtitle">Everything is fully interactive • Produced by Desadu Chirandith</p>
       <div class="grid">
-        <div class="card" onclick="switchTab('chat')">
-          <h3>AI Chat Studio <span class="badge">Groq Test</span></h3>
-          <p>Chat with Delaw using Groq API (via CORS proxy for testing).</p>
-        </div>
-        <div class="card" onclick="switchTab('voice')">
-          <h3>Voice Control</h3>
-          <p>Talk to Delaw using your microphone.</p>
-        </div>
-        <div class="card" onclick="switchTab('education')">
-          <h3>Education <span class="badge">Upgraded</span></h3>
-          <p>Subject gateways, formulas, learning paths, XP system and more.</p>
-        </div>
-        <div class="card" onclick="switchTab('fun')">
-          <h3>Fun & Games</h3>
-          <p>Clean jokes, riddles and creative challenges.</p>
-        </div>
-        <div class="card" onclick="switchTab('knowledge')">
-          <h3>Knowledge Base</h3>
-          <p>Huge library of science, space, animals and history facts.</p>
-        </div>
-        <div class="card" onclick="switchTab('quiz')">
-          <h3>Quiz Zone</h3>
-          <p>Test your knowledge with interactive quizzes.</p>
-        </div>
-        <div class="card" onclick="switchTab('stories')">
-          <h3>Story Time</h3>
-          <p>Generate fun short stories and writing prompts.</p>
-        </div>
-        <div class="card" onclick="switchTab('about')">
-          <h3>About Delaw</h3>
-          <p>Created and produced by Desadu Chirandith.</p>
-        </div>
+        <div class="card" onclick="switchTab('chat')"><h3>AI Chat Studio <span class="badge">Live</span></h3><p>Chat with Delaw. History, copy, regenerate supported.</p></div>
+        <div class="card" onclick="switchTab('coding')"><h3>Coding Helper <span class="badge">New</span></h3><p>Generate, explain and fix simple HTML/CSS/JS code.</p></div>
+        <div class="card" onclick="switchTab('tools')"><h3>Advanced Tools <span class="badge">New</span></h3><p>Search simulation, media info, Google Apps notes.</p></div>
+        <div class="card" onclick="switchTab('education')"><h3>Education</h3><p>Subject gateways, formulas, lessons and XP system.</p></div>
+        <div class="card" onclick="switchTab('voice')"><h3>Voice Control</h3><p>Talk to Delaw using your microphone.</p></div>
+        <div class="card" onclick="switchTab('knowledge')"><h3>Knowledge Base</h3><p>Science, history, art, culture, math and more.</p></div>
+        <div class="card" onclick="switchTab('quiz')"><h3>Quiz Zone</h3><p>Test your knowledge.</p></div>
+        <div class="card" onclick="switchTab('about')"><h3>About Delaw</h3><p>Created by Desadu Chirandith.</p></div>
       </div>
     </div>
 
     <!-- CHAT -->
     <div id="chat" class="tab">
       <h1>Delaw AI Chat</h1>
-      <p class="subtitle">Produced by <strong style="color:var(--secondary)">Desadu Chirandith</strong> • Groq API (CORS Proxy)</p>
+      <p class="subtitle">Produced by <strong style="color:var(--secondary)">Desadu Chirandith</strong></p>
       <div class="chat-wrap">
         <div class="chat-toolbar">
           <span id="status">Online • Ready</span>
@@ -646,11 +154,10 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
       </div>
       <div class="suggestions">
         <div class="chip" onclick="quick('Who created you?')">Who created you?</div>
-        <div class="chip" onclick="quick('Tell me a fun science fact')">Science fact</div>
-        <div class="chip" onclick="quick('Give me a riddle')">Riddle</div>
-        <div class="chip" onclick="quick('Tell me a clean joke')">Clean joke</div>
-        <div class="chip" onclick="quick('Explain gravity simply')">Explain gravity</div>
-        <div class="chip" onclick="quick('Help me study')">Study help</div>
+        <div class="chip" onclick="quick('Tell me a science fact')">Science fact</div>
+        <div class="chip" onclick="quick('Explain a math concept')">Math help</div>
+        <div class="chip" onclick="quick('Write a simple HTML button')">Coding help</div>
+        <div class="chip" onclick="quick('Tell me about art history')">Art & Culture</div>
       </div>
     </div>
 
@@ -660,177 +167,129 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
       <p class="subtitle">Speak to Delaw (by Desadu Chirandith)</p>
       <div class="voice-box">
         <h2>Voice Assistant</h2>
-        <p style="color:var(--muted);margin-top:8px">Try saying “Who made you?”, “Tell me a fact” or “Open quiz”</p>
+        <p style="color:var(--muted);margin-top:8px">Try saying “Who made you?”, “Tell me a fact” or “Open coding”</p>
         <button class="mic-btn" id="mic" onclick="toggleMic()">Start Listening</button>
-        <p style="margin-top:12px;font-size:0.78rem;color:var(--muted)">Shortcut: Shift + V</p>
+        <p style="margin-top:12px;font-size:.78rem;color:var(--muted)">Shortcut: Shift + V</p>
         <div id="voice-out">Waiting for your voice...</div>
       </div>
     </div>
 
-    <!-- EDUCATION SECTION (same as before) -->
-    <div id="education" class="tab">
-      <div class="edu-header">
-        <div>
-          <h1>Delaw Academy</h1>
-          <p class="subtitle" style="margin-bottom:0">Learn • Practice • Level Up • Produced by Desadu Chirandith</p>
+    <!-- CODING HELPER (NEW) -->
+    <div id="coding" class="tab">
+      <h1>Coding Helper</h1>
+      <p class="subtitle">Write, explain and fix simple code • Produced by Desadu Chirandith</p>
+
+      <div class="module-box">
+        <h3>What do you want to do?</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+          <button class="btn" onclick="codeAction('html-button')">Make HTML Button</button>
+          <button class="btn" onclick="codeAction('css-card')">CSS Card Style</button>
+          <button class="btn" onclick="codeAction('js-alert')">JS Alert Example</button>
+          <button class="btn" onclick="codeAction('explain-html')">Explain HTML</button>
+          <button class="btn" onclick="codeAction('fix-js')">Fix Common JS Error</button>
         </div>
-        <div class="xp-box">
-          <div class="xp-label">Level <span id="edu-level">1</span> • <span id="edu-xp">0</span>/100 XP</div>
-          <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+        <div class="chat-input">
+          <input type="text" id="code-input" placeholder="Describe what code you need (e.g. a blue button)">
+          <button onclick="generateCode()">Generate</button>
         </div>
+        <div id="code-output" class="code-box" style="margin-top:14px">Code will appear here...</div>
       </div>
-      <div id="edu-home">
-        <h3 style="margin-bottom:14px">Subject Gateways</h3>
-        <div class="gateway-grid">
-          <div class="gateway-card" onclick="openSubject('math')"><div class="gateway-icon">📐</div><h4>Math Gateway</h4><p>Algebra • Geometry • Basics</p></div>
-          <div class="gateway-card" onclick="openSubject('science')"><div class="gateway-icon">🔬</div><h4>Science Gateway</h4><p>Biology • Chemistry • Facts</p></div>
-          <div class="gateway-card" onclick="openSubject('space')"><div class="gateway-icon">🚀</div><h4>Space Gateway</h4><p>Planets • Stars • Universe</p></div>
-          <div class="gateway-card" onclick="openSubject('coding')"><div class="gateway-icon">💻</div><h4>Coding Gateway</h4><p>HTML • CSS • JS Basics</p></div>
-          <div class="gateway-card" onclick="openSubject('physics')"><div class="gateway-icon">⚡</div><h4>Physics Gateway</h4><p>Motion • Forces • Energy</p></div>
-          <div class="gateway-card" onclick="openSubject('history')"><div class="gateway-icon">📜</div><h4>History Gateway</h4><p>Ancient • Inventions • Events</p></div>
-        </div>
-        <div class="module-box">
-          <h3>Formula Library</h3>
-          <div class="formula-grid">
-            <div class="formula-item"><strong>Area of Circle</strong><span>A = π × r²</span></div>
-            <div class="formula-item"><strong>Speed</strong><span>Speed = Distance ÷ Time</span></div>
-            <div class="formula-item"><strong>Force</strong><span>F = m × a</span></div>
-            <div class="formula-item"><strong>Pythagoras</strong><span>a² + b² = c²</span></div>
-            <div class="formula-item"><strong>Perimeter of Rectangle</strong><span>P = 2(l + w)</span></div>
-            <div class="formula-item"><strong>Density</strong><span>Density = Mass ÷ Volume</span></div>
-            <div class="formula-item"><strong>Kinetic Energy</strong><span>KE = ½ × m × v²</span></div>
-            <div class="formula-item"><strong>Average</strong><span>Average = Sum ÷ Count</span></div>
-          </div>
-        </div>
-        <div class="module-box">
-          <h3>Learning Paths</h3>
-          <div class="path-item" onclick="showLesson('fractions')"><h4>Understanding Fractions</h4><p>Learn what fractions are and how to use them in daily life.</p></div>
-          <div class="path-item" onclick="showLesson('gravity')"><h4>What is Gravity?</h4><p>Simple explanation of why things fall and how planets stay in orbit.</p></div>
-          <div class="path-item" onclick="showLesson('photosynthesis')"><h4>Photosynthesis Basics</h4><p>How plants make their own food using sunlight.</p></div>
-          <div class="path-item" onclick="showLesson('variables')"><h4>Variables in Coding</h4><p>What variables are and why programmers use them.</p></div>
-        </div>
-        <div class="module-box">
-          <h3>Ask Delaw to Explain</h3>
-          <p style="color:var(--muted);margin-bottom:12px">Type any topic and get a simple explanation (now powered by Groq AI).</p>
-          <div class="chat-input">
-            <input type="text" id="edu-input" placeholder="Example: What is photosynthesis?">
-            <button onclick="eduExplain()">Explain</button>
-          </div>
-          <div id="edu-result" class="story-box" style="margin-top:14px">Explanation will appear here...</div>
-        </div>
-        <div class="module-box">
-          <h3>Flashcards</h3>
-          <p style="color:var(--muted);margin-bottom:12px">Click the card to flip it.</p>
-          <div class="flash-card" id="flashcard" onclick="flipCard()">
-            <div class="flash-front" id="flash-front">What is the speed of light?</div>
-            <div class="flash-back" id="flash-back">Approximately 300,000 km per second</div>
-          </div>
-          <div style="margin-top:12px;display:flex;gap:8px">
-            <button class="btn" onclick="nextFlash()">Next Card</button>
-            <button class="btn" onclick="addXP(5)">I Knew It (+5 XP)</button>
-          </div>
-        </div>
-        <div class="module-box">
-          <h3>Quick Study Tips</h3>
-          <div class="fact-card">Break big topics into small parts. Study 25 minutes, then rest 5 minutes.</div>
-          <div class="fact-card">Teach the topic to someone else (or to Delaw). Teaching helps you remember.</div>
-          <div class="fact-card">Write short notes in your own words instead of copying everything.</div>
-          <div class="fact-card">Sleep well. Your brain organizes what you learned while you sleep.</div>
-          <div class="fact-card">Review your notes the next day. Spaced repetition is powerful.</div>
-        </div>
-      </div>
-      <!-- Subject panels + lesson view remain the same as original -->
-      <div id="subject-math" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
-        <h2>📐 Math Gateway</h2>
-        <p class="subtitle">Core math concepts made simple</p>
-        <div class="module-box"><h3>Quick Lessons</h3>
-          <div class="path-item" onclick="showLesson('fractions')"><h4>Fractions</h4><p>Parts of a whole</p></div>
-          <div class="path-item" onclick="showLesson('percentage')"><h4>Percentages</h4><p>Out of 100</p></div>
-          <div class="path-item" onclick="showLesson('area')"><h4>Area & Perimeter</h4><p>Measuring shapes</p></div>
-        </div>
-        <div class="module-box"><h3>Mini Quiz</h3><button class="btn" onclick="startSubjectQuiz('math')">Start Math Quiz</button><div id="math-quiz-area" style="margin-top:14px"></div></div>
-      </div>
-      <div id="subject-science" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
-        <h2>🔬 Science Gateway</h2>
-        <p class="subtitle">Discover how the world works</p>
-        <div class="module-box"><h3>Quick Lessons</h3>
-          <div class="path-item" onclick="showLesson('photosynthesis')"><h4>Photosynthesis</h4><p>How plants make food</p></div>
-          <div class="path-item" onclick="showLesson('states')"><h4>States of Matter</h4><p>Solid, Liquid, Gas</p></div>
-        </div>
-        <div class="module-box"><h3>Mini Quiz</h3><button class="btn" onclick="startSubjectQuiz('science')">Start Science Quiz</button><div id="science-quiz-area" style="margin-top:14px"></div></div>
-      </div>
-      <div id="subject-space" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
-        <h2>🚀 Space Gateway</h2>
-        <p class="subtitle">Explore the universe</p>
-        <div class="module-box"><h3>Quick Lessons</h3>
-          <div class="path-item" onclick="showLesson('planets')"><h4>Our Solar System</h4><p>The 8 planets</p></div>
-          <div class="path-item" onclick="showLesson('gravity')"><h4>Gravity in Space</h4><p>Why planets orbit</p></div>
-        </div>
-        <div class="module-box"><h3>Mini Quiz</h3><button class="btn" onclick="startSubjectQuiz('space')">Start Space Quiz</button><div id="space-quiz-area" style="margin-top:14px"></div></div>
-      </div>
-      <div id="subject-coding" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
-        <h2>💻 Coding Gateway</h2>
-        <p class="subtitle">Start your coding journey</p>
-        <div class="module-box"><h3>Quick Lessons</h3>
-          <div class="path-item" onclick="showLesson('variables')"><h4>Variables</h4><p>Storing information</p></div>
-          <div class="path-item" onclick="showLesson('html')"><h4>What is HTML?</h4><p>The skeleton of websites</p></div>
-        </div>
-        <div class="module-box"><h3>Mini Quiz</h3><button class="btn" onclick="startSubjectQuiz('coding')">Start Coding Quiz</button><div id="coding-quiz-area" style="margin-top:14px"></div></div>
-      </div>
-      <div id="subject-physics" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
-        <h2>⚡ Physics Gateway</h2>
-        <p class="subtitle">Forces, motion and energy</p>
-        <div class="module-box"><h3>Quick Lessons</h3>
-          <div class="path-item" onclick="showLesson('force')"><h4>Force & Motion</h4><p>F = m × a</p></div>
-          <div class="path-item" onclick="showLesson('energy')"><h4>Types of Energy</h4><p>Kinetic & Potential</p></div>
-        </div>
-        <div class="module-box"><h3>Mini Quiz</h3><button class="btn" onclick="startSubjectQuiz('physics')">Start Physics Quiz</button><div id="physics-quiz-area" style="margin-top:14px"></div></div>
-      </div>
-      <div id="subject-history" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
-        <h2>📜 History Gateway</h2>
-        <p class="subtitle">Learn from the past</p>
-        <div class="module-box"><h3>Quick Lessons</h3>
-          <div class="path-item" onclick="showLesson('wheel')"><h4>Invention of the Wheel</h4><p>One of humanity’s greatest ideas</p></div>
-          <div class="path-item" onclick="showLesson('printing')"><h4>The Printing Press</h4><p>How books became common</p></div>
-        </div>
-        <div class="module-box"><h3>Mini Quiz</h3><button class="btn" onclick="startSubjectQuiz('history')">Start History Quiz</button><div id="history-quiz-area" style="margin-top:14px"></div></div>
-      </div>
-      <div id="lesson-view" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to Academy</button>
-        <div class="module-box">
-          <h2 id="lesson-title">Lesson</h2>
-          <div id="lesson-body" style="line-height:1.7;margin-top:12px"></div>
-          <button class="btn" style="margin-top:16px" onclick="addXP(15);backToEduHome()">I Finished This Lesson (+15 XP)</button>
-        </div>
+
+      <div class="module-box">
+        <h3>Quick Coding Tips</h3>
+        <div class="fact-card">HTML = structure (skeleton of the page)</div>
+        <div class="fact-card">CSS = style (colors, sizes, layout)</div>
+        <div class="fact-card">JavaScript = interactivity (buttons, animations, logic)</div>
+        <div class="fact-card">Always test your code in a browser or code editor</div>
       </div>
     </div>
 
-    <!-- FUN, KNOWLEDGE, QUIZ, STORIES, SETTINGS, ABOUT remain the same structure -->
+    <!-- ADVANCED TOOLS (NEW) -->
+    <div id="tools" class="tab">
+      <h1>Advanced Tools</h1>
+      <p class="subtitle">Extra capabilities • Produced by Desadu Chirandith</p>
+
+      <div class="module-box">
+        <h3>Real-Time / Web Info</h3>
+        <div class="tool-note">
+          Real Google Search needs an API key and a backend server. This demo gives helpful simulated answers based on common knowledge.
+        </div>
+        <div class="chat-input">
+          <input type="text" id="search-input" placeholder="Ask about current topics (demo mode)">
+          <button onclick="demoSearch()">Search (Demo)</button>
+        </div>
+        <div id="search-result" class="story-box" style="margin-top:14px">Results will appear here...</div>
+      </div>
+
+      <div class="module-box">
+        <h3>Google Apps (Drive, Gmail, Docs, Maps)</h3>
+        <div class="tool-note">
+          Connecting to real Google Drive, Gmail, Docs or Maps requires Google OAuth login and a backend. This version cannot access your personal Google accounts for privacy and security reasons.
+        </div>
+        <p style="color:var(--muted);font-size:.9rem">When you add a backend later, you can plug in Google APIs here.</p>
+      </div>
+
+      <div class="module-box">
+        <h3>Media Processing (Images / Audio / Video)</h3>
+        <div class="tool-note">
+          Full AI analysis of images, audio and video needs special APIs or a server. Below you can select an image to see basic file information.
+        </div>
+        <input type="file" id="media-input" accept="image/*" onchange="handleMedia(event)" style="margin-bottom:12px;color:var(--muted)">
+        <div id="media-info" class="story-box">No file selected yet.</div>
+      </div>
+    </div>
+
+    <!-- EDUCATION (simplified keep) -->
+    <div id="education" class="tab">
+      <h1>Education Center</h1>
+      <p class="subtitle">History • Science • Art • Culture • Math • Produced by Desadu Chirandith</p>
+      <div class="module-box">
+        <h3>Ask Delaw to Explain</h3>
+        <div class="chat-input">
+          <input type="text" id="edu-input" placeholder="Example: Explain the Renaissance or fractions">
+          <button onclick="eduExplain()">Explain</button>
+        </div>
+        <div id="edu-result" class="story-box" style="margin-top:14px">Explanation will appear here...</div>
+      </div>
+      <div class="module-box">
+        <h3>Quick Study Tips</h3>
+        <div class="fact-card">Break big topics into small parts. Study 25 minutes, then rest 5 minutes.</div>
+        <div class="fact-card">Teach the topic to someone else. Teaching helps you remember.</div>
+        <div class="fact-card">Write short notes in your own words.</div>
+        <div class="fact-card">Sleep well – your brain organizes learning while you sleep.</div>
+      </div>
+    </div>
+
+    <!-- FUN -->
     <div id="fun" class="tab">
       <h1>Fun & Games</h1>
       <p class="subtitle">Clean jokes, riddles and challenges</p>
-      <div class="module-box"><h3>Random Clean Joke</h3><button class="btn" onclick="showJoke()">Get a Joke</button><div id="joke-box" class="story-box" style="margin-top:12px">Click the button for a clean joke!</div></div>
-      <div class="module-box"><h3>Random Riddle</h3><button class="btn" onclick="showRiddle()">Get a Riddle</button><div id="riddle-box" class="story-box" style="margin-top:12px">Click for a riddle!</div></div>
-      <div class="module-box"><h3>Creative Challenge</h3><button class="btn" onclick="showChallenge()">New Challenge</button><div id="challenge-box" class="story-box" style="margin-top:12px">Click for a creative prompt!</div></div>
-    </div>
-    <div id="knowledge" class="tab">
-      <h1>Knowledge Base</h1>
-      <p class="subtitle">Huge collection of interesting facts</p>
       <div class="module-box">
-        <button class="btn" onclick="randomFact('science')">Science Fact</button>
-        <button class="btn" onclick="randomFact('space')">Space Fact</button>
-        <button class="btn" onclick="randomFact('animals')">Animal Fact</button>
-        <button class="btn" onclick="randomFact('history')">History Fact</button>
-        <button class="btn" onclick="randomFact('coding')">Coding Tip</button>
-        <div id="fact-display" class="fact-card" style="margin-top:16px">Click any button to get a random fact!</div>
+        <button class="btn" onclick="showJoke()">Get a Joke</button>
+        <div id="joke-box" class="story-box" style="margin-top:12px">Click for a clean joke!</div>
+      </div>
+      <div class="module-box">
+        <button class="btn" onclick="showRiddle()">Get a Riddle</button>
+        <div id="riddle-box" class="story-box" style="margin-top:12px">Click for a riddle!</div>
       </div>
     </div>
+
+    <!-- KNOWLEDGE -->
+    <div id="knowledge" class="tab">
+      <h1>Knowledge Base</h1>
+      <p class="subtitle">History, Science, Art, Culture, Math and more</p>
+      <div class="module-box">
+        <button class="btn" onclick="randomFact('science')">Science</button>
+        <button class="btn" onclick="randomFact('history')">History</button>
+        <button class="btn" onclick="randomFact('art')">Art</button>
+        <button class="btn" onclick="randomFact('culture')">Culture</button>
+        <button class="btn" onclick="randomFact('math')">Math</button>
+        <button class="btn" onclick="randomFact('space')">Space</button>
+        <div id="fact-display" class="fact-card" style="margin-top:16px">Click a button for a fact!</div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
     <div id="quiz" class="tab">
       <h1>Quiz Zone</h1>
       <p class="subtitle">Test your knowledge</p>
@@ -843,6 +302,8 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         </div>
       </div>
     </div>
+
+    <!-- STORIES -->
     <div id="stories" class="tab">
       <h1>Story Time</h1>
       <p class="subtitle">Fun short stories and writing prompts</p>
@@ -852,482 +313,268 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         <div id="story-display" class="story-box" style="margin-top:14px">Your story or prompt will appear here...</div>
       </div>
     </div>
+
+    <!-- SETTINGS -->
     <div id="settings" class="tab">
       <h1>Settings</h1>
       <p class="subtitle">Profile & preferences</p>
       <div class="settings-card">
         <form onsubmit="saveProfile(event)">
-          <div class="form-group"><label>Full Name</label><input type="text" id="name-input" required></div>
-          <div class="form-group"><label>Email</label><input type="email" id="email-input" required></div>
           <div class="form-group">
-            <label>Groq API Key (required for real AI)</label>
-            <input type="password" id="api-key-input" placeholder="gsk_... paste your key here">
+            <label>Full Name</label>
+            <input type="text" id="name-input" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="email-input" required>
           </div>
           <button type="submit" class="save-btn">Save Changes</button>
           <div id="save-msg" style="margin-top:10px;color:var(--success);font-weight:600"></div>
         </form>
-        <p style="margin-top:14px;font-size:0.78rem;color:var(--muted)">
-          Get a free key at <a href="https://console.groq.com" target="_blank" style="color:var(--primary)">console.groq.com</a>.  
-          This version uses a public CORS proxy for testing only.
-        </p>
       </div>
     </div>
+
+    <!-- ABOUT -->
     <div id="about" class="tab">
       <h1>About Delaw</h1>
-      <p class="subtitle">Full Featured Edition + Groq AI (CORS Proxy Test)</p>
+      <p class="subtitle">Full Featured + Tools Edition</p>
       <div class="settings-card">
         <h3 style="margin-bottom:10px">DELAW AI</h3>
         <p style="line-height:1.6;color:var(--muted);margin-bottom:14px">
-          Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.  
-          This version uses a public CORS proxy so the Groq API can work from a normal HTML file (for testing).
+          Delaw is a friendly, family-safe AI assistant for learning, coding help, curiosity and fun.
         </p>
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
-        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + Academy + Groq (CORS Proxy)</p>
+        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + Coding & Tools</p>
+        <p style="margin-top:14px;font-size:.88rem;color:var(--muted)">
+          Supports: Chat, Voice, Education, Coding Helper, Knowledge (History/Science/Art/Culture/Math), Quizzes, Stories and more.
+        </p>
       </div>
     </div>
   </div>
 </main>
 
 <script>
-// ================================================================
-// DELAW AI - FULL FEATURED + GROQ API (CORS PROXY TEST VERSION)
-// Produced by Desadu Chirandith
-// ================================================================
 const PRODUCER = "Desadu Chirandith";
 const AI_NAME = "Delaw";
 let isThinking = false;
 let recognition = null;
 let chatHistory = JSON.parse(localStorage.getItem("delaw_history") || "[]");
-let quizIndex = 0;
-let quizScore = 0;
+let quizIndex = 0, quizScore = 0;
 
-// Groq settings
-const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
-const GROQ_MODEL = "openai/gpt-oss-20b";
-const SYSTEM_PROMPT = `You are Delaw, a friendly, helpful, family-safe AI assistant produced and created by Desadu Chirandith. 
-You are designed for learning, curiosity, education, clean fun, and helping students of all ages. 
-Always keep every response appropriate for children and families. Be encouraging, clear, positive and educational. 
-Never discuss adult, violent, romantic, or inappropriate topics. 
-If anyone asks who made you or who created you, always say: "I was produced and created by Desadu Chirandith." 
-Keep answers concise when possible but helpful. Use simple language when explaining science, math or coding.`;
+function toggleTheme(){
+  const html=document.documentElement;
+  const next=html.getAttribute("data-theme")==="light"?"":"light";
+  html.setAttribute("data-theme",next);
+  localStorage.setItem("delaw_theme",next);
+}
+if(localStorage.getItem("delaw_theme")==="light") document.documentElement.setAttribute("data-theme","light");
 
-// XP System
-let eduXP = parseInt(localStorage.getItem("delaw_xp") || "0");
-let eduLevel = parseInt(localStorage.getItem("delaw_level") || "1");
+function toggleSidebar(){document.getElementById("sidebar").classList.toggle("open");document.getElementById("overlay").classList.toggle("show")}
+function closeSidebar(){document.getElementById("sidebar").classList.remove("open");document.getElementById("overlay").classList.remove("show")}
 
-function updateXPDisplay() {
-  const current = eduXP % 100;
-  document.getElementById("edu-level").textContent = eduLevel;
-  document.getElementById("edu-xp").textContent = current;
-  document.getElementById("xp-fill").style.width = (current / 100 * 100) + "%";
-}
-function addXP(amount) {
-  eduXP += amount;
-  while (eduXP >= eduLevel * 100) {
-    eduXP -= eduLevel * 100;
-    eduLevel++;
-    alert(`Level Up! You are now Level ${eduLevel}`);
-  }
-  localStorage.setItem("delaw_xp", eduXP);
-  localStorage.setItem("delaw_level", eduLevel);
-  updateXPDisplay();
-}
-updateXPDisplay();
-
-// Theme
-function toggleTheme() {
-  const html = document.documentElement;
-  const next = html.getAttribute("data-theme") === "light" ? "" : "light";
-  html.setAttribute("data-theme", next);
-  localStorage.setItem("delaw_theme", next);
-}
-if (localStorage.getItem("delaw_theme") === "light") {
-  document.documentElement.setAttribute("data-theme", "light");
-}
-
-// Sidebar
-function toggleSidebar() {
-  document.getElementById("sidebar").classList.toggle("open");
-  document.getElementById("overlay").classList.toggle("show");
-}
-function closeSidebar() {
-  document.getElementById("sidebar").classList.remove("open");
-  document.getElementById("overlay").classList.remove("show");
-}
-
-// Tabs
-function switchTab(id, el) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-  document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+function switchTab(id,el){
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));
   document.getElementById(id).classList.add("active");
-  if (el) el.classList.add("active");
-  else {
-    const nav = document.querySelector(`.nav-item[data-tab="${id}"]`);
-    if (nav) nav.classList.add("active");
-  }
+  if(el) el.classList.add("active");
+  else{const nav=document.querySelector(`.nav-item[data-tab="${id}"]`);if(nav)nav.classList.add("active")}
   closeSidebar();
-  if (id === "chat") renderHistory();
-  if (id === "education") {
-    backToEduHome();
-    updateXPDisplay();
-  }
+  if(id==="chat") renderHistory();
 }
 
-// Profile + API Key
-function loadProfile() {
-  const name = localStorage.getItem("delaw_name") || "Desadu Chirandith";
-  const email = localStorage.getItem("delaw_email") || "desadu@example.com";
-  const apiKey = localStorage.getItem("delaw_groq_key") || "";
-  document.getElementById("name-input").value = name;
-  document.getElementById("email-input").value = email;
-  document.getElementById("api-key-input").value = apiKey;
-  document.getElementById("user-name").textContent = name;
-  document.getElementById("avatar").textContent = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+function loadProfile(){
+  const name=localStorage.getItem("delaw_name")||"Desadu Chirandith";
+  const email=localStorage.getItem("delaw_email")||"desadu@example.com";
+  document.getElementById("name-input").value=name;
+  document.getElementById("email-input").value=email;
+  document.getElementById("user-name").textContent=name;
+  document.getElementById("avatar").textContent=name.split(" ").map(w=>w[0]).join("").slice(0,2).toUpperCase();
 }
-function saveProfile(e) {
+function saveProfile(e){
   e.preventDefault();
-  const name = document.getElementById("name-input").value;
-  const email = document.getElementById("email-input").value;
-  const apiKey = document.getElementById("api-key-input").value.trim();
-  localStorage.setItem("delaw_name", name);
-  localStorage.setItem("delaw_email", email);
-  localStorage.setItem("delaw_groq_key", apiKey);
+  const name=document.getElementById("name-input").value;
+  const email=document.getElementById("email-input").value;
+  localStorage.setItem("delaw_name",name);
+  localStorage.setItem("delaw_email",email);
   loadProfile();
-  document.getElementById("save-msg").textContent = "Saved successfully!";
-  setTimeout(() => document.getElementById("save-msg").textContent = "", 3000);
+  document.getElementById("save-msg").textContent="Saved successfully!";
+  setTimeout(()=>document.getElementById("save-msg").textContent="",3000);
 }
 loadProfile();
 
-// ========== FIXED GROQ CALL WITH CORS PROXY + BETTER ERRORS ==========
-async function callGroq(userText) {
-  const apiKey = localStorage.getItem("delaw_groq_key");
-  if (!apiKey) {
-    return { error: "No API key found. Go to Settings and paste your Groq API key." };
-  }
+const KB={
+  greetings:[`Hi! I'm ${AI_NAME}, created by ${PRODUCER}. How can I help you today?`,`Hello! ${AI_NAME} here, produced by ${PRODUCER}.`],
+  who:[`I'm ${AI_NAME}, a friendly AI assistant produced by ${PRODUCER}. I help with learning, coding, facts and creative ideas.`],
+  producer:[`I was produced and created by ${PRODUCER}. All credit goes to him!`],
+  science:["Octopuses have three hearts!","Lightning is hotter than the surface of the Sun.","Honey never spoils.","Your brain uses about 20% of your body's energy.","Water can boil and freeze at the same time (triple point)."],
+  space:["Space is completely silent because there is no air.","The Sun could fit about 1.3 million Earths inside it.","Footprints on the Moon will last millions of years.","Jupiter has the shortest day of all planets (about 10 hours)."],
+  history:["The Great Wall of China is not one continuous wall.","Ancient Egyptians used papyrus as paper.","The first Olympic Games were in 776 BC in Greece.","The printing press changed the world around 1440.","The wheel was invented around 3500 BC."],
+  art:["The Mona Lisa was painted by Leonardo da Vinci.","Impressionism focused on light and everyday scenes.","Vincent van Gogh painted Starry Night.","Primary colors are red, blue and yellow.","Perspective helps make flat drawings look 3D."],
+  culture:["Different cultures have unique festivals and traditions.","Music and dance are important in almost every culture.","Sharing food is a common way people connect across cultures.","Stories and myths help pass knowledge between generations."],
+  math:["A percentage means 'out of 100'.","The area of a rectangle is length × width.","Pi (π) is about 3.14159.","An average is the sum divided by the count.","The Pythagorean theorem: a² + b² = c²."],
+  coding:["HTML is the structure of a webpage.","CSS is used for styling.","JavaScript adds interactivity.","A variable stores information.","The best way to learn coding is by building small projects."],
+  jokes:["Why did the scarecrow win an award? Because he was outstanding in his field!","What do you call a bear with no teeth? A gummy bear!","Why don't scientists trust atoms? Because they make up everything!"],
+  riddles:["I speak without a mouth and hear without ears. What am I? → An echo","The more you take, the more you leave behind. What am I? → Footsteps","What has cities but no houses? → A map"],
+  stories:["Once there was a curious fox who found a glowing key in the forest...","In a quiet village, a young inventor built a small robot from spare parts..."],
+  prompts:["Write about a kid who discovers a door at school that only appears at night.","Imagine you woke up and could understand what animals were saying."],
+  default:["Interesting question! Let's break it into smaller parts.","Great question! Stay curious. Would you like a simpler explanation?"]
+};
 
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT }
-  ];
+function pick(arr){return arr[Math.floor(Math.random()*arr.length)]}
 
-  // Add recent history
-  const recent = chatHistory.slice(-8);
-  recent.forEach(m => {
-    messages.push({
-      role: m.role === "ai" ? "assistant" : "user",
-      content: m.content
-    });
-  });
-  messages.push({ role: "user", content: userText });
-
-  // Use public CORS proxy for testing
-  const targetUrl = GROQ_API_URL;
-  const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent(targetUrl);
-
-  try {
-    const res = await fetch(proxyUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: GROQ_MODEL,
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 1024
-      })
-    });
-
-    if (!res.ok) {
-      const errText = await res.text();
-      console.error("Groq error:", errText);
-      if (res.status === 401) return { error: "Invalid API key. Please check your key in Settings." };
-      if (res.status === 429) return { error: "Rate limit reached. Please wait a minute and try again." };
-      return { error: `API error ${res.status}: ${errText.slice(0, 120)}` };
-    }
-
-    const data = await res.json();
-    const content = data.choices?.[0]?.message?.content?.trim();
-    if (!content) return { error: "Empty response from Groq." };
-    return { reply: content };
-
-  } catch (e) {
-    console.error("Fetch error:", e);
-    return { error: "Network / CORS / Proxy error: " + e.message };
-  }
+function getReply(text){
+  const t=text.toLowerCase().trim();
+  if(/hi|hello|hey|good morning|good afternoon/.test(t)) return pick(KB.greetings);
+  if(/who are you|your name|introduce/.test(t)) return pick(KB.who);
+  if(/who (made|created|built|produced)|desadu|chirandith|producer/.test(t)) return pick(KB.producer);
+  if(/thank|thanks/.test(t)) return "You're welcome! Happy to help anytime.";
+  if(/science|biology|chemistry|physics fact/.test(t)) return pick(KB.science);
+  if(/space|planet|star|moon|sun|galaxy/.test(t)) return pick(KB.space);
+  if(/history|ancient|past|invention/.test(t)) return pick(KB.history);
+  if(/art|painting|artist|drawing|color/.test(t)) return pick(KB.art);
+  if(/culture|tradition|festival|music|dance/.test(t)) return pick(KB.culture);
+  if(/math|fraction|percentage|geometry|algebra|number/.test(t)) return pick(KB.math);
+  if(/code|html|css|javascript|program|coding/.test(t)) return pick(KB.coding);
+  if(/joke|funny|laugh/.test(t)) return pick(KB.jokes);
+  if(/riddle|puzzle/.test(t)) return pick(KB.riddles);
+  if(/time/.test(t)) return `Current time is ${new Date().toLocaleTimeString()}.`;
+  if(/date|today/.test(t)) return `Today is ${new Date().toLocaleDateString(undefined,{weekday:'long',year:'numeric',month:'long',day:'numeric'})}.`;
+  if(/help|what can you do/.test(t)) return `I can help with history, science, art, culture, math, coding, facts, jokes, riddles and more. I was made by ${PRODUCER}.`;
+  if(/open chat|go to chat/.test(t)){switchTab("chat");return "Opening Chat Studio."}
+  if(/open coding|code helper/.test(t)){switchTab("coding");return "Opening Coding Helper."}
+  if(/open tools|advanced/.test(t)){switchTab("tools");return "Opening Advanced Tools."}
+  if(/open education|study/.test(t)){switchTab("education");return "Opening Education Center."}
+  if(/open dashboard|go home/.test(t)){switchTab("dashboard");return "Back to Dashboard."}
+  return pick(KB.default);
 }
 
-// Chat functions
-function setStatus(t) { document.getElementById("status").textContent = t; }
-function simpleMarkdown(text) {
-  return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>").replace(/\n/g, "<br>");
+function setStatus(t){document.getElementById("status").textContent=t}
+function simpleMarkdown(text){return text.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>").replace(/\*(.*?)\*/g,"<em>$1</em>").replace(/\n/g,"<br>")}
+function addMessage(content,role,save=true){
+  const box=document.getElementById("messages");
+  const div=document.createElement("div");
+  div.className=`msg ${role}`;
+  const time=new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"});
+  div.innerHTML=`<div class="msg-body">${simpleMarkdown(content)}</div><div class="msg-meta"><span>${time}</span><span class="msg-actions"><button onclick="copyMsg(this)">Copy</button>${role==="ai"?`<button onclick="regen(this)">Regenerate</button>`:""}</span></div>`;
+  box.appendChild(div);box.scrollTop=box.scrollHeight;
+  if(save){chatHistory.push({role,content});localStorage.setItem("delaw_history",JSON.stringify(chatHistory.slice(-80)))}
 }
-function addMessage(content, role, save = true) {
-  const box = document.getElementById("messages");
-  const div = document.createElement("div");
-  div.className = `msg ${role}`;
-  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-  div.innerHTML = `
-    <div class="msg-body">${simpleMarkdown(content)}</div>
-    <div class="msg-meta">
-      <span>${time}</span>
-      <span class="msg-actions">
-        <button onclick="copyMsg(this)">Copy</button>
-        ${role === "ai" ? `<button onclick="regen(this)">Regenerate</button>` : ""}
-      </span>
-    </div>`;
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
-  if (save) {
-    chatHistory.push({ role, content });
-    localStorage.setItem("delaw_history", JSON.stringify(chatHistory.slice(-80)));
-  }
+function renderHistory(){
+  const box=document.getElementById("messages");box.innerHTML="";
+  if(chatHistory.length===0){addMessage(`Hello! I'm **${AI_NAME}**, produced by **${PRODUCER}**.\nHow can I help you today?`,"ai",false);return}
+  chatHistory.forEach(m=>addMessage(m.content,m.role,false));box.scrollTop=box.scrollHeight;
 }
-function renderHistory() {
-  const box = document.getElementById("messages");
-  box.innerHTML = "";
-  if (chatHistory.length === 0) {
-    addMessage(`Hello! I'm **${AI_NAME}**, produced by **${PRODUCER}**.\nHow can I help you today?`, "ai", false);
-    return;
-  }
-  chatHistory.forEach(m => addMessage(m.content, m.role, false));
-  box.scrollTop = box.scrollHeight;
-}
-function copyMsg(btn) {
-  const text = btn.closest(".msg").querySelector(".msg-body").innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = "Copied!";
-    setTimeout(() => btn.textContent = "Copy", 1400);
-  });
-}
-function regen(btn) {
-  const msg = btn.closest(".msg");
-  const prev = msg.previousElementSibling;
-  if (!prev || !prev.classList.contains("user")) return;
-  const userText = prev.querySelector(".msg-body").innerText;
-  msg.remove();
-  chatHistory.pop();
-  thinkAndReply(userText);
-}
-async function thinkAndReply(userText) {
-  isThinking = true;
-  document.getElementById("send").disabled = true;
-  setStatus("Calling Groq via CORS proxy...");
-
-  const box = document.getElementById("messages");
-  const typing = document.createElement("div");
-  typing.className = "msg ai";
-  typing.id = "typing";
-  typing.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
-  box.appendChild(typing);
-  box.scrollTop = box.scrollHeight;
-
-  const result = await callGroq(userText);
+function copyMsg(btn){const text=btn.closest(".msg").querySelector(".msg-body").innerText;navigator.clipboard.writeText(text).then(()=>{btn.textContent="Copied!";setTimeout(()=>btn.textContent="Copy",1400)})}
+function regen(btn){const msg=btn.closest(".msg");const prev=msg.previousElementSibling;if(!prev||!prev.classList.contains("user"))return;const userText=prev.querySelector(".msg-body").innerText;msg.remove();chatHistory.pop();thinkAndReply(userText)}
+async function thinkAndReply(userText){
+  isThinking=true;document.getElementById("send").disabled=true;setStatus("Thinking...");
+  const box=document.getElementById("messages");
+  const typing=document.createElement("div");typing.className="msg ai";typing.id="typing";
+  typing.innerHTML=`<div class="typing"><span></span><span></span><span></span></div>`;
+  box.appendChild(typing);box.scrollTop=box.scrollHeight;
+  await new Promise(r=>setTimeout(r,500+Math.random()*600));
   typing.remove();
+  const reply=getReply(userText);addMessage(reply,"ai");speak(reply);
+  isThinking=false;document.getElementById("send").disabled=false;setStatus("Online • Ready");
+}
+function sendMessage(){const input=document.getElementById("input");const text=input.value.trim();if(!text||isThinking)return;input.value="";addMessage(text,"user");thinkAndReply(text)}
+function quick(text){document.getElementById("input").value=text;sendMessage()}
+function newChat(){chatHistory=[];localStorage.removeItem("delaw_history");renderHistory();switchTab("chat");setStatus("New chat started")}
+function clearChat(){if(confirm("Clear all messages?"))newChat()}
+function exportChat(){let out=`Delaw AI Chat\nProduced by ${PRODUCER}\n\n`;chatHistory.forEach(m=>out+=`[${m.role.toUpperCase()}] ${m.content}\n\n`);const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([out],{type:"text/plain"}));a.download="delaw-chat.txt";a.click()}
+document.getElementById("input").addEventListener("keydown",e=>{if(e.key==="Enter")sendMessage()});
 
-  if (result.error) {
-    // Show clear error
-    addMessage(`⚠️ **Groq Error:** ${result.error}\n\nFalling back to local mode...`, "ai", false);
-    // Also give a local reply
-    const localReply = getReply(userText);
-    addMessage(localReply, "ai");
-    speak(localReply);
-  } else {
-    addMessage(result.reply, "ai");
-    speak(result.reply);
-  }
-
-  isThinking = false;
-  document.getElementById("send").disabled = false;
-  setStatus("Online • Ready");
-}
-function sendMessage() {
-  const input = document.getElementById("input");
-  const text = input.value.trim();
-  if (!text || isThinking) return;
-  input.value = "";
-  addMessage(text, "user");
-  thinkAndReply(text);
-}
-function quick(text) {
-  document.getElementById("input").value = text;
-  sendMessage();
-}
-function newChat() {
-  chatHistory = [];
-  localStorage.removeItem("delaw_history");
-  renderHistory();
-  switchTab("chat");
-  setStatus("New chat started");
-}
-function clearChat() {
-  if (confirm("Clear all messages?")) newChat();
-}
-function exportChat() {
-  let out = `Delaw AI Chat\nProduced by ${PRODUCER}\n\n`;
-  chatHistory.forEach(m => out += `[${m.role.toUpperCase()}] ${m.content}\n\n`);
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([out], { type: "text/plain" }));
-  a.download = "delaw-chat.txt";
-  a.click();
-}
-document.getElementById("input").addEventListener("keydown", e => {
-  if (e.key === "Enter") sendMessage();
-});
-
-// Local fallback (original getReply)
-function getReply(text) {
-  const t = text.toLowerCase().trim();
-  if (/hi|hello|hey|good morning|good afternoon/.test(t)) return `Hi! I'm ${AI_NAME}, created by ${PRODUCER}. How can I help you today?`;
-  if (/who are you|your name|introduce/.test(t)) return `I'm ${AI_NAME}, a friendly AI assistant produced by ${PRODUCER}.`;
-  if (/who (made|created|built|produced)|desadu|chirandith|producer/.test(t)) return `I was produced and created by ${PRODUCER}.`;
-  if (/thank|thanks/.test(t)) return "You're welcome! Happy to help anytime.";
-  if (/joke|funny|laugh/.test(t)) return "Why did the scarecrow win an award? Because he was outstanding in his field!";
-  if (/riddle|puzzle/.test(t)) return "I speak without a mouth and hear without ears. What am I? → An echo";
-  if (/science|fact/.test(t)) return "Octopuses have three hearts!";
-  if (/space|planet|star|moon|sun/.test(t)) return "Space is completely silent because there is no air.";
-  if (/help|what can you do/.test(t)) return `I can chat, tell facts, jokes, riddles, help with study, generate stories and run quizzes. I was made by ${PRODUCER}.`;
-  return "Interesting question! Stay curious. Would you like a simpler explanation?";
-}
-
-// Voice, Education, Fun, Quiz etc. (kept functional)
-function speak(text) {
-  if (!window.speechSynthesis) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "en-US";
-  speechSynthesis.speak(u);
-}
-function toggleMic() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const out = document.getElementById("voice-out");
-  const btn = document.getElementById("mic");
-  if (!SR) {
-    out.textContent = "Speech recognition not supported. Use Chrome or Edge.";
-    return;
-  }
-  if (btn.classList.contains("rec")) {
-    recognition && recognition.stop();
-    return;
-  }
-  recognition = new SR();
-  recognition.lang = "en-US";
-  recognition.onstart = () => {
-    btn.textContent = "Listening...";
-    btn.classList.add("rec");
-    out.textContent = "Listening... speak now.";
-  };
-  recognition.onend = () => {
-    btn.textContent = "Start Listening";
-    btn.classList.remove("rec");
-  };
-  recognition.onerror = e => {
-    out.textContent = "Error: " + e.error;
-    btn.classList.remove("rec");
-    btn.textContent = "Start Listening";
-  };
-  recognition.onresult = e => {
-    const transcript = e.results[0][0].transcript;
-    out.innerHTML = `<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> Thinking...`;
-    callGroq(transcript).then(result => {
-      const reply = result.reply || result.error || getReply(transcript);
-      out.innerHTML = `<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> ${reply}`;
-      speak(reply);
-    });
-  };
+function speak(text){if(!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang="en-US";speechSynthesis.speak(u)}
+function toggleMic(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const out=document.getElementById("voice-out");const btn=document.getElementById("mic");
+  if(!SR){out.textContent="Speech recognition not supported. Use Chrome or Edge.";return}
+  if(btn.classList.contains("rec")){recognition&&recognition.stop();return}
+  recognition=new SR();recognition.lang="en-US";
+  recognition.onstart=()=>{btn.textContent="Listening...";btn.classList.add("rec");out.textContent="Listening... speak now."};
+  recognition.onend=()=>{btn.textContent="Start Listening";btn.classList.remove("rec")};
+  recognition.onerror=e=>{out.textContent="Error: "+e.error;btn.classList.remove("rec");btn.textContent="Start Listening"};
+  recognition.onresult=e=>{const transcript=e.results[0][0].transcript;out.innerHTML=`<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> Thinking...`;const reply=getReply(transcript);out.innerHTML=`<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> ${reply}`;speak(reply)};
   recognition.start();
 }
-document.addEventListener("keydown", e => {
-  if (e.shiftKey && e.key.toLowerCase() === "v" && document.activeElement.tagName !== "INPUT") {
-    e.preventDefault();
-    toggleMic();
-  }
-});
+document.addEventListener("keydown",e=>{if(e.shiftKey&&e.key.toLowerCase()==="v"&&document.activeElement.tagName!=="INPUT"){e.preventDefault();toggleMic()}});
 
-// Education helpers (simplified but working)
-async function eduExplain() {
-  const q = document.getElementById("edu-input").value.trim();
-  if (!q) return;
-  const resultBox = document.getElementById("edu-result");
-  resultBox.innerHTML = "Thinking with Groq...";
-  const result = await callGroq(q + " Please explain this simply and clearly for a student.");
-  if (result.error) {
-    resultBox.innerHTML = "⚠️ " + result.error;
-  } else {
-    resultBox.innerHTML = result.reply;
-    addXP(3);
-  }
-}
-function openSubject(name) {
-  document.getElementById("edu-home").style.display = "none";
-  document.querySelectorAll(".subject-panel").forEach(p => p.classList.remove("active"));
-  document.getElementById("subject-" + name).classList.add("active");
-}
-function backToEduHome() {
-  document.querySelectorAll(".subject-panel").forEach(p => p.classList.remove("active"));
-  document.getElementById("edu-home").style.display = "block";
-}
-function showLesson(key) {
-  const lessons = {
-    fractions: { title: "Understanding Fractions", body: "A fraction shows a part of a whole..." },
-    gravity: { title: "What is Gravity?", body: "Gravity is the force that pulls objects toward each other..." },
-    photosynthesis: { title: "Photosynthesis Basics", body: "Photosynthesis is how plants make their own food..." },
-    variables: { title: "Variables in Coding", body: "A variable is like a labeled box that stores information..." }
+function eduExplain(){const q=document.getElementById("edu-input").value.trim();if(!q)return;const result=document.getElementById("edu-result");result.innerHTML="Thinking...";setTimeout(()=>{result.innerHTML=getReply(q+" explain simply")},400)}
+
+// Coding Helper
+function codeAction(type){
+  const out=document.getElementById("code-output");
+  const samples={
+    "html-button":`<button style="background:#8b5cf6;color:white;padding:10px 20px;border:none;border-radius:8px;cursor:pointer">Click Me</button>`,
+    "css-card":`.card {\n  background: #1e1e2e;\n  border-radius: 12px;\n  padding: 20px;\n  box-shadow: 0 4px 12px rgba(0,0,0,0.3);\n}`,
+    "js-alert":`document.getElementById("myBtn").addEventListener("click", function() {\n  alert("Hello from Delaw!");\n});`,
+    "explain-html":`HTML (HyperText Markup Language) is the standard language for creating the structure of web pages. It uses tags like <h1>, <p>, <div>, and <button> to organize content.`,
+    "fix-js":`Common error: "Cannot read property of undefined".\nFix: Always check if the element exists before using it:\n\nconst el = document.getElementById("myId");\nif (el) {\n  el.textContent = "Hello";\n}`
   };
-  const lesson = lessons[key] || { title: "Lesson", body: "Content coming soon." };
-  document.getElementById("edu-home").style.display = "none";
-  document.querySelectorAll(".subject-panel").forEach(p => p.classList.remove("active"));
-  document.getElementById("lesson-view").classList.add("active");
-  document.getElementById("lesson-title").textContent = lesson.title;
-  document.getElementById("lesson-body").textContent = lesson.body;
+  out.textContent=samples[type]||"Select an option or type a request below.";
 }
-function flipCard() {
-  document.getElementById("flashcard").classList.toggle("flipped");
-}
-function nextFlash() {
-  const cards = [
-    { front: "What is the speed of light?", back: "Approximately 300,000 km per second" },
-    { front: "How many planets are in our solar system?", back: "8 planets" },
-    { front: "What does HTML stand for?", back: "HyperText Markup Language" }
-  ];
-  const card = cards[Math.floor(Math.random() * cards.length)];
-  document.getElementById("flash-front").textContent = card.front;
-  document.getElementById("flash-back").textContent = card.back;
-  document.getElementById("flashcard").classList.remove("flipped");
-}
-function startSubjectQuiz(subject) {
-  document.getElementById(subject + "-quiz-area").innerHTML = "<p>Quiz feature is available in the full version.</p>";
+function generateCode(){
+  const q=document.getElementById("code-input").value.trim().toLowerCase();
+  const out=document.getElementById("code-output");
+  if(!q){out.textContent="Please describe what you need.";}
+  else if(q.includes("button")) out.textContent=`<button style="background:#8b5cf6;color:white;padding:10px 18px;border:none;border-radius:8px">My Button</button>`;
+  else if(q.includes("card")||q.includes("box")) out.textContent=`.box {\n  background: rgba(30,30,46,0.8);\n  border: 1px solid rgba(255,255,255,0.1);\n  border-radius: 12px;\n  padding: 16px;\n}`;
+  else if(q.includes("alert")||q.includes("popup")) out.textContent=`alert("Hello from Delaw AI!");`;
+  else out.textContent=`// Delaw Coding Helper\n// Try asking for: button, card, alert, or simple HTML/CSS/JS examples.\n// For complex projects, use a real code editor.`;
 }
 
-// Fun & Knowledge
-function showJoke() { document.getElementById("joke-box").textContent = "Why did the scarecrow win an award? Because he was outstanding in his field!"; }
-function showRiddle() { document.getElementById("riddle-box").textContent = "I speak without a mouth and hear without ears. What am I? → An echo"; }
-function showChallenge() { document.getElementById("challenge-box").textContent = "Invent a new animal that lives in the clouds. What does it eat?"; }
-function randomFact(type) {
-  const facts = {
-    science: "Octopuses have three hearts!",
-    space: "Space is completely silent because there is no air.",
-    animals: "A group of flamingos is called a flamboyance.",
-    history: "The wheel was invented around 3500 BC.",
-    coding: "HTML is the structure of a webpage (the skeleton)."
-  };
-  document.getElementById("fact-display").textContent = facts[type] || facts.science;
+// Advanced Tools
+function demoSearch(){
+  const q=document.getElementById("search-input").value.trim();
+  const res=document.getElementById("search-result");
+  if(!q){res.textContent="Type something to search (demo mode).";return}
+  res.innerHTML=`<strong>Demo result for "${q}":</strong><br><br>This is a simulated answer. Real-time Google Search requires an API key and backend.<br><br>Based on general knowledge: Stay curious and verify important information from trusted sources.`;
 }
-function startQuiz() {
-  document.getElementById("quiz-question").textContent = "Quiz is ready in the full version!";
-  document.getElementById("quiz-options").innerHTML = "";
-}
-function generateStory() {
-  document.getElementById("story-display").textContent = "Once there was a curious fox who found a glowing key in the forest...";
-}
-function generatePrompt() {
-  document.getElementById("story-display").textContent = "Write about a kid who discovers a door at school that only appears at night...";
+function handleMedia(e){
+  const file=e.target.files[0];
+  const info=document.getElementById("media-info");
+  if(!file){info.textContent="No file selected.";return}
+  info.innerHTML=`<strong>File selected:</strong><br>Name: ${file.name}<br>Type: ${file.type}<br>Size: ${(file.size/1024).toFixed(1)} KB<br><br>Full AI analysis of images/audio/video needs special APIs.`;
 }
 
-// Init
+function showJoke(){document.getElementById("joke-box").textContent=pick(KB.jokes)}
+function showRiddle(){document.getElementById("riddle-box").textContent=pick(KB.riddles)}
+function randomFact(type){
+  const map={science:KB.science,history:KB.history,art:KB.art,culture:KB.culture,math:KB.math,space:KB.space};
+  document.getElementById("fact-display").textContent=pick(map[type]||KB.science);
+}
+function generateStory(){document.getElementById("story-display").textContent=pick(KB.stories)}
+function generatePrompt(){document.getElementById("story-display").textContent=pick(KB.prompts)}
+
+const quizData=[
+  {q:"How many hearts does an octopus have?",options:["1","2","3","4"],answer:2},
+  {q:"What planet is known as the Red Planet?",options:["Venus","Mars","Jupiter","Saturn"],answer:1},
+  {q:"What does HTML stand for?",options:["Hyper Text Markup Language","High Tech Modern Language","Home Tool Markup Language","None"],answer:0},
+  {q:"Primary colors are?",options:["Red Blue Yellow","Green Orange Purple","Black White Gray","Pink Brown"],answer:0}
+];
+function startQuiz(){quizIndex=0;quizScore=0;document.getElementById("quiz-btn").style.display="none";showQuizQuestion()}
+function showQuizQuestion(){
+  if(quizIndex>=quizData.length){
+    document.getElementById("quiz-question").textContent=`Quiz finished! Score: ${quizScore}/${quizData.length}`;
+    document.getElementById("quiz-options").innerHTML="";document.getElementById("quiz-score").textContent="";
+    document.getElementById("quiz-btn").style.display="inline-block";document.getElementById("quiz-btn").textContent="Play Again";return;
+  }
+  const item=quizData[quizIndex];
+  document.getElementById("quiz-question").textContent=`Q${quizIndex+1}. ${item.q}`;
+  const opts=document.getElementById("quiz-options");opts.innerHTML="";
+  item.options.forEach((opt,i)=>{const btn=document.createElement("button");btn.textContent=opt;btn.onclick=()=>checkAnswer(i,item.answer,btn);opts.appendChild(btn)});
+  document.getElementById("quiz-score").textContent=`Score: ${quizScore}`;
+}
+function checkAnswer(selected,correct,btn){
+  const buttons=document.querySelectorAll("#quiz-options button");buttons.forEach(b=>b.onclick=null);
+  if(selected===correct){btn.classList.add("correct");quizScore++}else{btn.classList.add("wrong");buttons[correct].classList.add("correct")}
+  document.getElementById("quiz-score").textContent=`Score: ${quizScore}`;
+  setTimeout(()=>{quizIndex++;showQuizQuestion()},900);
+}
+
 renderHistory();
-console.log("%cDelaw AI + Groq (CORS Proxy Test) loaded", "color:#8b5cf6;font-weight:bold");
-console.log("%cProduced by Desadu Chirandith", "color:#ec4899");
+console.log("%cDelaw AI Full Featured + Tools loaded","color:#8b5cf6;font-weight:bold");
+console.log("%cProduced by Desadu Chirandith","color:#ec4899");
 </script>
 </body>
 </html>
