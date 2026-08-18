@@ -571,7 +571,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
   <div class="sidebar-footer">
     Delaw AI<br>
     Produced by <strong>Desadu Chirandith</strong><br>
-    Full Featured Edition
+    Full Featured Edition + Groq AI
   </div>
 </aside>
 <main>
@@ -589,11 +589,11 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
     <!-- DASHBOARD -->
     <div id="dashboard" class="tab active">
       <h1>DELAW Dashboard</h1>
-      <p class="subtitle">Everything is fully interactive • Produced by Desadu Chirandith</p>
+      <p class="subtitle">Everything is fully interactive • Produced by Desadu Chirandith • Now powered by Groq AI</p>
       <div class="grid">
         <div class="card" onclick="switchTab('chat')">
-          <h3>AI Chat Studio <span class="badge">Live</span></h3>
-          <p>Chat with Delaw. History, copy, regenerate and markdown supported.</p>
+          <h3>AI Chat Studio <span class="badge">Live + Groq</span></h3>
+          <p>Chat with Delaw. History, copy, regenerate and markdown supported. Real AI brain via Groq.</p>
         </div>
         <div class="card" onclick="switchTab('voice')">
           <h3>Voice Control</h3>
@@ -629,7 +629,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
     <!-- CHAT -->
     <div id="chat" class="tab">
       <h1>Delaw AI Chat</h1>
-      <p class="subtitle">Produced by <strong style="color:var(--secondary)">Desadu Chirandith</strong></p>
+      <p class="subtitle">Produced by <strong style="color:var(--secondary)">Desadu Chirandith</strong> • Powered by Groq</p>
       <div class="chat-wrap">
         <div class="chat-toolbar">
           <span id="status">Online • Ready</span>
@@ -755,7 +755,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         <!-- AI Explainer -->
         <div class="module-box">
           <h3>Ask Delaw to Explain</h3>
-          <p style="color:var(--muted);margin-bottom:12px">Type any topic and get a simple explanation.</p>
+          <p style="color:var(--muted);margin-bottom:12px">Type any topic and get a simple explanation (now powered by Groq AI).</p>
           <div class="chat-input">
             <input type="text" id="edu-input" placeholder="Example: What is photosynthesis?">
             <button onclick="eduExplain()">Explain</button>
@@ -972,25 +972,34 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
             <label>Email</label>
             <input type="email" id="email-input" required>
           </div>
+          <div class="form-group">
+            <label>Groq API Key (required for real AI)</label>
+            <input type="password" id="api-key-input" placeholder="gsk_... paste your key here">
+          </div>
           <button type="submit" class="save-btn">Save Changes</button>
           <div id="save-msg" style="margin-top:10px;color:var(--success);font-weight:600"></div>
         </form>
+        <p style="margin-top:14px;font-size:0.78rem;color:var(--muted)">
+          Get a free key at <a href="https://console.groq.com" target="_blank" style="color:var(--primary)">console.groq.com</a>.  
+          The key is stored only in your browser (localStorage).
+        </p>
       </div>
     </div>
 
     <!-- ABOUT -->
     <div id="about" class="tab">
       <h1>About Delaw</h1>
-      <p class="subtitle">Full Featured Edition</p>
+      <p class="subtitle">Full Featured Edition + Groq AI Upgrade</p>
       <div class="settings-card">
         <h3 style="margin-bottom:10px">DELAW AI</h3>
         <p style="line-height:1.6;color:var(--muted);margin-bottom:14px">
-          Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.
+          Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.  
+          Now powered by Groq’s ultra-fast LLM for real intelligent conversations.
         </p>
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
-        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + Academy Upgrade</p>
+        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + Academy + Groq AI</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
-          Features: Chat, Voice, Education Academy, Quizzes, Stories, Knowledge Base, Theme toggle, Mobile support and more.
+          Features: Chat (Groq-powered), Voice, Education Academy, Quizzes, Stories, Knowledge Base, Theme toggle, Mobile support and more.
         </p>
       </div>
     </div>
@@ -999,7 +1008,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
 
 <script>
 // ================================================================
-// DELAW AI - FULL FEATURED + ACADEMY UPGRADE
+// DELAW AI - FULL FEATURED + ACADEMY UPGRADE + GROQ API
 // Produced by Desadu Chirandith
 // ================================================================
 const PRODUCER = "Desadu Chirandith";
@@ -1009,6 +1018,16 @@ let recognition = null;
 let chatHistory = JSON.parse(localStorage.getItem("delaw_history") || "[]");
 let quizIndex = 0;
 let quizScore = 0;
+
+// Groq API settings
+const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+const GROQ_MODEL = "openai/gpt-oss-20b"; // fast current model (Aug 2026)
+const SYSTEM_PROMPT = `You are Delaw, a friendly, helpful, family-safe AI assistant produced and created by Desadu Chirandith. 
+You are designed for learning, curiosity, education, clean fun, and helping students of all ages. 
+Always keep every response appropriate for children and families. Be encouraging, clear, positive and educational. 
+Never discuss adult, violent, romantic, or inappropriate topics. 
+If anyone asks who made you or who created you, always say: "I was produced and created by Desadu Chirandith." 
+Keep answers concise when possible but helpful. Use simple language when explaining science, math or coding.`;
 
 // XP System
 let eduXP = parseInt(localStorage.getItem("delaw_xp") || "0");
@@ -1073,12 +1092,14 @@ function switchTab(id, el) {
   }
 }
 
-// Profile
+// Profile + API Key
 function loadProfile() {
   const name = localStorage.getItem("delaw_name") || "Desadu Chirandith";
   const email = localStorage.getItem("delaw_email") || "desadu@example.com";
+  const apiKey = localStorage.getItem("delaw_groq_key") || "";
   document.getElementById("name-input").value = name;
   document.getElementById("email-input").value = email;
+  document.getElementById("api-key-input").value = apiKey;
   document.getElementById("user-name").textContent = name;
   document.getElementById("avatar").textContent = name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
 }
@@ -1086,15 +1107,17 @@ function saveProfile(e) {
   e.preventDefault();
   const name = document.getElementById("name-input").value;
   const email = document.getElementById("email-input").value;
+  const apiKey = document.getElementById("api-key-input").value.trim();
   localStorage.setItem("delaw_name", name);
   localStorage.setItem("delaw_email", email);
+  localStorage.setItem("delaw_groq_key", apiKey);
   loadProfile();
   document.getElementById("save-msg").textContent = "Saved successfully!";
   setTimeout(() => document.getElementById("save-msg").textContent = "", 3000);
 }
 loadProfile();
 
-// Knowledge Base
+// Knowledge Base (kept fully intact as fallback)
 const KB = {
   greetings: [
     `Hi! I'm ${AI_NAME}, created by ${PRODUCER}. How can I help you today?`,
@@ -1300,7 +1323,59 @@ function getReply(text) {
   return pick(KB.default);
 }
 
-// Chat functions (same as before)
+// ========== GROQ API CALL ==========
+async function callGroq(userText) {
+  const apiKey = localStorage.getItem("delaw_groq_key");
+  if (!apiKey) {
+    return null; // will fall back to local getReply
+  }
+
+  const messages = [
+    { role: "system", content: SYSTEM_PROMPT }
+  ];
+
+  // Add recent history for context (last 10 messages)
+  const recent = chatHistory.slice(-10);
+  recent.forEach(m => {
+    messages.push({
+      role: m.role === "ai" ? "assistant" : "user",
+      content: m.content
+    });
+  });
+
+  messages.push({ role: "user", content: userText });
+
+  try {
+    const res = await fetch(GROQ_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: GROQ_MODEL,
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 1024,
+        stream: false
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error("Groq error:", err);
+      return null;
+    }
+
+    const data = await res.json();
+    return data.choices?.[0]?.message?.content?.trim() || null;
+  } catch (e) {
+    console.error("Groq fetch error:", e);
+    return null;
+  }
+}
+
+// Chat functions
 function setStatus(t) { document.getElementById("status").textContent = t; }
 function simpleMarkdown(text) {
   return text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>").replace(/\*(.*?)\*/g, "<em>$1</em>").replace(/\n/g, "<br>");
@@ -1355,7 +1430,7 @@ function regen(btn) {
 async function thinkAndReply(userText) {
   isThinking = true;
   document.getElementById("send").disabled = true;
-  setStatus("Thinking...");
+  setStatus("Thinking with Groq...");
   const box = document.getElementById("messages");
   const typing = document.createElement("div");
   typing.className = "msg ai";
@@ -1363,9 +1438,17 @@ async function thinkAndReply(userText) {
   typing.innerHTML = `<div class="typing"><span></span><span></span><span></span></div>`;
   box.appendChild(typing);
   box.scrollTop = box.scrollHeight;
-  await new Promise(r => setTimeout(r, 550 + Math.random() * 650));
+
+  // Try real Groq AI first
+  let reply = await callGroq(userText);
+
+  // Fallback to original local replies if no key or error
+  if (!reply) {
+    await new Promise(r => setTimeout(r, 400 + Math.random() * 400));
+    reply = getReply(userText);
+  }
+
   typing.remove();
-  const reply = getReply(userText);
   addMessage(reply, "ai");
   speak(reply);
   isThinking = false;
@@ -1445,9 +1528,12 @@ function toggleMic() {
   recognition.onresult = e => {
     const transcript = e.results[0][0].transcript;
     out.innerHTML = `<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> Thinking...`;
-    const reply = getReply(transcript);
-    out.innerHTML = `<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> ${reply}`;
-    speak(reply);
+    // Use real AI if available
+    callGroq(transcript).then(reply => {
+      if (!reply) reply = getReply(transcript);
+      out.innerHTML = `<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> ${reply}`;
+      speak(reply);
+    });
   };
   recognition.start();
 }
@@ -1459,15 +1545,17 @@ document.addEventListener("keydown", e => {
 });
 
 // Education functions
-function eduExplain() {
+async function eduExplain() {
   const q = document.getElementById("edu-input").value.trim();
   if (!q) return;
   const result = document.getElementById("edu-result");
-  result.innerHTML = "Thinking...";
-  setTimeout(() => {
-    result.innerHTML = getReply(q + " explain simply");
-    addXP(3);
-  }, 400);
+  result.innerHTML = "Thinking with Groq AI...";
+  let reply = await callGroq(q + " Please explain this simply and clearly for a student.");
+  if (!reply) {
+    reply = getReply(q + " explain simply");
+  }
+  result.innerHTML = reply;
+  addXP(3);
 }
 
 function openSubject(name) {
@@ -1644,7 +1732,7 @@ function generatePrompt() {
 
 // Init
 renderHistory();
-console.log("%cDelaw AI Full Featured + Academy loaded", "color:#8b5cf6;font-weight:bold");
+console.log("%cDelaw AI Full Featured + Academy + Groq AI loaded", "color:#8b5cf6;font-weight:bold");
 console.log("%cProduced by Desadu Chirandith", "color:#ec4899");
 </script>
 </body>
