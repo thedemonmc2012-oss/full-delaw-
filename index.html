@@ -1311,14 +1311,89 @@ const stemSubjectData = {
     tagClass: "tag-math",
     desc: "Explore the main branches of mathematics, famous constants, real-world applications, and calculus tools.",
     topics: [
-      {title:"The Main Branches of Mathematics", content:`<h3>Main Branches</h3><div class="formula-box">Arithmetic • Algebra • Geometry<br>Trigonometry • Calculus<br>Statistics • Number Theory • Discrete Math</div>`},
-      {title:"Famous Mathematical Constants", content:`<h3>Famous Constants</h3><div class="formula-box">π ≈ 3.14159<br>e ≈ 2.71828<br>φ ≈ 1.61803 (Golden Ratio)<br>√2 ≈ 1.41421<br>i = √(−1)</div>`},
-      {title:"Why Math Matters (Real-World Applications)", content:`<h3>Why Math Matters</h3><div class="formula-box">Science & Engineering<br>Medicine • Finance • Technology<br>Architecture • Everyday life</div>`},
-      {title:"Fundamental Calculus", content:`<h3>Calculus</h3><div class="formula-box">d/dx(xⁿ) = n·xⁿ⁻¹<br>∫ xⁿ dx = xⁿ⁺¹/(n+1) + C</div>`},
-      {title:"Standard Calculator", content: standardCalcHTML}
-    ]
-  },
-  it: {
+        title: "The Main Branches of Mathematics", 
+                        content: `
+                            <h3>The Main Branches of Mathematics</h3>
+                            <p style="margin-top:0.5rem;">Mathematics is a vast subject divided into many branches. Each branch focuses on different ideas and tools.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Core Branches</h4>
+                            <div class="formula-box">
+Arithmetic → numbers and basic operations (+ − × ÷)<br>
+Algebra → symbols, variables and equations<br>
+Geometry → shapes, sizes, angles and space<br>
+Trigonometry → relationships in triangles and waves<br>
+Calculus → rates of change and accumulation<br>
+Statistics & Probability → data, chance and predictions<br>
+Number Theory → properties of whole numbers<br>
+Discrete Mathematics → counting, graphs and logic
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">How They Connect</h4>
+                            <div class="formula-box">
+Many real problems use more than one branch at the same time.<br>
+Example: Physics uses algebra + calculus + trigonometry together.
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Famous Mathematical Constants", 
+                        content: `
+                            <h3>Famous Mathematical Constants</h3>
+                            <p style="margin-top:0.5rem;">Some numbers appear again and again in mathematics and science. These special numbers are called mathematical constants.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Important Constants</h4>
+                            <div class="formula-box">
+π (pi) ≈ 3.14159<br>
+→ Ratio of a circle’s circumference to its diameter<br><br>
+e (Euler’s number) ≈ 2.71828<br>
+→ Base of natural logarithms; appears in growth and decay<br><br>
+φ (Golden Ratio) ≈ 1.61803<br>
+→ (1 + √5) / 2 ; found in nature and art<br><br>
+√2 ≈ 1.41421<br>
+→ Diagonal of a unit square<br><br>
+i → √(−1)<br>
+→ The imaginary unit (foundation of complex numbers)
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Why Math Matters (Real-World Applications)", 
+                        content: `
+                            <h3>Why Math Matters (Real-World Applications)</h3>
+                            <p style="margin-top:0.5rem;">Mathematics is not just numbers on a page — it is a powerful tool used in almost every part of modern life.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Where Math Is Used</h4>
+                            <div class="formula-box">
+Science & Engineering → modelling forces, motion, electricity<br>
+Medicine → medical imaging, drug dosage, statistics in research<br>
+Finance → interest, loans, investments, risk analysis<br>
+Technology → computer algorithms, encryption, graphics<br>
+Architecture → structural design, geometry, measurements<br>
+Everyday Life → cooking, shopping, sports, travel planning
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Key Message</h4>
+                            <div class="formula-box">
+Math helps us understand patterns, solve problems,<br>
+and make better decisions in the real world.
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Fundamental Calculus", 
+                        content: `<h3>Derivatives & Integration</h3>
+                        <p style="margin-top:0.5rem;">Calculus is the mathematics of change. It has two main parts: differentiation and integration.</p>
+                        <div class="formula-box">
+d/dx (xⁿ) = n · xⁿ⁻¹<br>
+∫ xⁿ dx = (xⁿ⁺¹)/(n+1) + C
+                        </div>`
+                    },
+                    { 
+                        title: "Standard Calculator", 
+                        content: standardCalcHTML 
+                    }
+                ]
+            },
     title: "HTML, Web Development & Python",
     badge: "Information Tech",
     tagClass: "tag-it",
