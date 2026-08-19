@@ -2145,7 +2145,6 @@ function sciFunc(fn) {
 
 // ==================== ORIGINAL DELAW FEATURES ====================
 const KB = {
-const AI_DATA = {
   // --- Identity & Greetings ---
   greetings: [
     `Hi! I'm ${AI_NAME}, created by ${PRODUCER}. How can I help you today?`,
@@ -2734,7 +2733,7 @@ function getReply(text) {
   if (/science|fact/.test(t)) return pick(KB.science);
   if (/space|planet/.test(t)) return pick(KB.space);
   if (/joke/.test(t)) return pick(KB.jokes);
-  if (/riddle/.test(t)) return pick(KB.riddles);
+  if (/riddle/.test(t)) { const r = pick(KB.riddles); return r.question + " (Answer: " + r.answer + ")"; }
   if (/open education|stem|academy/.test(t)) { switchTab("education"); return "Opening STEM Academy."; }
   return pick(KB.default);
 }
@@ -2805,7 +2804,7 @@ function exportChat() {
 document.getElementById("input").addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
 
 function showJoke() { document.getElementById("joke-box").textContent = pick(KB.jokes); }
-function showRiddle() { document.getElementById("riddle-box").textContent = pick(KB.riddles); }
+function showRiddle() { const r = pick(KB.riddles); document.getElementById("riddle-box").innerHTML = r.question + "<br><br><strong>Answer:</strong> " + r.answer; }
 function showChallenge() { document.getElementById("challenge-box").textContent = pick(KB.challenges); }
 function randomFact(type) {
   const map = {science:KB.science, space:KB.space, animals:KB.animals, history:KB.history, coding:KB.coding};
