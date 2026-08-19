@@ -18,6 +18,7 @@
   --success: #34d399;
   --danger: #ef4444;
   --radius: 14px;
+  /* STEM colors */
   --physics-color: #8b5cf6;
   --chem-color: #ec4899;
   --math-color: #f59e0b;
@@ -428,88 +429,54 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
 }
 .overlay.show { display: block; }
 
-/* EDUCATION + STEM */
-.edu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-.xp-box {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 10px 16px;
-  min-width: 200px;
-}
-.xp-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 4px; }
-.xp-bar {
-  height: 8px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 10px;
-  overflow: hidden;
-  margin-top: 6px;
-}
-.xp-fill {
-  height: 100%;
-  background: var(--gradient);
-  border-radius: 10px;
-  transition: width 0.4s ease;
-}
-.gateway-grid {
+/* ==================== EDU PULSE STEM STYLES ==================== */
+.stem-container { max-width: 1280px; margin: 0 auto; }
+.stem-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin-top: 20px;
 }
-.gateway-card {
+.stem-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 18px 14px;
-  text-align: center;
+  padding: 20px;
   cursor: pointer;
   transition: 0.25s;
 }
-.gateway-card:hover {
+.stem-card:hover {
   transform: translateY(-4px);
   border-color: rgba(139, 92, 246, 0.5);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.2);
+  box-shadow: 0 10px 28px rgba(139, 92, 246, 0.15);
 }
-.gateway-icon { font-size: 1.8rem; margin-bottom: 8px; }
-.gateway-card h4 { font-size: 0.95rem; margin-bottom: 4px; }
-.gateway-card p { font-size: 0.75rem; color: var(--muted); }
-.formula-box {
-  background: rgba(139, 92, 246, 0.1);
-  border-left: 4px solid var(--primary);
-  padding: 1rem;
-  margin: 1rem 0;
-  font-family: monospace;
-  font-size: 1.05rem;
-  border-radius: 4px;
-  white-space: pre-wrap;
+.stem-card-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 12px;
+  color: white;
+  display: inline-block;
+  margin-bottom: 8px;
 }
-.back-btn {
-  background: none;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  padding: 6px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 14px;
-  font-size: 0.85rem;
-}
-.back-btn:hover { color: var(--text); border-color: var(--primary); }
-.subject-panel { display: none; }
-.subject-panel.active { display: block; }
+.tag-sci { background: var(--sci-color); }
+.tag-physics { background: var(--physics-color); }
+.tag-chem { background: var(--chem-color); }
+.tag-math { background: var(--math-color); }
+.tag-it { background: var(--it-color); }
 
+.stem-workspace { display: none; }
+.stem-workspace.active { display: block; }
+.stem-header {
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
 .stem-layout {
   display: grid;
   grid-template-columns: 240px 1fr;
   gap: 20px;
-  margin-top: 16px;
 }
 .stem-sidebar {
   background: var(--card);
@@ -542,8 +509,29 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 22px;
-  min-height: 400px;
+  min-height: 420px;
 }
+.formula-box {
+  background: rgba(139, 92, 246, 0.1);
+  border-left: 4px solid var(--primary);
+  padding: 1rem;
+  margin: 1rem 0;
+  font-family: monospace;
+  font-size: 1.05rem;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+.back-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+}
+.back-btn:hover { color: var(--text); border-color: var(--primary); }
 
 /* Periodic Table */
 .ptable-container {
@@ -669,7 +657,6 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
   .menu-btn { display: block; }
   .content { padding: 18px 14px; }
   .chat-wrap { height: calc(100vh - 150px); }
-  .edu-header { flex-direction: column; align-items: flex-start; }
   .stem-layout { grid-template-columns: 1fr; }
 }
 </style>
@@ -729,7 +716,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         </div>
         <div class="card" onclick="switchTab('education')">
           <h3>Education <span class="badge">STEM Portal</span></h3>
-          <p>Full STEM Academy with Physics, Chemistry, Math, Science, IT + Periodic Table & Calculators.</p>
+          <p>Full EduPulse STEM Academy with Physics, Chemistry, Math, Science, IT + 118 Periodic Table.</p>
         </div>
         <div class="card" onclick="switchTab('fun')">
           <h3>Fun & Games</h3>
@@ -795,64 +782,46 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
       </div>
     </div>
 
-    <!-- EDUCATION + FULL STEM PORTAL -->
+    <!-- ==================== EDUCATION = FULL EDUPULSE STEM PORTAL ==================== -->
     <div id="education" class="tab">
-      <div class="edu-header">
-        <div>
-          <h1>Delaw STEM Academy</h1>
-          <p class="subtitle" style="margin-bottom:0">Full STEM Learning Portal • Produced by Desadu Chirandith</p>
-        </div>
-        <div class="xp-box">
-          <div class="xp-label">Level <span id="edu-level">1</span> • <span id="edu-xp">0</span>/100 XP</div>
-          <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+      <div id="stem-home">
+        <h1>EduPulse STEM Academy</h1>
+        <p class="subtitle">Full STEM Learning Portal • Produced by Desadu Chirandith</p>
+        <div class="stem-grid">
+          <div class="stem-card" onclick="openStemSubject('science')">
+            <span class="stem-card-tag tag-sci">Science</span>
+            <h3>Life Science & Biology</h3>
+            <p>Structure • Information Flow • Energy • Evolution + Tools</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('physics')">
+            <span class="stem-card-tag tag-physics">Physics</span>
+            <h3>Classical to Modern Physics</h3>
+            <p>Mechanics • Electromagnetism • Thermodynamics • Optics • Modern Physics + Calculator</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('chemistry')">
+            <span class="stem-card-tag tag-chem">Chemistry</span>
+            <h3>Atoms, Molecules & Reactions</h3>
+            <p>Atoms • Molecules • Reactions • Stoichiometry + Combined Periodic Table & Calculator</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('maths')">
+            <span class="stem-card-tag tag-math">Mathematics</span>
+            <h3>Foundations to Calculus</h3>
+            <p>Branches • Constants • Real-World Uses • Calculus + Calculator</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('it')">
+            <span class="stem-card-tag tag-it">Information Tech</span>
+            <h3>HTML, Web Dev & Python</h3>
+            <p>HTML Basics • Semantic HTML • Web Trio • Python Fundamentals</p>
+          </div>
         </div>
       </div>
 
-      <div id="edu-home">
-        <h3 style="margin-bottom:14px">STEM Subject Gateways</h3>
-        <div class="gateway-grid">
-          <div class="gateway-card" onclick="openStemSubject('science')">
-            <div class="gateway-icon">🔬</div>
-            <h4>Life Science</h4>
-            <p>Structure • Energy • Evolution</p>
-          </div>
-          <div class="gateway-card" onclick="openStemSubject('physics')">
-            <div class="gateway-icon">⚡</div>
-            <h4>Physics</h4>
-            <p>Mechanics to Modern Physics</p>
-          </div>
-          <div class="gateway-card" onclick="openStemSubject('chemistry')">
-            <div class="gateway-icon">🧪</div>
-            <h4>Chemistry</h4>
-            <p>Atoms • Reactions • Periodic Table</p>
-          </div>
-          <div class="gateway-card" onclick="openStemSubject('maths')">
-            <div class="gateway-icon">📐</div>
-            <h4>Mathematics</h4>
-            <p>Branches • Constants • Calculus</p>
-          </div>
-          <div class="gateway-card" onclick="openStemSubject('it')">
-            <div class="gateway-icon">💻</div>
-            <h4>IT & Web Dev</h4>
-            <p>HTML • Semantic • Python</p>
-          </div>
-        </div>
-
-        <div class="module-box">
-          <h3>Quick Study Tips</h3>
-          <div class="fact-card">Break big topics into small parts. Study 25 minutes, then rest 5 minutes.</div>
-          <div class="fact-card">Teach the topic to someone else (or to Delaw). Teaching helps you remember.</div>
-          <div class="fact-card">Write short notes in your own words instead of copying everything.</div>
-          <div class="fact-card">Sleep well. Your brain organizes what you learned while you sleep.</div>
-        </div>
-      </div>
-
-      <div id="stem-workspace" class="subject-panel">
-        <button class="back-btn" onclick="backToEduHome()">← Back to STEM Academy</button>
-        <div style="margin-bottom:12px">
-          <span id="stem-badge" class="badge" style="font-size:0.75rem;padding:4px 10px"></span>
-          <h2 id="stem-title" style="margin-top:8px">Subject</h2>
-          <p id="stem-desc" class="subtitle" style="margin-bottom:8px"></p>
+      <div id="stem-workspace" class="stem-workspace">
+        <button class="back-btn" onclick="backToStemHome()">← Back to STEM Academy</button>
+        <div class="stem-header">
+          <span id="stem-badge" class="stem-card-tag">Subject</span>
+          <h2 id="stem-title" style="margin-top:8px">Subject Name</h2>
+          <p id="stem-desc" class="subtitle" style="margin-bottom:0"></p>
         </div>
         <div class="stem-layout">
           <aside class="stem-sidebar">
@@ -863,6 +832,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         </div>
       </div>
     </div>
+    <!-- ==================== END EDUCATION ==================== -->
 
     <!-- FUN & GAMES -->
     <div id="fun" class="tab">
@@ -954,9 +924,9 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
           Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.
         </p>
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
-        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + STEM Academy</p>
+        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
-          Features: Chat, Voice, Full STEM Education Portal (Physics, Chemistry, Math, Science, IT), Interactive Periodic Table (118 elements), Calculators, Quizzes, Stories, Knowledge Base, Theme toggle and more.
+          Features: Chat, Voice, Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, Calculators, Quizzes, Stories, Knowledge Base and more.
         </p>
       </div>
     </div>
@@ -965,7 +935,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
 
 <script>
 // ================================================================
-// DELAW AI - FULL FEATURED + COMPLETE STEM ACADEMY
+// DELAW AI + FULL EDUPULSE STEM PORTAL
 // Produced by Desadu Chirandith
 // ================================================================
 const PRODUCER = "Desadu Chirandith";
@@ -975,29 +945,6 @@ let recognition = null;
 let chatHistory = JSON.parse(localStorage.getItem("delaw_history") || "[]");
 let quizIndex = 0;
 let quizScore = 0;
-
-// XP System
-let eduXP = parseInt(localStorage.getItem("delaw_xp") || "0");
-let eduLevel = parseInt(localStorage.getItem("delaw_level") || "1");
-
-function updateXPDisplay() {
-  const current = eduXP % 100;
-  document.getElementById("edu-level").textContent = eduLevel;
-  document.getElementById("edu-xp").textContent = current;
-  document.getElementById("xp-fill").style.width = (current) + "%";
-}
-function addXP(amount) {
-  eduXP += amount;
-  while (eduXP >= eduLevel * 100) {
-    eduXP -= eduLevel * 100;
-    eduLevel++;
-    alert(`Level Up! You are now Level ${eduLevel}`);
-  }
-  localStorage.setItem("delaw_xp", eduXP);
-  localStorage.setItem("delaw_level", eduLevel);
-  updateXPDisplay();
-}
-updateXPDisplay();
 
 // Theme
 function toggleTheme() {
@@ -1032,10 +979,7 @@ function switchTab(id, el) {
   }
   closeSidebar();
   if (id === "chat") renderHistory();
-  if (id === "education") {
-    backToEduHome();
-    updateXPDisplay();
-  }
+  if (id === "education") backToStemHome();
 }
 
 // Profile
@@ -1059,170 +1003,7 @@ function saveProfile(e) {
 }
 loadProfile();
 
-// ==================== FULL 118-ELEMENT PERIODIC TABLE ====================
-const elementsData = [
-  { num: 1,  sym: "H",  name: "Hydrogen",      mass: "1.008",  cat: "cat-nonmetal",        state: "Gas",       col: 1,  row: 1 },
-  { num: 2,  sym: "He", name: "Helium",        mass: "4.0026", cat: "cat-noble",           state: "Gas",       col: 18, row: 1 },
-  { num: 3,  sym: "Li", name: "Lithium",       mass: "6.94",   cat: "cat-alkali",          state: "Solid",     col: 1,  row: 2 },
-  { num: 4,  sym: "Be", name: "Beryllium",     mass: "9.0122", cat: "cat-alkaline",        state: "Solid",     col: 2,  row: 2 },
-  { num: 5,  sym: "B",  name: "Boron",         mass: "10.81",  cat: "cat-metalloid",       state: "Solid",     col: 13, row: 2 },
-  { num: 6,  sym: "C",  name: "Carbon",        mass: "12.011", cat: "cat-nonmetal",        state: "Solid",     col: 14, row: 2 },
-  { num: 7,  sym: "N",  name: "Nitrogen",      mass: "14.007", cat: "cat-nonmetal",        state: "Gas",       col: 15, row: 2 },
-  { num: 8,  sym: "O",  name: "Oxygen",        mass: "15.999", cat: "cat-nonmetal",        state: "Gas",       col: 16, row: 2 },
-  { num: 9,  sym: "F",  name: "Fluorine",      mass: "18.998", cat: "cat-halogen",         state: "Gas",       col: 17, row: 2 },
-  { num: 10, sym: "Ne", name: "Neon",          mass: "20.180", cat: "cat-noble",           state: "Gas",       col: 18, row: 2 },
-  { num: 11, sym: "Na", name: "Sodium",        mass: "22.990", cat: "cat-alkali",          state: "Solid",     col: 1,  row: 3 },
-  { num: 12, sym: "Mg", name: "Magnesium",     mass: "24.305", cat: "cat-alkaline",        state: "Solid",     col: 2,  row: 3 },
-  { num: 13, sym: "Al", name: "Aluminium",     mass: "26.982", cat: "cat-post-transition", state: "Solid",     col: 13, row: 3 },
-  { num: 14, sym: "Si", name: "Silicon",       mass: "28.085", cat: "cat-metalloid",       state: "Solid",     col: 14, row: 3 },
-  { num: 15, sym: "P",  name: "Phosphorus",    mass: "30.974", cat: "cat-nonmetal",        state: "Solid",     col: 15, row: 3 },
-  { num: 16, sym: "S",  name: "Sulfur",        mass: "32.06",  cat: "cat-nonmetal",        state: "Solid",     col: 16, row: 3 },
-  { num: 17, sym: "Cl", name: "Chlorine",      mass: "35.45",  cat: "cat-halogen",         state: "Gas",       col: 17, row: 3 },
-  { num: 18, sym: "Ar", name: "Argon",         mass: "39.948", cat: "cat-noble",           state: "Gas",       col: 18, row: 3 },
-  { num: 19, sym: "K",  name: "Potassium",     mass: "39.098", cat: "cat-alkali",          state: "Solid",     col: 1,  row: 4 },
-  { num: 20, sym: "Ca", name: "Calcium",       mass: "40.078", cat: "cat-alkaline",        state: "Solid",     col: 2,  row: 4 },
-  { num: 21, sym: "Sc", name: "Scandium",      mass: "44.956", cat: "cat-transition",      state: "Solid",     col: 3,  row: 4 },
-  { num: 22, sym: "Ti", name: "Titanium",      mass: "47.867", cat: "cat-transition",      state: "Solid",     col: 4,  row: 4 },
-  { num: 23, sym: "V",  name: "Vanadium",      mass: "50.942", cat: "cat-transition",      state: "Solid",     col: 5,  row: 4 },
-  { num: 24, sym: "Cr", name: "Chromium",      mass: "51.996", cat: "cat-transition",      state: "Solid",     col: 6,  row: 4 },
-  { num: 25, sym: "Mn", name: "Manganese",     mass: "54.938", cat: "cat-transition",      state: "Solid",     col: 7,  row: 4 },
-  { num: 26, sym: "Fe", name: "Iron",          mass: "55.845", cat: "cat-transition",      state: "Solid",     col: 8,  row: 4 },
-  { num: 27, sym: "Co", name: "Cobalt",        mass: "58.933", cat: "cat-transition",      state: "Solid",     col: 9,  row: 4 },
-  { num: 28, sym: "Ni", name: "Nickel",        mass: "58.693", cat: "cat-transition",      state: "Solid",     col: 10, row: 4 },
-  { num: 29, sym: "Cu", name: "Copper",        mass: "63.546", cat: "cat-transition",      state: "Solid",     col: 11, row: 4 },
-  { num: 30, sym: "Zn", name: "Zinc",          mass: "65.38",  cat: "cat-transition",      state: "Solid",     col: 12, row: 4 },
-  { num: 31, sym: "Ga", name: "Gallium",       mass: "69.723", cat: "cat-post-transition", state: "Solid",     col: 13, row: 4 },
-  { num: 32, sym: "Ge", name: "Germanium",     mass: "72.630", cat: "cat-metalloid",       state: "Solid",     col: 14, row: 4 },
-  { num: 33, sym: "As", name: "Arsenic",       mass: "74.922", cat: "cat-metalloid",       state: "Solid",     col: 15, row: 4 },
-  { num: 34, sym: "Se", name: "Selenium",      mass: "78.971", cat: "cat-nonmetal",        state: "Solid",     col: 16, row: 4 },
-  { num: 35, sym: "Br", name: "Bromine",       mass: "79.904", cat: "cat-halogen",         state: "Liquid",    col: 17, row: 4 },
-  { num: 36, sym: "Kr", name: "Krypton",       mass: "83.798", cat: "cat-noble",           state: "Gas",       col: 18, row: 4 },
-  { num: 37, sym: "Rb", name: "Rubidium",      mass: "85.468", cat: "cat-alkali",          state: "Solid",     col: 1,  row: 5 },
-  { num: 38, sym: "Sr", name: "Strontium",     mass: "87.62",  cat: "cat-alkaline",        state: "Solid",     col: 2,  row: 5 },
-  { num: 39, sym: "Y",  name: "Yttrium",       mass: "88.906", cat: "cat-transition",      state: "Solid",     col: 3,  row: 5 },
-  { num: 40, sym: "Zr", name: "Zirconium",     mass: "91.224", cat: "cat-transition",      state: "Solid",     col: 4,  row: 5 },
-  { num: 41, sym: "Nb", name: "Niobium",       mass: "92.906", cat: "cat-transition",      state: "Solid",     col: 5,  row: 5 },
-  { num: 42, sym: "Mo", name: "Molybdenum",    mass: "95.95",  cat: "cat-transition",      state: "Solid",     col: 6,  row: 5 },
-  { num: 43, sym: "Tc", name: "Technetium",    mass: "[98]",   cat: "cat-transition",      state: "Synthetic", col: 7,  row: 5 },
-  { num: 44, sym: "Ru", name: "Ruthenium",     mass: "101.07", cat: "cat-transition",      state: "Solid",     col: 8,  row: 5 },
-  { num: 45, sym: "Rh", name: "Rhodium",       mass: "102.91", cat: "cat-transition",      state: "Solid",     col: 9,  row: 5 },
-  { num: 46, sym: "Pd", name: "Palladium",     mass: "106.42", cat: "cat-transition",      state: "Solid",     col: 10, row: 5 },
-  { num: 47, sym: "Ag", name: "Silver",        mass: "107.87", cat: "cat-transition",      state: "Solid",     col: 11, row: 5 },
-  { num: 48, sym: "Cd", name: "Cadmium",       mass: "112.41", cat: "cat-transition",      state: "Solid",     col: 12, row: 5 },
-  { num: 49, sym: "In", name: "Indium",        mass: "114.82", cat: "cat-post-transition", state: "Solid",     col: 13, row: 5 },
-  { num: 50, sym: "Sn", name: "Tin",           mass: "118.71", cat: "cat-post-transition", state: "Solid",     col: 14, row: 5 },
-  { num: 51, sym: "Sb", name: "Antimony",     mass: "121.76", cat: "cat-metalloid",       state: "Solid",     col: 15, row: 5 },
-  { num: 52, sym: "Te", name: "Tellurium",     mass: "127.60", cat: "cat-metalloid",       state: "Solid",     col: 16, row: 5 },
-  { num: 53, sym: "I",  name: "Iodine",        mass: "126.90", cat: "cat-halogen",         state: "Solid",     col: 17, row: 5 },
-  { num: 54, sym: "Xe", name: "Xenon",         mass: "131.29", cat: "cat-noble",           state: "Gas",       col: 18, row: 5 },
-  { num: 55, sym: "Cs", name: "Caesium",       mass: "132.91", cat: "cat-alkali",          state: "Solid",     col: 1,  row: 6 },
-  { num: 56, sym: "Ba", name: "Barium",        mass: "137.33", cat: "cat-alkaline",        state: "Solid",     col: 2,  row: 6 },
-  { num: 57, sym: "La", name: "Lanthanum",     mass: "138.91", cat: "cat-lanthanide",      state: "Solid",     col: 3,  row: 9 },
-  { num: 58, sym: "Ce", name: "Cerium",        mass: "140.12", cat: "cat-lanthanide",      state: "Solid",     col: 4,  row: 9 },
-  { num: 59, sym: "Pr", name: "Praseodymium",  mass: "140.91", cat: "cat-lanthanide",      state: "Solid",     col: 5,  row: 9 },
-  { num: 60, sym: "Nd", name: "Neodymium",     mass: "144.24", cat: "cat-lanthanide",      state: "Solid",     col: 6,  row: 9 },
-  { num: 61, sym: "Pm", name: "Promethium",    mass: "[145]",  cat: "cat-lanthanide",      state: "Synthetic", col: 7,  row: 9 },
-  { num: 62, sym: "Sm", name: "Samarium",      mass: "150.36", cat: "cat-lanthanide",      state: "Solid",     col: 8,  row: 9 },
-  { num: 63, sym: "Eu", name: "Europium",      mass: "151.96", cat: "cat-lanthanide",      state: "Solid",     col: 9,  row: 9 },
-  { num: 64, sym: "Gd", name: "Gadolinium",    mass: "157.25", cat: "cat-lanthanide",      state: "Solid",     col: 10, row: 9 },
-  { num: 65, sym: "Tb", name: "Terbium",       mass: "158.93", cat: "cat-lanthanide",      state: "Solid",     col: 11, row: 9 },
-  { num: 66, sym: "Dy", name: "Dysprosium",    mass: "162.50", cat: "cat-lanthanide",      state: "Solid",     col: 12, row: 9 },
-  { num: 67, sym: "Ho", name: "Holmium",       mass: "164.93", cat: "cat-lanthanide",      state: "Solid",     col: 13, row: 9 },
-  { num: 68, sym: "Er", name: "Erbium",        mass: "167.26", cat: "cat-lanthanide",      state: "Solid",     col: 14, row: 9 },
-  { num: 69, sym: "Tm", name: "Thulium",       mass: "168.93", cat: "cat-lanthanide",      state: "Solid",     col: 15, row: 9 },
-  { num: 70, sym: "Yb", name: "Ytterbium",     mass: "173.05", cat: "cat-lanthanide",      state: "Solid",     col: 16, row: 9 },
-  { num: 71, sym: "Lu", name: "Lutetium",      mass: "174.97", cat: "cat-lanthanide",      state: "Solid",     col: 17, row: 9 },
-  { num: 72, sym: "Hf", name: "Hafnium",       mass: "178.49", cat: "cat-transition",      state: "Solid",     col: 4,  row: 6 },
-  { num: 73, sym: "Ta", name: "Tantalum",      mass: "180.95", cat: "cat-transition",      state: "Solid",     col: 5,  row: 6 },
-  { num: 74, sym: "W",  name: "Tungsten",      mass: "183.84", cat: "cat-transition",      state: "Solid",     col: 6,  row: 6 },
-  { num: 75, sym: "Re", name: "Rhenium",       mass: "186.21", cat: "cat-transition",      state: "Solid",     col: 7,  row: 6 },
-  { num: 76, sym: "Os", name: "Osmium",        mass: "190.23", cat: "cat-transition",      state: "Solid",     col: 8,  row: 6 },
-  { num: 77, sym: "Ir", name: "Iridium",       mass: "192.22", cat: "cat-transition",      state: "Solid",     col: 9,  row: 6 },
-  { num: 78, sym: "Pt", name: "Platinum",      mass: "195.08", cat: "cat-transition",      state: "Solid",     col: 10, row: 6 },
-  { num: 79, sym: "Au", name: "Gold",          mass: "196.97", cat: "cat-transition",      state: "Solid",     col: 11, row: 6 },
-  { num: 80, sym: "Hg", name: "Mercury",       mass: "200.59", cat: "cat-transition",      state: "Liquid",    col: 12, row: 6 },
-  { num: 81, sym: "Tl", name: "Thallium",      mass: "204.38", cat: "cat-post-transition", state: "Solid",     col: 13, row: 6 },
-  { num: 82, sym: "Pb", name: "Lead",          mass: "207.2",  cat: "cat-post-transition", state: "Solid",     col: 14, row: 6 },
-  { num: 83, sym: "Bi", name: "Bismuth",       mass: "208.98", cat: "cat-post-transition", state: "Solid",     col: 15, row: 6 },
-  { num: 84, sym: "Po", name: "Polonium",      mass: "[209]",  cat: "cat-post-transition", state: "Solid",     col: 16, row: 6 },
-  { num: 85, sym: "At", name: "Astatine",      mass: "[210]",  cat: "cat-halogen",         state: "Solid",     col: 17, row: 6 },
-  { num: 86, sym: "Rn", name: "Radon",         mass: "[222]",  cat: "cat-noble",           state: "Gas",       col: 18, row: 6 },
-  { num: 87, sym: "Fr", name: "Francium",      mass: "[223]",  cat: "cat-alkali",          state: "Solid",     col: 1,  row: 7 },
-  { num: 88, sym: "Ra", name: "Radium",        mass: "[226]",  cat: "cat-alkaline",        state: "Solid",     col: 2,  row: 7 },
-  { num: 89, sym: "Ac", name: "Actinium",      mass: "[227]",  cat: "cat-actinide",        state: "Solid",     col: 3,  row: 10 },
-  { num: 90, sym: "Th", name: "Thorium",       mass: "232.04", cat: "cat-actinide",        state: "Solid",     col: 4,  row: 10 },
-  { num: 91, sym: "Pa", name: "Protactinium",  mass: "231.04", cat: "cat-actinide",        state: "Solid",     col: 5,  row: 10 },
-  { num: 92, sym: "U",  name: "Uranium",       mass: "238.03", cat: "cat-actinide",        state: "Solid",     col: 6,  row: 10 },
-  { num: 93, sym: "Np", name: "Neptunium",     mass: "[237]",  cat: "cat-actinide",        state: "Synthetic", col: 7,  row: 10 },
-  { num: 94, sym: "Pu", name: "Plutonium",     mass: "[244]",  cat: "cat-actinide",        state: "Synthetic", col: 8,  row: 10 },
-  { num: 95, sym: "Am", name: "Americium",     mass: "[243]",  cat: "cat-actinide",        state: "Synthetic", col: 9,  row: 10 },
-  { num: 96, sym: "Cm", name: "Curium",        mass: "[247]",  cat: "cat-actinide",        state: "Synthetic", col: 10, row: 10 },
-  { num: 97, sym: "Bk", name: "Berkelium",     mass: "[247]",  cat: "cat-actinide",        state: "Synthetic", col: 11, row: 10 },
-  { num: 98, sym: "Cf", name: "Californium",   mass: "[251]",  cat: "cat-actinide",        state: "Synthetic", col: 12, row: 10 },
-  { num: 99, sym: "Es", name: "Einsteinium",   mass: "[252]",  cat: "cat-actinide",        state: "Synthetic", col: 13, row: 10 },
-  { num: 100,sym: "Fm", name: "Fermium",       mass: "[257]",  cat: "cat-actinide",        state: "Synthetic", col: 14, row: 10 },
-  { num: 101,sym: "Md", name: "Mendelevium",   mass: "[258]",  cat: "cat-actinide",        state: "Synthetic", col: 15, row: 10 },
-  { num: 102,sym: "No", name: "Nobelium",      mass: "[259]",  cat: "cat-actinide",        state: "Synthetic", col: 16, row: 10 },
-  { num: 103,sym: "Lr", name: "Lawrencium",    mass: "[266]",  cat: "cat-actinide",        state: "Synthetic", col: 17, row: 10 },
-  { num: 104,sym: "Rf", name: "Rutherfordium", mass: "[267]",  cat: "cat-transition",      state: "Synthetic", col: 4,  row: 7 },
-  { num: 105,sym: "Db", name: "Dubnium",       mass: "[268]",  cat: "cat-transition",      state: "Synthetic", col: 5,  row: 7 },
-  { num: 106,sym: "Sg", name: "Seaborgium",    mass: "[269]",  cat: "cat-transition",      state: "Synthetic", col: 6,  row: 7 },
-  { num: 107,sym: "Bh", name: "Bohrium",       mass: "[270]",  cat: "cat-transition",      state: "Synthetic", col: 7,  row: 7 },
-  { num: 108,sym: "Hs", name: "Hassium",       mass: "[277]",  cat: "cat-transition",      state: "Synthetic", col: 8,  row: 7 },
-  { num: 109,sym: "Mt", name: "Meitnerium",    mass: "[278]",  cat: "cat-transition",      state: "Synthetic", col: 9,  row: 7 },
-  { num: 110,sym: "Ds", name: "Darmstadtium",  mass: "[281]",  cat: "cat-transition",      state: "Synthetic", col: 10, row: 7 },
-  { num: 111,sym: "Rg", name: "Roentgenium",   mass: "[282]",  cat: "cat-transition",      state: "Synthetic", col: 11, row: 7 },
-  { num: 112,sym: "Cn", name: "Copernicium",   mass: "[285]",  cat: "cat-transition",      state: "Synthetic", col: 12, row: 7 },
-  { num: 113,sym: "Nh", name: "Nihonium",      mass: "[286]",  cat: "cat-post-transition", state: "Synthetic", col: 13, row: 7 },
-  { num: 114,sym: "Fl", name: "Flerovium",     mass: "[289]",  cat: "cat-post-transition", state: "Synthetic", col: 14, row: 7 },
-  { num: 115,sym: "Mc", name: "Moscovium",     mass: "[290]",  cat: "cat-post-transition", state: "Synthetic", col: 15, row: 7 },
-  { num: 116,sym: "Lv", name: "Livermorium",   mass: "[293]",  cat: "cat-post-transition", state: "Synthetic", col: 16, row: 7 },
-  { num: 117,sym: "Ts", name: "Tennessine",    mass: "[294]",  cat: "cat-halogen",         state: "Synthetic", col: 17, row: 7 },
-  { num: 118,sym: "Og", name: "Oganesson",     mass: "[294]",  cat: "cat-noble",           state: "Synthetic", col: 18, row: 7 }
-];
-
-function renderPeriodicTable() {
-  const grid = document.getElementById("ptableGrid");
-  if (!grid) return;
-  grid.innerHTML = "";
-
-  elementsData.forEach(elem => {
-    const cell = document.createElement("div");
-    cell.className = `element-cell ${elem.cat}`;
-    cell.style.gridColumn = elem.col;
-    cell.style.gridRow = elem.row;
-    cell.innerHTML = `<span class="element-num">${elem.num}</span><span class="element-sym">${elem.sym}</span>`;
-    cell.onclick = () => selectElement(elem.num);
-    grid.appendChild(cell);
-  });
-
-  // Lanthanide placeholder
-  const lanthPlaceholder = document.createElement("div");
-  lanthPlaceholder.className = "placeholder-cell";
-  lanthPlaceholder.style.gridColumn = 3;
-  lanthPlaceholder.style.gridRow = 6;
-  lanthPlaceholder.textContent = "57-71";
-  grid.appendChild(lanthPlaceholder);
-
-  // Actinide placeholder
-  const actPlaceholder = document.createElement("div");
-  actPlaceholder.className = "placeholder-cell";
-  actPlaceholder.style.gridColumn = 3;
-  actPlaceholder.style.gridRow = 7;
-  actPlaceholder.textContent = "89-103";
-  grid.appendChild(actPlaceholder);
-}
-
-function selectElement(atomicNum) {
-  const elem = elementsData.find(e => e.num === atomicNum);
-  if (!elem) return;
-  document.getElementById("elemSym").textContent = elem.sym;
-  document.getElementById("elemName").textContent = `${elem.name} (Atomic #${elem.num})`;
-  document.getElementById("elemInfo").textContent = 
-    `Atomic Mass: ${elem.mass} u | Category: ${elem.cat.replace("cat-", "")} | State: ${elem.state}`;
-}
-
-// ==================== STEM CONTENT ====================
+// ==================== FULL EDUPULSE STEM DATA ====================
 const scientificCalcHTML = `
   <div class="calc-wrapper" style="max-width:520px">
     <div style="font-weight:700;margin-bottom:8px">🔬 Scientific STEM Calculator</div>
@@ -1324,27 +1105,188 @@ const combinedToolsHTML = `
   <div style="margin-top:24px"></div>
   ${scientificCalcHTML}`;
 
+// FULL 118 ELEMENTS
+const elementsData = [
+  {num:1,sym:"H",name:"Hydrogen",mass:"1.008",cat:"cat-nonmetal",state:"Gas",col:1,row:1},
+  {num:2,sym:"He",name:"Helium",mass:"4.0026",cat:"cat-noble",state:"Gas",col:18,row:1},
+  {num:3,sym:"Li",name:"Lithium",mass:"6.94",cat:"cat-alkali",state:"Solid",col:1,row:2},
+  {num:4,sym:"Be",name:"Beryllium",mass:"9.0122",cat:"cat-alkaline",state:"Solid",col:2,row:2},
+  {num:5,sym:"B",name:"Boron",mass:"10.81",cat:"cat-metalloid",state:"Solid",col:13,row:2},
+  {num:6,sym:"C",name:"Carbon",mass:"12.011",cat:"cat-nonmetal",state:"Solid",col:14,row:2},
+  {num:7,sym:"N",name:"Nitrogen",mass:"14.007",cat:"cat-nonmetal",state:"Gas",col:15,row:2},
+  {num:8,sym:"O",name:"Oxygen",mass:"15.999",cat:"cat-nonmetal",state:"Gas",col:16,row:2},
+  {num:9,sym:"F",name:"Fluorine",mass:"18.998",cat:"cat-halogen",state:"Gas",col:17,row:2},
+  {num:10,sym:"Ne",name:"Neon",mass:"20.180",cat:"cat-noble",state:"Gas",col:18,row:2},
+  {num:11,sym:"Na",name:"Sodium",mass:"22.990",cat:"cat-alkali",state:"Solid",col:1,row:3},
+  {num:12,sym:"Mg",name:"Magnesium",mass:"24.305",cat:"cat-alkaline",state:"Solid",col:2,row:3},
+  {num:13,sym:"Al",name:"Aluminium",mass:"26.982",cat:"cat-post-transition",state:"Solid",col:13,row:3},
+  {num:14,sym:"Si",name:"Silicon",mass:"28.085",cat:"cat-metalloid",state:"Solid",col:14,row:3},
+  {num:15,sym:"P",name:"Phosphorus",mass:"30.974",cat:"cat-nonmetal",state:"Solid",col:15,row:3},
+  {num:16,sym:"S",name:"Sulfur",mass:"32.06",cat:"cat-nonmetal",state:"Solid",col:16,row:3},
+  {num:17,sym:"Cl",name:"Chlorine",mass:"35.45",cat:"cat-halogen",state:"Gas",col:17,row:3},
+  {num:18,sym:"Ar",name:"Argon",mass:"39.948",cat:"cat-noble",state:"Gas",col:18,row:3},
+  {num:19,sym:"K",name:"Potassium",mass:"39.098",cat:"cat-alkali",state:"Solid",col:1,row:4},
+  {num:20,sym:"Ca",name:"Calcium",mass:"40.078",cat:"cat-alkaline",state:"Solid",col:2,row:4},
+  {num:21,sym:"Sc",name:"Scandium",mass:"44.956",cat:"cat-transition",state:"Solid",col:3,row:4},
+  {num:22,sym:"Ti",name:"Titanium",mass:"47.867",cat:"cat-transition",state:"Solid",col:4,row:4},
+  {num:23,sym:"V",name:"Vanadium",mass:"50.942",cat:"cat-transition",state:"Solid",col:5,row:4},
+  {num:24,sym:"Cr",name:"Chromium",mass:"51.996",cat:"cat-transition",state:"Solid",col:6,row:4},
+  {num:25,sym:"Mn",name:"Manganese",mass:"54.938",cat:"cat-transition",state:"Solid",col:7,row:4},
+  {num:26,sym:"Fe",name:"Iron",mass:"55.845",cat:"cat-transition",state:"Solid",col:8,row:4},
+  {num:27,sym:"Co",name:"Cobalt",mass:"58.933",cat:"cat-transition",state:"Solid",col:9,row:4},
+  {num:28,sym:"Ni",name:"Nickel",mass:"58.693",cat:"cat-transition",state:"Solid",col:10,row:4},
+  {num:29,sym:"Cu",name:"Copper",mass:"63.546",cat:"cat-transition",state:"Solid",col:11,row:4},
+  {num:30,sym:"Zn",name:"Zinc",mass:"65.38",cat:"cat-transition",state:"Solid",col:12,row:4},
+  {num:31,sym:"Ga",name:"Gallium",mass:"69.723",cat:"cat-post-transition",state:"Solid",col:13,row:4},
+  {num:32,sym:"Ge",name:"Germanium",mass:"72.630",cat:"cat-metalloid",state:"Solid",col:14,row:4},
+  {num:33,sym:"As",name:"Arsenic",mass:"74.922",cat:"cat-metalloid",state:"Solid",col:15,row:4},
+  {num:34,sym:"Se",name:"Selenium",mass:"78.971",cat:"cat-nonmetal",state:"Solid",col:16,row:4},
+  {num:35,sym:"Br",name:"Bromine",mass:"79.904",cat:"cat-halogen",state:"Liquid",col:17,row:4},
+  {num:36,sym:"Kr",name:"Krypton",mass:"83.798",cat:"cat-noble",state:"Gas",col:18,row:4},
+  {num:37,sym:"Rb",name:"Rubidium",mass:"85.468",cat:"cat-alkali",state:"Solid",col:1,row:5},
+  {num:38,sym:"Sr",name:"Strontium",mass:"87.62",cat:"cat-alkaline",state:"Solid",col:2,row:5},
+  {num:39,sym:"Y",name:"Yttrium",mass:"88.906",cat:"cat-transition",state:"Solid",col:3,row:5},
+  {num:40,sym:"Zr",name:"Zirconium",mass:"91.224",cat:"cat-transition",state:"Solid",col:4,row:5},
+  {num:41,sym:"Nb",name:"Niobium",mass:"92.906",cat:"cat-transition",state:"Solid",col:5,row:5},
+  {num:42,sym:"Mo",name:"Molybdenum",mass:"95.95",cat:"cat-transition",state:"Solid",col:6,row:5},
+  {num:43,sym:"Tc",name:"Technetium",mass:"[98]",cat:"cat-transition",state:"Synthetic",col:7,row:5},
+  {num:44,sym:"Ru",name:"Ruthenium",mass:"101.07",cat:"cat-transition",state:"Solid",col:8,row:5},
+  {num:45,sym:"Rh",name:"Rhodium",mass:"102.91",cat:"cat-transition",state:"Solid",col:9,row:5},
+  {num:46,sym:"Pd",name:"Palladium",mass:"106.42",cat:"cat-transition",state:"Solid",col:10,row:5},
+  {num:47,sym:"Ag",name:"Silver",mass:"107.87",cat:"cat-transition",state:"Solid",col:11,row:5},
+  {num:48,sym:"Cd",name:"Cadmium",mass:"112.41",cat:"cat-transition",state:"Solid",col:12,row:5},
+  {num:49,sym:"In",name:"Indium",mass:"114.82",cat:"cat-post-transition",state:"Solid",col:13,row:5},
+  {num:50,sym:"Sn",name:"Tin",mass:"118.71",cat:"cat-post-transition",state:"Solid",col:14,row:5},
+  {num:51,sym:"Sb",name:"Antimony",mass:"121.76",cat:"cat-metalloid",state:"Solid",col:15,row:5},
+  {num:52,sym:"Te",name:"Tellurium",mass:"127.60",cat:"cat-metalloid",state:"Solid",col:16,row:5},
+  {num:53,sym:"I",name:"Iodine",mass:"126.90",cat:"cat-halogen",state:"Solid",col:17,row:5},
+  {num:54,sym:"Xe",name:"Xenon",mass:"131.29",cat:"cat-noble",state:"Gas",col:18,row:5},
+  {num:55,sym:"Cs",name:"Caesium",mass:"132.91",cat:"cat-alkali",state:"Solid",col:1,row:6},
+  {num:56,sym:"Ba",name:"Barium",mass:"137.33",cat:"cat-alkaline",state:"Solid",col:2,row:6},
+  {num:57,sym:"La",name:"Lanthanum",mass:"138.91",cat:"cat-lanthanide",state:"Solid",col:3,row:9},
+  {num:58,sym:"Ce",name:"Cerium",mass:"140.12",cat:"cat-lanthanide",state:"Solid",col:4,row:9},
+  {num:59,sym:"Pr",name:"Praseodymium",mass:"140.91",cat:"cat-lanthanide",state:"Solid",col:5,row:9},
+  {num:60,sym:"Nd",name:"Neodymium",mass:"144.24",cat:"cat-lanthanide",state:"Solid",col:6,row:9},
+  {num:61,sym:"Pm",name:"Promethium",mass:"[145]",cat:"cat-lanthanide",state:"Synthetic",col:7,row:9},
+  {num:62,sym:"Sm",name:"Samarium",mass:"150.36",cat:"cat-lanthanide",state:"Solid",col:8,row:9},
+  {num:63,sym:"Eu",name:"Europium",mass:"151.96",cat:"cat-lanthanide",state:"Solid",col:9,row:9},
+  {num:64,sym:"Gd",name:"Gadolinium",mass:"157.25",cat:"cat-lanthanide",state:"Solid",col:10,row:9},
+  {num:65,sym:"Tb",name:"Terbium",mass:"158.93",cat:"cat-lanthanide",state:"Solid",col:11,row:9},
+  {num:66,sym:"Dy",name:"Dysprosium",mass:"162.50",cat:"cat-lanthanide",state:"Solid",col:12,row:9},
+  {num:67,sym:"Ho",name:"Holmium",mass:"164.93",cat:"cat-lanthanide",state:"Solid",col:13,row:9},
+  {num:68,sym:"Er",name:"Erbium",mass:"167.26",cat:"cat-lanthanide",state:"Solid",col:14,row:9},
+  {num:69,sym:"Tm",name:"Thulium",mass:"168.93",cat:"cat-lanthanide",state:"Solid",col:15,row:9},
+  {num:70,sym:"Yb",name:"Ytterbium",mass:"173.05",cat:"cat-lanthanide",state:"Solid",col:16,row:9},
+  {num:71,sym:"Lu",name:"Lutetium",mass:"174.97",cat:"cat-lanthanide",state:"Solid",col:17,row:9},
+  {num:72,sym:"Hf",name:"Hafnium",mass:"178.49",cat:"cat-transition",state:"Solid",col:4,row:6},
+  {num:73,sym:"Ta",name:"Tantalum",mass:"180.95",cat:"cat-transition",state:"Solid",col:5,row:6},
+  {num:74,sym:"W",name:"Tungsten",mass:"183.84",cat:"cat-transition",state:"Solid",col:6,row:6},
+  {num:75,sym:"Re",name:"Rhenium",mass:"186.21",cat:"cat-transition",state:"Solid",col:7,row:6},
+  {num:76,sym:"Os",name:"Osmium",mass:"190.23",cat:"cat-transition",state:"Solid",col:8,row:6},
+  {num:77,sym:"Ir",name:"Iridium",mass:"192.22",cat:"cat-transition",state:"Solid",col:9,row:6},
+  {num:78,sym:"Pt",name:"Platinum",mass:"195.08",cat:"cat-transition",state:"Solid",col:10,row:6},
+  {num:79,sym:"Au",name:"Gold",mass:"196.97",cat:"cat-transition",state:"Solid",col:11,row:6},
+  {num:80,sym:"Hg",name:"Mercury",mass:"200.59",cat:"cat-transition",state:"Liquid",col:12,row:6},
+  {num:81,sym:"Tl",name:"Thallium",mass:"204.38",cat:"cat-post-transition",state:"Solid",col:13,row:6},
+  {num:82,sym:"Pb",name:"Lead",mass:"207.2",cat:"cat-post-transition",state:"Solid",col:14,row:6},
+  {num:83,sym:"Bi",name:"Bismuth",mass:"208.98",cat:"cat-post-transition",state:"Solid",col:15,row:6},
+  {num:84,sym:"Po",name:"Polonium",mass:"[209]",cat:"cat-post-transition",state:"Solid",col:16,row:6},
+  {num:85,sym:"At",name:"Astatine",mass:"[210]",cat:"cat-halogen",state:"Solid",col:17,row:6},
+  {num:86,sym:"Rn",name:"Radon",mass:"[222]",cat:"cat-noble",state:"Gas",col:18,row:6},
+  {num:87,sym:"Fr",name:"Francium",mass:"[223]",cat:"cat-alkali",state:"Solid",col:1,row:7},
+  {num:88,sym:"Ra",name:"Radium",mass:"[226]",cat:"cat-alkaline",state:"Solid",col:2,row:7},
+  {num:89,sym:"Ac",name:"Actinium",mass:"[227]",cat:"cat-actinide",state:"Solid",col:3,row:10},
+  {num:90,sym:"Th",name:"Thorium",mass:"232.04",cat:"cat-actinide",state:"Solid",col:4,row:10},
+  {num:91,sym:"Pa",name:"Protactinium",mass:"231.04",cat:"cat-actinide",state:"Solid",col:5,row:10},
+  {num:92,sym:"U",name:"Uranium",mass:"238.03",cat:"cat-actinide",state:"Solid",col:6,row:10},
+  {num:93,sym:"Np",name:"Neptunium",mass:"[237]",cat:"cat-actinide",state:"Synthetic",col:7,row:10},
+  {num:94,sym:"Pu",name:"Plutonium",mass:"[244]",cat:"cat-actinide",state:"Synthetic",col:8,row:10},
+  {num:95,sym:"Am",name:"Americium",mass:"[243]",cat:"cat-actinide",state:"Synthetic",col:9,row:10},
+  {num:96,sym:"Cm",name:"Curium",mass:"[247]",cat:"cat-actinide",state:"Synthetic",col:10,row:10},
+  {num:97,sym:"Bk",name:"Berkelium",mass:"[247]",cat:"cat-actinide",state:"Synthetic",col:11,row:10},
+  {num:98,sym:"Cf",name:"Californium",mass:"[251]",cat:"cat-actinide",state:"Synthetic",col:12,row:10},
+  {num:99,sym:"Es",name:"Einsteinium",mass:"[252]",cat:"cat-actinide",state:"Synthetic",col:13,row:10},
+  {num:100,sym:"Fm",name:"Fermium",mass:"[257]",cat:"cat-actinide",state:"Synthetic",col:14,row:10},
+  {num:101,sym:"Md",name:"Mendelevium",mass:"[258]",cat:"cat-actinide",state:"Synthetic",col:15,row:10},
+  {num:102,sym:"No",name:"Nobelium",mass:"[259]",cat:"cat-actinide",state:"Synthetic",col:16,row:10},
+  {num:103,sym:"Lr",name:"Lawrencium",mass:"[266]",cat:"cat-actinide",state:"Synthetic",col:17,row:10},
+  {num:104,sym:"Rf",name:"Rutherfordium",mass:"[267]",cat:"cat-transition",state:"Synthetic",col:4,row:7},
+  {num:105,sym:"Db",name:"Dubnium",mass:"[268]",cat:"cat-transition",state:"Synthetic",col:5,row:7},
+  {num:106,sym:"Sg",name:"Seaborgium",mass:"[269]",cat:"cat-transition",state:"Synthetic",col:6,row:7},
+  {num:107,sym:"Bh",name:"Bohrium",mass:"[270]",cat:"cat-transition",state:"Synthetic",col:7,row:7},
+  {num:108,sym:"Hs",name:"Hassium",mass:"[277]",cat:"cat-transition",state:"Synthetic",col:8,row:7},
+  {num:109,sym:"Mt",name:"Meitnerium",mass:"[278]",cat:"cat-transition",state:"Synthetic",col:9,row:7},
+  {num:110,sym:"Ds",name:"Darmstadtium",mass:"[281]",cat:"cat-transition",state:"Synthetic",col:10,row:7},
+  {num:111,sym:"Rg",name:"Roentgenium",mass:"[282]",cat:"cat-transition",state:"Synthetic",col:11,row:7},
+  {num:112,sym:"Cn",name:"Copernicium",mass:"[285]",cat:"cat-transition",state:"Synthetic",col:12,row:7},
+  {num:113,sym:"Nh",name:"Nihonium",mass:"[286]",cat:"cat-post-transition",state:"Synthetic",col:13,row:7},
+  {num:114,sym:"Fl",name:"Flerovium",mass:"[289]",cat:"cat-post-transition",state:"Synthetic",col:14,row:7},
+  {num:115,sym:"Mc",name:"Moscovium",mass:"[290]",cat:"cat-post-transition",state:"Synthetic",col:15,row:7},
+  {num:116,sym:"Lv",name:"Livermorium",mass:"[293]",cat:"cat-post-transition",state:"Synthetic",col:16,row:7},
+  {num:117,sym:"Ts",name:"Tennessine",mass:"[294]",cat:"cat-halogen",state:"Synthetic",col:17,row:7},
+  {num:118,sym:"Og",name:"Oganesson",mass:"[294]",cat:"cat-noble",state:"Synthetic",col:18,row:7}
+];
+
+function renderPeriodicTable() {
+  const grid = document.getElementById("ptableGrid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  elementsData.forEach(elem => {
+    const cell = document.createElement("div");
+    cell.className = `element-cell ${elem.cat}`;
+    cell.style.gridColumn = elem.col;
+    cell.style.gridRow = elem.row;
+    cell.innerHTML = `<span class="element-num">${elem.num}</span><span class="element-sym">${elem.sym}</span>`;
+    cell.onclick = () => selectElement(elem.num);
+    grid.appendChild(cell);
+  });
+  const lanth = document.createElement("div");
+  lanth.className = "placeholder-cell";
+  lanth.style.gridColumn = 3;
+  lanth.style.gridRow = 6;
+  lanth.textContent = "57-71";
+  grid.appendChild(lanth);
+  const act = document.createElement("div");
+  act.className = "placeholder-cell";
+  act.style.gridColumn = 3;
+  act.style.gridRow = 7;
+  act.textContent = "89-103";
+  grid.appendChild(act);
+}
+
+function selectElement(num) {
+  const elem = elementsData.find(e => e.num === num);
+  if (!elem) return;
+  document.getElementById("elemSym").textContent = elem.sym;
+  document.getElementById("elemName").textContent = `${elem.name} (Atomic #${elem.num})`;
+  document.getElementById("elemInfo").textContent = `Atomic Mass: ${elem.mass} u | Category: ${elem.cat.replace("cat-","")} | State: ${elem.state}`;
+}
+
+// Subject data (full EduPulse content)
 const stemSubjectData = {
   science: {
     title: "Life Science & Biology",
     badge: "Science",
-    desc: "Structure, information flow, energy transformation and evolution.",
+    tagClass: "tag-sci",
+    desc: "Explore the core principles of living systems — structure, information flow, energy transformation, and evolution — plus interactive tools.",
     topics: [
-      {title:"Structure Determines", content:`<h3>Structure Determines Function</h3><p>In living systems the shape of a molecule, cell or organ determines what it can do.</p><div class="formula-box">Structure → Function</div><div class="formula-box">Enzyme shape → lock & key<br>DNA double helix → information storage<br>Leaf structure → large surface for photosynthesis</div>`},
+      {title:"Structure Determines", content:`<h3>Structure Determines Function</h3><p>In living systems, the shape and structure of a molecule, cell, or organ determines what it can do.</p><div class="formula-box">Structure → Function</div><div class="formula-box">Enzyme shape → lock & key<br>DNA double helix → information storage<br>Leaf structure → large surface for photosynthesis</div>`},
       {title:"Flow of Information", content:`<h3>Flow of Information</h3><div class="formula-box">DNA → (transcription) → RNA → (translation) → Protein</div><div class="formula-box">Nervous system → electrical signals<br>Endocrine system → hormones</div>`},
       {title:"Energy Transformation", content:`<h3>Energy Transformation</h3><div class="formula-box">Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂<br>Respiration: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP</div>`},
       {title:"Evolution & Continuity", content:`<h3>Evolution & Continuity</h3><div class="formula-box">1. Variation<br>2. More offspring than can survive<br>3. Advantageous traits survive<br>4. Traits become more common</div>`},
-      {title:"Periodic Table + Calculator", content: combinedToolsHTML}
+      {title:"Cellular Biology", content:`<h3>Cell Structure & Function</h3><div class="formula-box">Cell Respiration: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + Energy (ATP)<br>Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂</div>`},
+      {title:"Periodic Table + Scientific Calculator", content: combinedToolsHTML}
     ]
   },
   physics: {
     title: "Classical to Modern Physics",
     badge: "Physics",
-    desc: "Mechanics, Electromagnetism, Thermodynamics, Optics and Modern Physics.",
+    tagClass: "tag-physics",
+    desc: "From Newton's laws and electromagnetism to thermodynamics, waves, optics and modern physics concepts.",
     topics: [
       {title:"Classical Mechanics", content:`<h3>Classical Mechanics</h3><div class="formula-box">F = m × a<br>v = u + at<br>s = ut + ½at²<br>KE = ½mv²<br>PE = mgh</div>`},
       {title:"Electromagnetism", content:`<h3>Electromagnetism</h3><div class="formula-box">Coulomb: F = k(q₁q₂)/r²<br>Ohm: V = IR<br>Faraday: ε = −dΦ_B/dt</div>`},
-      {title:"Thermodynamics", content:`<h3>Thermodynamics</h3><div class="formula-box">ΔU = Q − W<br>PV = nRT<br>S = k ln Ω</div>`},
+      {title:"Thermodynamics & Statistical Mechanics", content:`<h3>Thermodynamics</h3><div class="formula-box">ΔU = Q − W<br>PV = nRT<br>S = k ln Ω</div>`},
       {title:"Optics and Waves", content:`<h3>Optics & Waves</h3><div class="formula-box">v = fλ<br>Snell: n₁sinθ₁ = n₂sinθ₂<br>1/f = 1/v + 1/u</div>`},
       {title:"Modern Physics", content:`<h3>Modern Physics</h3><div class="formula-box">E = mc²<br>KE_max = hf − φ<br>λ = h/p<br>E_n = −13.6 eV / n²</div>`},
       {title:"Physics Calculator", content: scientificCalcHTML}
@@ -1353,23 +1295,25 @@ const stemSubjectData = {
   chemistry: {
     title: "Atoms, Molecules & Reactions",
     badge: "Chemistry",
-    desc: "Atoms, molecules, chemical reactions, stoichiometry and the Periodic Table.",
+    tagClass: "tag-chem",
+    desc: "Learn about atoms, molecules, compounds, chemical reactions and use the combined Periodic Table + Scientific Calculator.",
     topics: [
       {title:"Atoms: The Building Blocks", content:`<h3>Atoms</h3><div class="formula-box">Proton (p⁺) • Neutron (n⁰) • Electron (e⁻)<br>Atomic Number Z = protons<br>Mass Number A = protons + neutrons</div>`},
       {title:"Molecules and Compounds", content:`<h3>Molecules & Compounds</h3><div class="formula-box">Ionic bond → electron transfer<br>Covalent bond → electron sharing<br>Metallic bond → sea of electrons</div>`},
       {title:"Chemical Reactions", content:`<h3>Chemical Reactions</h3><div class="formula-box">Combination: A + B → AB<br>Decomposition: AB → A + B<br>Displacement: A + BC → AC + B<br>Combustion: Fuel + O₂ → CO₂ + H₂O</div>`},
       {title:"Stoichiometry & Moles", content:`<h3>Stoichiometry</h3><div class="formula-box">n = m / M<br>Avogadro = 6.022 × 10²³</div>`},
-      {title:"Periodic Table + Calculator", content: combinedToolsHTML}
+      {title:"Periodic Table + Scientific Calculator", content: combinedToolsHTML}
     ]
   },
   maths: {
     title: "Foundations to Calculus",
     badge: "Mathematics",
-    desc: "Main branches, famous constants, real-world applications and calculus.",
+    tagClass: "tag-math",
+    desc: "Explore the main branches of mathematics, famous constants, real-world applications, and calculus tools.",
     topics: [
       {title:"The Main Branches of Mathematics", content:`<h3>Main Branches</h3><div class="formula-box">Arithmetic • Algebra • Geometry<br>Trigonometry • Calculus<br>Statistics • Number Theory • Discrete Math</div>`},
       {title:"Famous Mathematical Constants", content:`<h3>Famous Constants</h3><div class="formula-box">π ≈ 3.14159<br>e ≈ 2.71828<br>φ ≈ 1.61803 (Golden Ratio)<br>√2 ≈ 1.41421<br>i = √(−1)</div>`},
-      {title:"Why Math Matters", content:`<h3>Why Math Matters</h3><div class="formula-box">Science & Engineering<br>Medicine • Finance • Technology<br>Architecture • Everyday life</div>`},
+      {title:"Why Math Matters (Real-World Applications)", content:`<h3>Why Math Matters</h3><div class="formula-box">Science & Engineering<br>Medicine • Finance • Technology<br>Architecture • Everyday life</div>`},
       {title:"Fundamental Calculus", content:`<h3>Calculus</h3><div class="formula-box">d/dx(xⁿ) = n·xⁿ⁻¹<br>∫ xⁿ dx = xⁿ⁺¹/(n+1) + C</div>`},
       {title:"Standard Calculator", content: standardCalcHTML}
     ]
@@ -1377,12 +1321,13 @@ const stemSubjectData = {
   it: {
     title: "HTML, Web Development & Python",
     badge: "Information Tech",
-    desc: "HTML fundamentals, semantic HTML, the web trio and Python basics.",
+    tagClass: "tag-it",
+    desc: "Learn the foundations of web development with HTML and the basics of Python programming.",
     topics: [
       {title:"How HTML Works: The Basic Skeleton", content:`<h3>HTML Skeleton</h3><div class="formula-box">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&nbsp;&nbsp;&lt;head&gt;...&lt;/head&gt;<br>&nbsp;&nbsp;&lt;body&gt;...&lt;/body&gt;<br>&lt;/html&gt;</div>`},
       {title:"Fundamental HTML Tags", content:`<h3>Fundamental Tags</h3><div class="formula-box">&lt;h1&gt;–&lt;h6&gt; • &lt;p&gt; • &lt;a&gt; • &lt;img&gt;<br>&lt;ul&gt; &lt;ol&gt; &lt;li&gt; • &lt;div&gt; &lt;span&gt;</div>`},
-      {title:"Attributes", content:`<h3>Attributes</h3><div class="formula-box">href • src • alt • class • id • style</div>`},
-      {title:"Semantic HTML", content:`<h3>Semantic HTML</h3><div class="formula-box">&lt;header&gt; &lt;nav&gt; &lt;main&gt;<br>&lt;section&gt; &lt;article&gt; &lt;aside&gt; &lt;footer&gt;</div>`},
+      {title:"Attributes: Giving Extra Instructions", content:`<h3>Attributes</h3><div class="formula-box">href • src • alt • class • id • style</div>`},
+      {title:"Semantic HTML (Modern Web Best Practices)", content:`<h3>Semantic HTML</h3><div class="formula-box">&lt;header&gt; &lt;nav&gt; &lt;main&gt;<br>&lt;section&gt; &lt;article&gt; &lt;aside&gt; &lt;footer&gt;</div>`},
       {title:"The Web Development Trio", content:`<h3>The Web Trio</h3><div class="formula-box">HTML → Structure<br>CSS → Style<br>JavaScript → Behaviour</div>`},
       {title:"Python Fundamentals", content:`<h3>Python Basics</h3><div class="formula-box">def calculate_energy(mass, c=3e8):<br>&nbsp;&nbsp;&nbsp;&nbsp;return mass * (c ** 2)</div>`}
     ]
@@ -1392,11 +1337,13 @@ const stemSubjectData = {
 function openStemSubject(key) {
   const data = stemSubjectData[key];
   if (!data) return;
-  document.getElementById("edu-home").style.display = "none";
+  document.getElementById("stem-home").style.display = "none";
   document.getElementById("stem-workspace").classList.add("active");
   document.getElementById("stem-title").textContent = data.title;
   document.getElementById("stem-desc").textContent = data.desc;
-  document.getElementById("stem-badge").textContent = data.badge;
+  const badge = document.getElementById("stem-badge");
+  badge.textContent = data.badge;
+  badge.className = `stem-card-tag ${data.tagClass}`;
 
   const list = document.getElementById("stem-topic-list");
   list.innerHTML = "";
@@ -1408,13 +1355,11 @@ function openStemSubject(key) {
     list.appendChild(div);
   });
   loadStemTopic(key, 0);
-  addXP(5);
 }
 
 function loadStemTopic(key, index) {
   const data = stemSubjectData[key];
-  const topics = document.querySelectorAll(".stem-topic");
-  topics.forEach((t, i) => t.classList.toggle("active", i === index));
+  document.querySelectorAll(".stem-topic").forEach((t, i) => t.classList.toggle("active", i === index));
   const body = document.getElementById("stem-lesson-body");
   body.innerHTML = data.topics[index].content;
   if (body.innerHTML.includes("ptableGrid")) {
@@ -1422,9 +1367,9 @@ function loadStemTopic(key, index) {
   }
 }
 
-function backToEduHome() {
+function backToStemHome() {
   document.getElementById("stem-workspace").classList.remove("active");
-  document.getElementById("edu-home").style.display = "block";
+  document.getElementById("stem-home").style.display = "block";
 }
 
 // Calculator functions
@@ -1445,11 +1390,8 @@ function calcBack(id) {
 function calcSolve(id) {
   const d = document.getElementById(id);
   if (!d) return;
-  try {
-    d.value = Function('"use strict";return (' + d.value + ')')();
-  } catch {
-    d.value = "Error";
-  }
+  try { d.value = Function('"use strict";return (' + d.value + ')')(); }
+  catch { d.value = "Error"; }
 }
 function sciFunc(fn) {
   const d = document.getElementById("sciDisplay");
@@ -1466,7 +1408,7 @@ function sciFunc(fn) {
   }
 }
 
-// ==================== REST OF DELAW LOGIC ====================
+// ==================== ORIGINAL DELAW FEATURES ====================
 const KB = {
   greetings: [`Hi! I'm ${AI_NAME}, created by ${PRODUCER}. How can I help you today?`],
   who: [`I'm ${AI_NAME}, produced by ${PRODUCER}.`],
@@ -1588,7 +1530,6 @@ function showQuizQuestion() {
     document.getElementById("quiz-options").innerHTML = "";
     document.getElementById("quiz-btn").style.display = "inline-block";
     document.getElementById("quiz-btn").textContent = "Play Again";
-    addXP(quizScore * 8);
     return;
   }
   const item = quizData[quizIndex];
@@ -1625,7 +1566,7 @@ function toggleMic() {
 }
 
 renderHistory();
-console.log("%cDelaw AI + Full STEM Academy + Complete 118 Periodic Table loaded", "color:#8b5cf6;font-weight:bold");
+console.log("%cDelaw AI + Full EduPulse STEM Portal loaded", "color:#8b5cf6;font-weight:bold");
 console.log("%cProduced by Desadu Chirandith", "color:#ec4899");
 </script>
 </body>
