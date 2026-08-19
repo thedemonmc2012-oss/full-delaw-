@@ -716,7 +716,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         </div>
         <div class="card" onclick="switchTab('education')">
           <h3>Education <span class="badge">STEM Portal</span></h3>
-          <p>Full EduPulse STEM Academy with Physics, Chemistry, Math, Science, IT + 118 Periodic Table.</p>
+          <p>Full EduPulse STEM Academy with Physics, , Math, Science, IT + 118 Periodic Table.</p>
         </div>
         <div class="card" onclick="switchTab('fun')">
           <h3>Fun & Games</h3>
@@ -798,8 +798,8 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
             <h3>Classical to Modern Physics</h3>
             <p>Mechanics • Electromagnetism • Thermodynamics • Optics • Modern Physics + Calculator</p>
           </div>
-          <div class="stem-card" onclick="openStemSubject('chemistry')">
-            <span class="stem-card-tag tag-chem">Chemistry</span>
+          <div class="stem-card" onclick="openStemSubject('')">
+            <span class="stem-card-tag tag-chem"></span>
             <h3>Atoms, Molecules & Reactions</h3>
             <p>Atoms • Molecules • Reactions • Stoichiometry + Combined Periodic Table & Calculator</p>
           </div>
@@ -926,7 +926,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
         <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
-          Features: Chat, Voice, Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, Calculators, Quizzes, Stories, Knowledge Base and more.
+          Features: Chat, Voice, Full EduPulse STEM Portal (Science, Physics, , Maths, IT), Complete 118-element Periodic Table, Calculators, Quizzes, Stories, Knowledge Base and more.
         </p>
       </div>
     </div>
@@ -1265,53 +1265,407 @@ function selectElement(num) {
 // Subject data (full EduPulse content)
 const stemSubjectData = {
   science: {
-    title: "Life Science & Biology",
-    badge: "Science",
-    tagClass: "tag-sci",
-    desc: "Explore the core principles of living systems — structure, information flow, energy transformation, and evolution — plus interactive tools.",
-    topics: [
-      {title:"Structure Determines", content:`<h3>Structure Determines Function</h3><p>In living systems, the shape and structure of a molecule, cell, or organ determines what it can do.</p><div class="formula-box">Structure → Function</div><div class="formula-box">Enzyme shape → lock & key<br>DNA double helix → information storage<br>Leaf structure → large surface for photosynthesis</div>`},
-      {title:"Flow of Information", content:`<h3>Flow of Information</h3><div class="formula-box">DNA → (transcription) → RNA → (translation) → Protein</div><div class="formula-box">Nervous system → electrical signals<br>Endocrine system → hormones</div>`},
-      {title:"Energy Transformation", content:`<h3>Energy Transformation</h3><div class="formula-box">Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂<br>Respiration: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP</div>`},
-      {title:"Evolution & Continuity", content:`<h3>Evolution & Continuity</h3><div class="formula-box">1. Variation<br>2. More offspring than can survive<br>3. Advantageous traits survive<br>4. Traits become more common</div>`},
-      {title:"Cellular Biology", content:`<h3>Cell Structure & Function</h3><div class="formula-box">Cell Respiration: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + Energy (ATP)<br>Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂</div>`},
-      {title:"Periodic Table + Scientific Calculator", content: combinedToolsHTML}
-    ]
-  },
-  physics: {
-    title: "Classical to Modern Physics",
-    badge: "Physics",
-    tagClass: "tag-physics",
-    desc: "From Newton's laws and electromagnetism to thermodynamics, waves, optics and modern physics concepts.",
-    topics: [
-      {title:"Classical Mechanics", content:`<h3>Classical Mechanics</h3><div class="formula-box">F = m × a<br>v = u + at<br>s = ut + ½at²<br>KE = ½mv²<br>PE = mgh</div>`},
-      {title:"Electromagnetism", content:`<h3>Electromagnetism</h3><div class="formula-box">Coulomb: F = k(q₁q₂)/r²<br>Ohm: V = IR<br>Faraday: ε = −dΦ_B/dt</div>`},
-      {title:"Thermodynamics & Statistical Mechanics", content:`<h3>Thermodynamics</h3><div class="formula-box">ΔU = Q − W<br>PV = nRT<br>S = k ln Ω</div>`},
-      {title:"Optics and Waves", content:`<h3>Optics & Waves</h3><div class="formula-box">v = fλ<br>Snell: n₁sinθ₁ = n₂sinθ₂<br>1/f = 1/v + 1/u</div>`},
-      {title:"Modern Physics", content:`<h3>Modern Physics</h3><div class="formula-box">E = mc²<br>KE_max = hf − φ<br>λ = h/p<br>E_n = −13.6 eV / n²</div>`},
-      {title:"Physics Calculator", content: scientificCalcHTML}
-    ]
-  },
-  chemistry: {
-    title: "Atoms, Molecules & Reactions",
-    badge: "Chemistry",
-    tagClass: "tag-chem",
-    desc: "Learn about atoms, molecules, compounds, chemical reactions and use the combined Periodic Table + Scientific Calculator.",
-    topics: [
-      {title:"Atoms: The Building Blocks", content:`<h3>Atoms</h3><div class="formula-box">Proton (p⁺) • Neutron (n⁰) • Electron (e⁻)<br>Atomic Number Z = protons<br>Mass Number A = protons + neutrons</div>`},
-      {title:"Molecules and Compounds", content:`<h3>Molecules & Compounds</h3><div class="formula-box">Ionic bond → electron transfer<br>Covalent bond → electron sharing<br>Metallic bond → sea of electrons</div>`},
-      {title:"Chemical Reactions", content:`<h3>Chemical Reactions</h3><div class="formula-box">Combination: A + B → AB<br>Decomposition: AB → A + B<br>Displacement: A + BC → AC + B<br>Combustion: Fuel + O₂ → CO₂ + H₂O</div>`},
-      {title:"Stoichiometry & Moles", content:`<h3>Stoichiometry</h3><div class="formula-box">n = m / M<br>Avogadro = 6.022 × 10²³</div>`},
-      {title:"Periodic Table + Scientific Calculator", content: combinedToolsHTML}
-    ]
-  },
-  maths: {
-    title: "Foundations to Calculus",
-    badge: "Mathematics",
-    tagClass: "tag-math",
-    desc: "Explore the main branches of mathematics, famous constants, real-world applications, and calculus tools.",
-    topics: [
-        title: "The Main Branches of Mathematics", 
+                title: "Life Science & Biology",
+                badge: "Science",
+                tagClass: "tag-sci",
+                desc: "Explore the core principles of living systems — structure, information flow, energy transformation, and evolution — plus interactive tools.",
+                topics: [
+                    { 
+                        title: "Structure Determines", 
+                        content: `
+                            <h3>Structure Determines Function</h3>
+                            <p style="margin-top:0.5rem;">In living systems, the shape and structure of a molecule, cell, or organ determines what it can do. Structure and function are always linked.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Key Idea</h4>
+                            <div class="formula-box">
+                                Structure → Function<br>
+                                The way something is built decides what job it can perform.
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Examples in Biology</h4>
+                            <div class="formula-box">
+                                Enzyme shape → fits only specific substrate (lock & key)<br>
+                                DNA double helix → allows replication and information storage<br>
+                                Red blood cell shape → flexible to pass through narrow capillaries<br>
+                                Leaf structure → large surface area for photosynthesis<br>
+                                Neuron shape → long axons for rapid signal transmission
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Levels of Structure</h4>
+                            <div class="formula-box">
+                                Molecular → Cellular → Tissue → Organ → Organ System → Organism
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Flow of Information", 
+                        content: `
+                            <h3>Flow of Information</h3>
+                            <p style="margin-top:0.5rem;">Living systems store, transmit and use information. The most important information molecule is DNA. Information also flows through nerves and hormones.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Central Dogma of Molecular Biology</h4>
+                            <div class="formula-box">
+                                DNA → (transcription) → RNA → (translation) → Protein
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Genetic Information</h4>
+                            <div class="formula-box">
+                                DNA stores the instructions for building and running the organism.<br>
+                                Genes are segments of DNA that code for proteins.<br>
+                                Mutations can change the information and sometimes the traits.
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Other Information Pathways</h4>
+                            <div class="formula-box">
+                                Nervous system → electrical signals (action potentials)<br>
+                                Endocrine system → chemical signals (hormones)<br>
+                                Cell signalling → receptors receive messages from other cells
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Energy Transformation", 
+                        content: `
+                            <h3>Energy Transformation</h3>
+                            <p style="margin-top:0.5rem;">Living organisms constantly transform energy from one form to another. Energy cannot be created or destroyed — it only changes form (First Law of Thermodynamics).</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Main Energy Processes</h4>
+                            <div class="formula-box">
+                                Photosynthesis (in plants & some bacteria):<br>
+                                6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂<br><br>
+                                Cellular Respiration (in most organisms):<br>
+                                C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP (energy)
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">ATP – The Energy Currency</h4>
+                            <div class="formula-box">
+                                ATP (Adenosine Triphosphate) stores usable energy.<br>
+                                ATP → ADP + Pᵢ + energy (released for cell work)
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Energy Flow in Ecosystems</h4>
+                            <div class="formula-box">
+                                Sun → Producers → Consumers → Decomposers<br>
+                                Only about 10% of energy is transferred to the next trophic level.
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Evolution & Continuity", 
+                        content: `
+                            <h3>Evolution & Continuity</h3>
+                            <p style="margin-top:0.5rem;">Life continues through generations by passing on genetic information. Over long periods, populations change through evolution by natural selection.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Continuity of Life</h4>
+                            <div class="formula-box">
+                                DNA is copied and passed from parent to offspring.<br>
+                                Reproduction ensures that life continues across generations.<br>
+                                All living things share a common ancestor.
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Evolution by Natural Selection</h4>
+                            <div class="formula-box">
+                                1. Variation exists in populations<br>
+                                2. More offspring are produced than can survive<br>
+                                3. Individuals with advantageous traits survive and reproduce better<br>
+                                4. Advantageous traits become more common over generations
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Evidence for Evolution</h4>
+                            <div class="formula-box">
+                                Fossils • Homologous structures • DNA similarities<br>
+                                Embryology • Biogeography • Direct observation (e.g. antibiotic resistance)
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Cellular Biology", 
+                        content: `<h3>Cell Structure & Function</h3>
+                        <p style="margin-top:0.5rem;">Cells are the basic structural, functional, and biological unit of all known organisms. All living things are made of one or more cells.</p>
+                        <div class="formula-box">
+                            Cell Respiration: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + Energy (ATP)<br>
+                            Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂
+                        </div>`
+                    },
+                    { title: "Periodic Table + Scientific Calculator", content: combinedToolsHTML }
+                ]
+            },
+            physics: {
+                title: "Classical to Modern Physics",
+                badge: "Physics",
+                tagClass: "tag-physics",
+                desc: "From Newton's laws and electromagnetism to thermodynamics, waves, optics and modern physics concepts.",
+                topics: [
+                    { 
+                        title: "Classical Mechanics", 
+                        content: `
+                            <h3>Classical Mechanics</h3>
+                            <p style="margin-top:0.5rem;">The study of motion of bodies under the action of forces. It forms the foundation of physics and engineering.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Newton's Laws of Motion</h4>
+                            <div class="formula-box">
+                                1st Law: An object remains at rest or in uniform motion unless acted upon by a net force.<br>
+                                2nd Law: F = m × a<br>
+                                3rd Law: For every action there is an equal and opposite reaction.
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Kinematic Equations (constant acceleration)</h4>
+                            <div class="formula-box">
+                                v = u + at<br>
+                                s = ut + ½at²<br>
+                                v² = u² + 2as<br>
+                                s = ½(u + v)t
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Work, Energy & Momentum</h4>
+                            <div class="formula-box">
+                                Work: W = F · s = Fs cosθ<br>
+                                Kinetic Energy: KE = ½mv²<br>
+                                Potential Energy: PE = mgh<br>
+                                Momentum: p = mv<br>
+                                Impulse: J = Δp = FΔt
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Electromagnetism", 
+                        content: `
+                            <h3>Electromagnetism</h3>
+                            <p style="margin-top:0.5rem;">The unified theory of electricity and magnetism. Electric charges produce electric fields and moving charges produce magnetic fields.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Electrostatics</h4>
+                            <div class="formula-box">
+                                Coulomb's Law: F = k · (q₁q₂)/r²<br>
+                                Electric Field: E = F/q = kq/r²<br>
+                                Electric Potential: V = kq/r<br>
+                                Capacitance: C = Q/V
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Current Electricity</h4>
+                            <div class="formula-box">
+                                Ohm's Law: V = IR<br>
+                                Power: P = VI = I²R = V²/R<br>
+                                Resistance in series: R = R₁ + R₂ + ...<br>
+                                Resistance in parallel: 1/R = 1/R₁ + 1/R₂ + ...
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Magnetism & Induction</h4>
+                            <div class="formula-box">
+                                Magnetic Force on moving charge: F = q(v × B)<br>
+                                Faraday's Law: ε = −dΦ_B / dt<br>
+                                Magnetic Flux: Φ_B = B · A = BA cosθ
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Thermodynamics & Statistical Mechanics", 
+                        content: `
+                            <h3>Thermodynamics & Statistical Mechanics</h3>
+                            <p style="margin-top:0.5rem;">The study of heat, work, temperature and energy transfer, and how microscopic particle behaviour relates to macroscopic properties.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Laws of Thermodynamics</h4>
+                            <div class="formula-box">
+                                Zeroth Law: If A is in thermal equilibrium with B, and B with C, then A is in equilibrium with C.<br>
+                                First Law: ΔU = Q − W (energy conservation)<br>
+                                Second Law: Entropy of an isolated system always increases (ΔS ≥ 0)<br>
+                                Third Law: Entropy approaches a minimum value as temperature approaches absolute zero.
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Ideal Gas & Heat</h4>
+                            <div class="formula-box">
+                                Ideal Gas Law: PV = nRT<br>
+                                Heat Capacity: Q = mcΔT<br>
+                                Internal Energy (ideal gas): U = (f/2)nRT
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Statistical Mechanics Basics</h4>
+                            <div class="formula-box">
+                                Boltzmann Distribution: P ∝ e^(−E/kT)<br>
+                                Average Kinetic Energy per molecule: (3/2)kT<br>
+                                Entropy (microstates): S = k ln Ω
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Optics and Waves", 
+                        content: `
+                            <h3>Optics and Waves</h3>
+                            <p style="margin-top:0.5rem;">The study of wave phenomena and the behaviour of light, including reflection, refraction, interference and diffraction.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Wave Basics</h4>
+                            <div class="formula-box">
+                                Wave Speed: v = fλ<br>
+                                Angular Frequency: ω = 2πf<br>
+                                Simple Harmonic Motion: x = A cos(ωt + φ)
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Geometrical Optics</h4>
+                            <div class="formula-box">
+                                Snell's Law: n₁ sinθ₁ = n₂ sinθ₂<br>
+                                Mirror Formula: 1/f = 1/v + 1/u<br>
+                                Magnification: m = h'/h = −v/u
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Wave Optics</h4>
+                            <div class="formula-box">
+                                Path Difference (Young's Double Slit): δ = d sinθ<br>
+                                Constructive Interference: δ = mλ<br>
+                                Destructive Interference: δ = (m + ½)λ<br>
+                                Diffraction (single slit minima): a sinθ = mλ
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Modern Physics", 
+                        content: `
+                            <h3>Modern Physics</h3>
+                            <p style="margin-top:0.5rem;">Physics developed in the 20th century and beyond, including quantum mechanics, special relativity and nuclear physics.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Special Relativity</h4>
+                            <div class="formula-box">
+                                Time Dilation: Δt = Δt₀ / √(1 − v²/c²)<br>
+                                Length Contraction: L = L₀ √(1 − v²/c²)<br>
+                                Mass-Energy Equivalence: E = mc²
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Quantum Physics</h4>
+                            <div class="formula-box">
+                                Photoelectric Effect: KE_max = hf − φ<br>
+                                de Broglie Wavelength: λ = h/p<br>
+                                Energy of Photon: E = hf = hc/λ<br>
+                                Heisenberg Uncertainty: Δx · Δp ≥ h/4π
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Atomic & Nuclear</h4>
+                            <div class="formula-box">
+                                Bohr Model Energy Levels: E_n = −13.6 eV / n²<br>
+                                Radioactive Decay: N = N₀ e^(−λt)<br>
+                                Half-life: T½ = ln2 / λ
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Physics Calculator", 
+                        content: scientificCalcHTML 
+                    }
+                ]
+            },
+            chemistry: {
+                title: "Atoms, Molecules & Reactions",
+                badge: "Chemistry",
+                tagClass: "tag-chem",
+                desc: "Learn about atoms, molecules, compounds, chemical reactions and use the combined Periodic Table + Scientific Calculator.",
+                topics: [
+                    { 
+                        title: "Atoms: The Building Blocks", 
+                        content: `
+                            <h3>Atoms: The Building Blocks</h3>
+                            <p style="margin-top:0.5rem;">An atom is the smallest unit of an element that retains the chemical properties of that element. Everything around us is made of atoms.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Structure of an Atom</h4>
+                            <div class="formula-box">
+                                Proton (p⁺) → positive charge, mass ≈ 1 u, located in nucleus<br>
+                                Neutron (n⁰) → no charge, mass ≈ 1 u, located in nucleus<br>
+                                Electron (e⁻) → negative charge, mass ≈ 1/1836 u, orbits the nucleus
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Important Numbers</h4>
+                            <div class="formula-box">
+                                Atomic Number (Z) = number of protons<br>
+                                Mass Number (A) = protons + neutrons<br>
+                                Number of Neutrons = A − Z<br>
+                                In a neutral atom: number of electrons = number of protons
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Isotopes & Electron Shells</h4>
+                            <div class="formula-box">
+                                Isotopes → atoms of the same element with different numbers of neutrons<br>
+                                Electron shells (Bohr model): 2, 8, 18, 32 ... electrons<br>
+                                Valence electrons → electrons in the outermost shell (decide chemical behaviour)
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Molecules and Compounds", 
+                        content: `
+                            <h3>Molecules and Compounds</h3>
+                            <p style="margin-top:0.5rem;">When atoms join together they form molecules and compounds. Understanding how atoms bond helps us understand the properties of substances.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Key Definitions</h4>
+                            <div class="formula-box">
+                                Element → pure substance made of only one type of atom (e.g. O₂, Fe)<br>
+                                Molecule → two or more atoms chemically bonded (can be same or different)<br>
+                                Compound → substance made of two or more different elements chemically combined
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Types of Chemical Bonds</h4>
+                            <div class="formula-box">
+                                Ionic Bond → transfer of electrons (metal + non-metal) e.g. NaCl<br>
+                                Covalent Bond → sharing of electrons (non-metal + non-metal) e.g. H₂O, CO₂<br>
+                                Metallic Bond → sea of delocalised electrons (metals)
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Chemical Formulas</h4>
+                            <div class="formula-box">
+                                Molecular Formula → shows actual number of atoms (e.g. H₂O, C₆H₁₂O₆)<br>
+                                Empirical Formula → simplest whole-number ratio (e.g. CH₂O for glucose)<br>
+                                Formula Mass / Molecular Mass = sum of atomic masses of all atoms
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Chemical Reactions", 
+                        content: `
+                            <h3>Chemical Reactions</h3>
+                            <p style="margin-top:0.5rem;">A chemical reaction is a process in which one or more substances (reactants) are converted into new substances (products). Atoms are rearranged but never created or destroyed.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Law of Conservation of Mass</h4>
+                            <div class="formula-box">
+                                Mass of reactants = Mass of products<br>
+                                Atoms are only rearranged — they are never created or destroyed.
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Types of Chemical Reactions</h4>
+                            <div class="formula-box">
+                                Combination: A + B → AB<br>
+                                Decomposition: AB → A + B<br>
+                                Displacement: A + BC → AC + B<br>
+                                Double Displacement: AB + CD → AD + CB<br>
+                                Combustion: Fuel + O₂ → CO₂ + H₂O + heat
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Balancing Chemical Equations</h4>
+                            <div class="formula-box">
+                                Example: 2H₂ + O₂ → 2H₂O<br>
+                                Steps:<br>
+                                1. Write the unbalanced equation<br>
+                                2. Count atoms of each element on both sides<br>
+                                3. Add coefficients to balance atoms<br>
+                                4. Check that all atoms are balanced
+                            </div>
+                        `
+                    },
+                    { title: "Stoichiometry & Moles", content: `
+                        <h3>Stoichiometry & Moles</h3>
+                        <p style="margin-top:0.5rem;">The mole is the chemist’s counting unit. It lets us connect the microscopic world of atoms to the macroscopic world of grams.</p>
+                        <div class="formula-box">
+                            n = m / M<br>
+                            Avogadro's Number: 6.022 × 10²³ particles/mol<br>
+                            Number of particles = n × 6.022 × 10²³<br>
+                            Molar volume of gas at STP ≈ 22.4 L/mol
+                        </div>
+                    ` },
+                    { title: "Periodic Table + Scientific Calculator", content: combinedToolsHTML }
+                ]
+            },
+            maths: {
+                title: "Foundations to Calculus",
+                badge: "Mathematics",
+                tagClass: "tag-math",
+                desc: "Explore the main branches of mathematics, famous constants, real-world applications, and calculus tools.",
+                topics: [
+                    { 
+                        title: "The Main Branches of Mathematics", 
                         content: `
                             <h3>The Main Branches of Mathematics</h3>
                             <p style="margin-top:0.5rem;">Mathematics is a vast subject divided into many branches. Each branch focuses on different ideas and tools.</p>
@@ -1394,20 +1748,155 @@ d/dx (xⁿ) = n · xⁿ⁻¹<br>
                     }
                 ]
             },
-    title: "HTML, Web Development & Python",
-    badge: "Information Tech",
-    tagClass: "tag-it",
-    desc: "Learn the foundations of web development with HTML and the basics of Python programming.",
-    topics: [
-      {title:"How HTML Works: The Basic Skeleton", content:`<h3>HTML Skeleton</h3><div class="formula-box">&lt;!DOCTYPE html&gt;<br>&lt;html&gt;<br>&nbsp;&nbsp;&lt;head&gt;...&lt;/head&gt;<br>&nbsp;&nbsp;&lt;body&gt;...&lt;/body&gt;<br>&lt;/html&gt;</div>`},
-      {title:"Fundamental HTML Tags", content:`<h3>Fundamental Tags</h3><div class="formula-box">&lt;h1&gt;–&lt;h6&gt; • &lt;p&gt; • &lt;a&gt; • &lt;img&gt;<br>&lt;ul&gt; &lt;ol&gt; &lt;li&gt; • &lt;div&gt; &lt;span&gt;</div>`},
-      {title:"Attributes: Giving Extra Instructions", content:`<h3>Attributes</h3><div class="formula-box">href • src • alt • class • id • style</div>`},
-      {title:"Semantic HTML (Modern Web Best Practices)", content:`<h3>Semantic HTML</h3><div class="formula-box">&lt;header&gt; &lt;nav&gt; &lt;main&gt;<br>&lt;section&gt; &lt;article&gt; &lt;aside&gt; &lt;footer&gt;</div>`},
-      {title:"The Web Development Trio", content:`<h3>The Web Trio</h3><div class="formula-box">HTML → Structure<br>CSS → Style<br>JavaScript → Behaviour</div>`},
-      {title:"Python Fundamentals", content:`<h3>Python Basics</h3><div class="formula-box">def calculate_energy(mass, c=3e8):<br>&nbsp;&nbsp;&nbsp;&nbsp;return mass * (c ** 2)</div>`}
-    ]
-  }
-};
+            it: {
+                title: "HTML, Web Development & Python",
+                badge: "Information Tech",
+                tagClass: "tag-it",
+                desc: "Learn the foundations of web development with HTML and the basics of Python programming.",
+                topics: [
+                    { 
+                        title: "How HTML Works: The Basic Skeleton", 
+                        content: `
+                            <h3>How HTML Works: The Basic Skeleton</h3>
+                            <p style="margin-top:0.5rem;">HTML (HyperText Markup Language) is the standard language for creating web pages. It describes the structure of a webpage using tags.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">The Basic HTML Document Skeleton</h4>
+                            <div class="formula-box">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+  &lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My First Page&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;!-- Content goes here --&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Key Parts Explained</h4>
+                            <div class="formula-box">
+&lt;!DOCTYPE html&gt; → tells the browser this is an HTML5 document<br>
+&lt;html&gt; → the root element that wraps everything<br>
+&lt;head&gt; → contains information about the page (not visible)<br>
+&lt;body&gt; → contains the visible content of the page
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Fundamental HTML Tags", 
+                        content: `
+                            <h3>Fundamental HTML Tags</h3>
+                            <p style="margin-top:0.5rem;">Tags are the building blocks of HTML. Most tags come in pairs: an opening tag and a closing tag.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Common Text Tags</h4>
+                            <div class="formula-box">
+&lt;h1&gt; to &lt;h6&gt; → Headings (h1 is the largest)<br>
+&lt;p&gt; → Paragraph<br>
+&lt;br&gt; → Line break (self-closing)<br>
+&lt;strong&gt; → Bold / important text<br>
+&lt;em&gt; → Italic / emphasised text
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Links, Images & Lists</h4>
+                            <div class="formula-box">
+&lt;a href="https://example.com"&gt;Link text&lt;/a&gt;<br>
+&lt;img src="photo.jpg" alt="Description"&gt;<br>
+&lt;ul&gt; → Unordered (bullet) list<br>
+&lt;ol&gt; → Ordered (numbered) list<br>
+&lt;li&gt; → List item
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Containers</h4>
+                            <div class="formula-box">
+&lt;div&gt; → Generic block container<br>
+&lt;span&gt; → Generic inline container
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Attributes: Giving Extra Instructions", 
+                        content: `
+                            <h3>Attributes: Giving Extra Instructions</h3>
+                            <p style="margin-top:0.5rem;">Attributes provide extra information about an HTML element. They are written inside the opening tag.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Common Attributes</h4>
+                            <div class="formula-box">
+href → used with &lt;a&gt; to set the link destination<br>
+src → used with &lt;img&gt; to set the image source<br>
+alt → alternative text for images (important for accessibility)<br>
+class → gives an element a class name (for CSS)<br>
+id → gives an element a unique ID<br>
+style → adds inline CSS styles
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Examples</h4>
+                            <div class="formula-box">
+&lt;a href="https://google.com" target="_blank"&gt;Google&lt;/a&gt;<br>
+&lt;img src="cat.jpg" alt="A cute cat" width="300"&gt;<br>
+&lt;p class="highlight" id="intro"&gt;Hello World&lt;/p&gt;
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Semantic HTML (Modern Web Best Practices)", 
+                        content: `
+                            <h3>Semantic HTML (Modern Web Best Practices)</h3>
+                            <p style="margin-top:0.5rem;">Semantic HTML uses meaningful tags that describe the content’s purpose. This improves accessibility, SEO, and code readability.</p>
+                            
+                            <h4 style="margin-top:1.2rem;">Important Semantic Tags</h4>
+                            <div class="formula-box">
+&lt;header&gt; → introductory content or navigation<br>
+&lt;nav&gt; → navigation links<br>
+&lt;main&gt; → the main content of the page<br>
+&lt;section&gt; → a thematic group of content<br>
+&lt;article&gt; → independent, self-contained content<br>
+&lt;aside&gt; → side content (sidebar, related info)<br>
+&lt;footer&gt; → footer information
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Why Use Semantic HTML?</h4>
+                            <div class="formula-box">
+• Better for screen readers (accessibility)<br>
+• Helps search engines understand the page<br>
+• Makes code easier to read and maintain<br>
+• Follows modern web standards
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "The Web Development Trio", 
+                        content: `
+                            <h3>The Web Development Trio</h3>
+                            <p style="margin-top:0.5rem;">Modern websites are built with three core technologies that work together:</p>
+                            
+                            <h4 style="margin-top:1.2rem;">The Three Layers</h4>
+                            <div class="formula-box">
+HTML → Structure (the skeleton / content)<br>
+CSS  → Presentation (the style / look)<br>
+JavaScript → Behaviour (the interactivity)
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">Simple Analogy</h4>
+                            <div class="formula-box">
+HTML = the house structure (walls, rooms)<br>
+CSS = the paint, furniture and decoration<br>
+JavaScript = the electricity, doors and gadgets that move
+                            </div>
+                            
+                            <h4 style="margin-top:1.2rem;">How They Work Together</h4>
+                            <div class="formula-box">
+1. HTML creates the content and structure<br>
+2. CSS styles how that content looks<br>
+3. JavaScript makes the page interactive and dynamic
+                            </div>
+                        `
+                    },
+                    { 
+                        title: "Python Fundamentals", 
+                        content: `<h3>Control Structures in Python</h3>
+                        <p style="margin-top:0.5rem;">Python is a popular, beginner-friendly programming language used in science, data and web development.</p>
+                        <div class="formula-box">
 
 function openStemSubject(key) {
   const data = stemSubjectData[key];
