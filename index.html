@@ -716,7 +716,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         </div>
         <div class="card" onclick="switchTab('education')">
           <h3>Education <span class="badge">STEM Portal</span></h3>
-          <p>Full EduPulse STEM Academy with Physics, , Math, Science, IT + 118 Periodic Table.</p>
+          <p>Full EduPulse STEM Academy with Physics, Chemistry, Math, Science, IT + 118 Periodic Table.</p>
         </div>
         <div class="card" onclick="switchTab('fun')">
           <h3>Fun & Games</h3>
@@ -798,8 +798,8 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
             <h3>Classical to Modern Physics</h3>
             <p>Mechanics • Electromagnetism • Thermodynamics • Optics • Modern Physics + Calculator</p>
           </div>
-          <div class="stem-card" onclick="openStemSubject('')">
-            <span class="stem-card-tag tag-chem"></span>
+          <div class="stem-card" onclick="openStemSubject('chemistry')">
+            <span class="stem-card-tag tag-chem">Chemistry</span>
             <h3>Atoms, Molecules & Reactions</h3>
             <p>Atoms • Molecules • Reactions • Stoichiometry + Combined Periodic Table & Calculator</p>
           </div>
@@ -926,7 +926,7 @@ h1 { font-size: 1.8rem; margin-bottom: 6px; }
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
         <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
-          Features: Chat, Voice, Full EduPulse STEM Portal (Science, Physics, , Maths, IT), Complete 118-element Periodic Table, Calculators, Quizzes, Stories, Knowledge Base and more.
+          Features: Chat, Voice, Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, Calculators, Quizzes, Stories, Knowledge Base and more.
         </p>
       </div>
     </div>
@@ -1897,6 +1897,35 @@ JavaScript = the electricity, doors and gadgets that move
                         content: `<h3>Control Structures in Python</h3>
                         <p style="margin-top:0.5rem;">Python is a popular, beginner-friendly programming language used in science, data and web development.</p>
                         <div class="formula-box">
+# Variables
+name = "Delaw"
+age = 1
+
+# If / else
+if age > 0:
+    print("Hello", name)
+
+# For loop
+for i in range(5):
+    print(i)
+
+# While loop
+count = 0
+while count < 3:
+    print(count)
+    count += 1
+
+# Function
+def greet(person):
+    return "Hi " + person
+
+print(greet("Student"))
+                        </div>
+                        <p style="margin-top:1rem;">Python uses indentation (spaces) instead of curly braces to define code blocks. This makes the code clean and readable.</p>`
+                    }
+                ]
+            }
+};
 
 function openStemSubject(key) {
   const data = stemSubjectData[key];
