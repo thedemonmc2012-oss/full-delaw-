@@ -2784,20 +2784,16 @@ function getLocalReply(text) {
 
 // ==================== GROQ LIVE AI (HARDCODED KEY – HIGH RISK) ====================
 async function callLiveAI(userText) {
-  // WARNING: API key is hardcoded in client-side code. Anyone can steal it.
-  const GROQ_API_KEY = "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";
+  // Put your Cloudflare Worker URL here
+  const WORKER_URL = "https://delaw-ai.YOUR-USERNAME.workers.dev";   // ← change this
 
   const systemPrompt = `You are Delaw, a highly capable, friendly and family-safe AI assistant produced by Desadu Chirandith.
-You know programming (HTML, CSS, JavaScript, Python, etc.), science, math, physics, chemistry, history, space, technology, creative writing and general knowledge.
-Rules:
-- Stay family-friendly and helpful.
-- When asked for code, provide complete, clean, ready-to-use code.
-- If asked who created/produced/made you, clearly say you were produced by Desadu Chirandith.
-- Keep answers clear and useful. Prefer under 250 words unless more detail is requested.
-Current date context: August 2026.`;
+You know programming, science, math, physics, chemistry, history, space, technology and general knowledge.
+Stay family-friendly. Keep answers clear and useful.`;
 
-  // Include recent history for better context
   const messages = [{ role: "system", content: systemPrompt }];
+  
+  // Add recent chat history
   const recent = chatHistory.slice(-6);
   recent.forEach(m => {
     messages.push({
@@ -2805,34 +2801,32 @@ Current date context: August 2026.`;
       content: m.content
     });
   });
-  if (!recent.length || recent[recent.length - 1].content !== userText) {
-    messages.push({ role: "user", content: userText });
-  }
+  
+  messages.push({ role: "user", content: userText });
 
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000);
-
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    const res = await fetch(WORKER_URL, {
       method: "POST",
-      headers: {
-        "Authorization": `Bearer ${GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "llama-3.3-70b-versatile",   // you can change to other Groq models
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 1024
-      }),
-      signal: controller.signal
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages })
     });
-    clearTimeout(timeout);
 
     if (!res.ok) {
-      console.warn("Groq status:", res.status, await res.text());
+      console.warn("Worker error:", res.status);
       return null;
     }
+
+    const data = await res.json();
+
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      return data.choices[0].message.content;
+    }
+    return null;
+  } catch (err) {
+    console.warn("Live AI call failed:", err);
+    return null;
+  }
+}
 
     const data = await res.json();
 
