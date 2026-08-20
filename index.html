@@ -1055,7 +1055,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
               <input type="checkbox" id="live-ai-toggle" checked style="width:18px;height:18px;accent-color:var(--primary)">
               Enable Live AI
             </label>
-            <p style="font-size:0.75rem;color:var(--muted);margin-top:6px">Powered by secure Cloudflare Worker. No keys needed from users.</p>
+            <p style="font-size:0.75rem;color:var(--muted);margin-top:6px">Powered by Groq API (key is currently hardcoded – high risk).</p>
           </div>
           <button type="submit" class="save-btn">Save Changes</button>
           <div id="save-msg" style="margin-top:10px;color:var(--success);font-weight:600"></div>
@@ -1071,10 +1071,10 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
         <h3 style="margin-bottom:10px">DELAW AI</h3>
         <p style="line-height:1.6;color:var(--muted);margin-bottom:14px">
           Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.
-          Now powered by <strong>Live AI</strong> via a secure Cloudflare Worker (API key stays secret on the server). Customers never see or enter any keys.
+          Live AI is currently using a hardcoded Groq API key (not recommended for production).
         </p>
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
-        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy + Live AI</p>
+        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy + Live AI (Groq)</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
           Features: Live AI Chat, Voice, Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, Calculators, Quizzes, Stories, Knowledge Base and more.
         </p>
@@ -1417,7 +1417,7 @@ function selectElement(num) {
   document.getElementById("elemInfo").textContent = `Atomic Mass: ${elem.mass} u | Category: ${elem.cat.replace("cat-","")} | State: ${elem.state}`;
 }
 
-// Subject data (full EduPulse content)
+// Subject data (full EduPulse content) - kept identical to original
 const stemSubjectData = {
   science: {
                 title: "Life Science & Biology",
@@ -1663,7 +1663,7 @@ const stemSubjectData = {
                             
                             <h4 style="margin-top:1.2rem;">Wave Optics</h4>
                             <div class="formula-box">
-                                Path Difference (Young's Double Slit): δ = d sinθ<br>
+                                Path Difference (Young's Double S lit): δ = d sinθ<br>
                                 Constructive Interference: δ = mλ<br>
                                 Destructive Interference: δ = (m + ½)λ<br>
                                 Diffraction (single slit minima): a sinθ = mλ
@@ -2551,7 +2551,7 @@ const KB = {
     { question: "What has an eye but cannot see the light?", answer: "A needle" },
     { question: "What falls often but never gets hurt?", answer: "Rain" },
     { question: "What gets bigger the more you take away?", answer: "A hole" },
-    { question: "What belongs to everyone but is used by nobody?", answer: "Their own mind (usually ignored), or common sense" }, // Adjusted
+    { question: "What belongs to everyone but is used by nobody?", answer: "Their own mind (usually ignored), or common sense" },
     { question: "I can be cracked, made, told, and played. What am I?", answer: "A joke" },
     { question: "What has 13 hearts, but no other organs?", answer: "A deck of cards" },
     { question: "What begins with T, ends with T, and has T in it?", answer: "A teapot" },
@@ -2746,7 +2746,7 @@ function isLiveAIEnabled() {
 function updateStatusBar() {
   const el = document.getElementById("status");
   if (!el) return;
-  el.textContent = isLiveAIEnabled() ? "Live AI • Ready" : "Offline Mode • Ready";
+  el.textContent = isLiveAIEnabled() ? "Live AI (Groq) • Ready" : "Offline Mode • Ready";
 }
 
 // Local rule-based replies (always used for identity + special commands, and as fallback)
@@ -2782,41 +2782,10 @@ function getLocalReply(text) {
   return null; // signal that we should try live AI
 }
 
-// Build conversation context for the live model
-function buildLiveMessages(userText) {
-  const system = `You are Delaw, a friendly, family-safe, educational AI assistant produced by Desadu Chirandith.
-You are helpful, curious, clear and encouraging. You love STEM, learning, clean humor and creativity.
-Always stay family-friendly. Keep answers concise but informative (prefer under 250 words unless the user asks for more detail).
-When relevant, mention you were produced by Desadu Chirandith.
-If the user asks who made/created/produced you, answer clearly that you were produced by Desadu Chirandith.
-You can help with science, physics, chemistry, mathematics, coding, space, history, jokes, riddles, stories and general knowledge.
-Current date context: August 2026.`;
-
-  const messages = [{ role: "system", content: system }];
-
-  // Include last few turns for context (max ~6 messages)
-  const recent = chatHistory.slice(-8);
-  recent.forEach(m => {
-    if (m.role === "user" || m.role === "ai") {
-      messages.push({
-        role: m.role === "ai" ? "assistant" : "user",
-        content: m.content
-      });
-    }
-  });
-  // Current user message is already in history, but ensure it is last
-  if (!recent.length || recent[recent.length-1].content !== userText) {
-    messages.push({ role: "user", content: userText });
-  }
-  return messages;
-}
-
+// ==================== GROQ LIVE AI (HARDCODED KEY – HIGH RISK) ====================
 async function callLiveAI(userText) {
-  // =============================================
-  // IMPORTANT: Replace this URL with YOUR Cloudflare Worker URL
-  // after you deploy the worker (see instructions)
-  // =============================================
-  const WORKER_URL = "https://delaw-ai.YOUR-SUBDOMAIN.workers.dev";
+  // WARNING: API key is hardcoded in client-side code. Anyone can steal it.
+  const GROQ_API_KEY = "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";
 
   const systemPrompt = `You are Delaw, a highly capable, friendly and family-safe AI assistant produced by Desadu Chirandith.
 You know programming (HTML, CSS, JavaScript, Python, etc.), science, math, physics, chemistry, history, space, technology, creative writing and general knowledge.
@@ -2824,7 +2793,8 @@ Rules:
 - Stay family-friendly and helpful.
 - When asked for code, provide complete, clean, ready-to-use code.
 - If asked who created/produced/made you, clearly say you were produced by Desadu Chirandith.
-- Keep answers clear and useful.`;
+- Keep answers clear and useful. Prefer under 250 words unless more detail is requested.
+Current date context: August 2026.`;
 
   // Include recent history for better context
   const messages = [{ role: "system", content: systemPrompt }];
@@ -2843,16 +2813,24 @@ Rules:
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 45000);
 
-    const res = await fetch(WORKER_URL, {
+    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ messages }),
+      headers: {
+        "Authorization": `Bearer ${GROQ_API_KEY}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",   // you can change to other Groq models
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 1024
+      }),
       signal: controller.signal
     });
     clearTimeout(timeout);
 
     if (!res.ok) {
-      console.warn("Worker status:", res.status);
+      console.warn("Groq status:", res.status, await res.text());
       return null;
     }
 
@@ -2861,13 +2839,9 @@ Rules:
     if (data.choices && data.choices[0] && data.choices[0].message) {
       return data.choices[0].message.content;
     }
-    if (data.response) return data.response;
-    if (data.content) return data.content;
-    if (data.message) return typeof data.message === "string" ? data.message : data.message.content;
-    if (data.text) return data.text;
     return null;
   } catch (err) {
-    console.warn("Cloudflare Worker call failed:", err.message || err);
+    console.warn("Groq call failed:", err.message || err);
     return null;
   }
 }
@@ -2913,7 +2887,7 @@ async function thinkAndReply(userText) {
   isThinking = true;
   document.getElementById("send").disabled = true;
   const statusEl = document.getElementById("status");
-  if (statusEl) statusEl.textContent = isLiveAIEnabled() ? "Live AI • Thinking..." : "Thinking...";
+  if (statusEl) statusEl.textContent = isLiveAIEnabled() ? "Live AI (Groq) • Thinking..." : "Thinking...";
 
   const box = document.getElementById("messages");
   const typing = document.createElement("div");
@@ -3037,8 +3011,9 @@ function toggleMic() {
 
 renderHistory();
 updateStatusBar();
-console.log("%cDelaw AI + Full EduPulse STEM Portal + Live AI loaded", "color:#7c3aed;font-weight:bold");
+console.log("%cDelaw AI + Full EduPulse STEM Portal + Live AI (Groq hardcoded) loaded", "color:#7c3aed;font-weight:bold");
 console.log("%cProduced by Desadu Chirandith", "color:#db2777");
+console.warn("SECURITY WARNING: Groq API key is hardcoded in the client. Anyone can extract it.");
 </script>
 </body>
 </html>
