@@ -2827,32 +2827,6 @@ Stay family-friendly. Keep answers clear and useful.`;
     return null;
   }
 }
-
-    const data = await res.json();
-
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      return data.choices[0].message.content;
-    }
-    return null;
-  } catch (err) {
-    console.warn("Live AI call failed:", err);
-    return null;
-  }
-}
-
-    const data = await res.json();
-
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      return data.choices[0].message.content;
-    }
-    return null;
-  } catch (err) {
-    console.warn("Groq call failed:", err.message || err);
-    return null;
-  }
-}
-
-async function getReply(text) {
   // 1. Always try local rules first for identity & special commands
   const local = getLocalReply(text);
   if (local !== null) return local;
