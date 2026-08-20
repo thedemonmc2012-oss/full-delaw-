@@ -2784,8 +2784,8 @@ function getLocalReply(text) {
 
 // ==================== GROQ LIVE AI (HARDCODED KEY – HIGH RISK) ====================
 async function callLiveAI(userText) {
-  // Put your Cloudflare Worker URL here
-  const WORKER_URL = "https://delaw-ai.thedemonmc2012.workers.dev";   // ← change this
+  // Your Cloudflare Worker URL
+  const WORKER_URL = "https://delaw-ai.thedemonmc2012.workers.dev";
 
   const systemPrompt = `You are Delaw, a highly capable, friendly and family-safe AI assistant produced by Desadu Chirandith.
 You know programming, science, math, physics, chemistry, history, space, technology and general knowledge.
@@ -2815,6 +2815,18 @@ Stay family-friendly. Keep answers clear and useful.`;
       console.warn("Worker error:", res.status);
       return null;
     }
+
+    const data = await res.json();
+
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      return data.choices[0].message.content;
+    }
+    return null;
+  } catch (err) {
+    console.warn("Live AI call failed:", err);
+    return null;
+  }
+}
 
     const data = await res.json();
 
