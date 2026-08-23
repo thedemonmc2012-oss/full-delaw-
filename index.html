@@ -292,6 +292,41 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   color: var(--muted);
   opacity: 0.85;
 }
+/* Better rendering for lists, tables and simple charts inside AI messages */
+.msg-body ul, .msg-body ol {
+  margin: 8px 0 8px 18px;
+  padding: 0;
+}
+.msg-body li {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+.msg-body table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0;
+  font-size: 0.88rem;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
+}
+.msg-body th, .msg-body td {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  text-align: left;
+}
+.msg-body th {
+  background: rgba(124, 58, 237, 0.1);
+  font-weight: 600;
+  color: var(--primary);
+}
+.msg-body tr:nth-child(even) td {
+  background: rgba(124, 58, 237, 0.03);
+}
+.msg-body pre, .msg-body code {
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+  font-size: 0.85rem;
+}
 .typing { display: flex; gap: 5px; padding: 4px 0; }
 .typing span {
   width: 7px; height: 7px;
@@ -1055,7 +1090,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
               <input type="checkbox" id="live-ai-toggle" checked style="width:18px;height:18px;accent-color:var(--primary)">
               Enable Live AI
             </label>
-            <p style="font-size:0.75rem;color:var(--muted);margin-top:6px">Powered by Groq API (key is currently hardcoded – high risk).</p>
+            <p style="font-size:0.75rem;color:var(--muted);margin-top:6px">⚠️ Direct Groq API with key rotation (keys are inside this HTML – high risk if shared). Turn off for pure offline mode.</p>
           </div>
           <button type="submit" class="save-btn">Save Changes</button>
           <div id="save-msg" style="margin-top:10px;color:var(--success);font-weight:600"></div>
@@ -1071,12 +1106,15 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
         <h3 style="margin-bottom:10px">DELAW AI</h3>
         <p style="line-height:1.6;color:var(--muted);margin-bottom:14px">
           Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.
-          Live AI is currently using a hardcoded Groq API key (not recommended for production).
+          Live AI calls Groq directly from the browser with automatic key rotation. <strong style="color:var(--danger)">API keys are stored in this HTML file – never share the file publicly.</strong> Offline mode works fully without the internet.
         </p>
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
-        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy + Live AI (Groq)</p>
+        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy + Live AI (Groq Direct + Key Rotation)</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
-          Features: Live AI Chat, Voice, Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, Calculators, Quizzes, Stories, Knowledge Base and more.
+          Features: Live AI Chat, Voice (Shift+V), Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, safer Calculators, expanded Quizzes, Stories, Knowledge Base and more.
+        </p>
+        <p style="margin-top:12px;font-size:0.82rem;color:var(--muted)">
+          Created by Desadu Chirandith for educational and personal learning use. The offline facts, quizzes and lessons are original educational material. Please do not paste long copyrighted books, songs or movies into the app.
         </p>
       </div>
     </div>
@@ -1663,7 +1701,7 @@ const stemSubjectData = {
                             
                             <h4 style="margin-top:1.2rem;">Wave Optics</h4>
                             <div class="formula-box">
-                                Path Difference (Young's Double S lit): δ = d sinθ<br>
+                                Path Difference (Young's Double Slit): δ = d sinθ<br>
                                 Constructive Interference: δ = mλ<br>
                                 Destructive Interference: δ = (m + ½)λ<br>
                                 Diffraction (single slit minima): a sinθ = mλ
@@ -2138,20 +2176,51 @@ function calcBack(id) {
 function calcSolve(id) {
   const d = document.getElementById(id);
   if (!d) return;
-  try { d.value = Function('"use strict";return (' + d.value + ')')(); }
-  catch { d.value = "Error"; }
+  let expr = String(d.value).trim();
+  if (!expr || expr === "Error") {
+    d.value = "0";
+    return;
+  }
+  // Allow only safe math characters and operators
+  // Replace display symbols with JS equivalents
+  expr = expr
+    .replace(/×/g, "*")
+    .replace(/÷/g, "/")
+    .replace(/π/g, "Math.PI");
+  // Convert bare "e" (Euler) carefully – only if it appears as a whole token
+  expr = expr.replace(/(^|[^a-zA-Z0-9.])e([^a-zA-Z0-9.]|$)/g, "$1Math.E$2");
+  // Strict whitelist: numbers, operators, parentheses, Math., decimal, power **
+  if (!/^[\d\s+\-*/().MathPIE**]+$/.test(expr)) {
+    d.value = "Error";
+    return;
+  }
+  try {
+    // Still using Function but only after strict sanitization
+    const result = Function('"use strict"; return (' + expr + ')')();
+    if (typeof result === "number" && isFinite(result)) {
+      d.value = Number(result.toPrecision(12)); // avoid floating noise
+    } else {
+      d.value = "Error";
+    }
+  } catch {
+    d.value = "Error";
+  }
 }
 function sciFunc(fn) {
   const d = document.getElementById("sciDisplay");
   if (!d) return;
-  let val = parseFloat(d.value) || 0;
+  let val = parseFloat(d.value);
+  if (isNaN(val)) {
+    d.value = "Error";
+    return;
+  }
   switch (fn) {
     case "sin": d.value = Math.sin(val); break;
     case "cos": d.value = Math.cos(val); break;
     case "tan": d.value = Math.tan(val); break;
-    case "sqrt": d.value = Math.sqrt(val); break;
-    case "log": d.value = Math.log10(val); break;
-    case "ln": d.value = Math.log(val); break;
+    case "sqrt": d.value = val < 0 ? "Error" : Math.sqrt(val); break;
+    case "log": d.value = val <= 0 ? "Error" : Math.log10(val); break;
+    case "ln": d.value = val <= 0 ? "Error" : Math.log(val); break;
     case "sq": d.value = Math.pow(val, 2); break;
   }
 }
@@ -2746,7 +2815,7 @@ function isLiveAIEnabled() {
 function updateStatusBar() {
   const el = document.getElementById("status");
   if (!el) return;
-  el.textContent = isLiveAIEnabled() ? "Live AI (Groq) • Ready" : "Offline Mode • Ready";
+  el.textContent = isLiveAIEnabled() ? "Live AI (Groq Direct) • Ready" : "Offline Mode • Ready";
 }
 
 // Local rule-based replies (always used for identity + special commands, and as fallback)
@@ -2782,68 +2851,99 @@ function getLocalReply(text) {
   return null; // signal that we should try live AI
 }
 
-// ==================== GROQ LIVE AI (HARDCODED KEY – HIGH RISK) ====================
+// ==================== LIVE AI – Direct Groq with Key Rotation ====================
+// ⚠️  HIGH RISK WARNING ⚠️
+// API keys are stored in this HTML file. Anyone who opens the page can steal them.
+// Use ONLY for personal local testing. Never upload this file publicly.
+// You should rotate/revoke these keys regularly in the Groq dashboard.
+const GROQ_API_KEYS = [
+  "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",
+  "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",
+  "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",
+  "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",
+  "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"
+];
+
+let groqKeyIndex = 0; // current key for rotation
+
+function getNextGroqKey() {
+  const key = GROQ_API_KEYS[groqKeyIndex % GROQ_API_KEYS.length];
+  groqKeyIndex = (groqKeyIndex + 1) % GROQ_API_KEYS.length;
+  return key;
+}
+
 async function callLiveAI(userText) {
-  // WARNING: API key is hardcoded in client-side code. Anyone can steal it.
-  const GROQ_API_KEY = "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";
+  // Try each key once (rotation on failure)
+  const maxAttempts = GROQ_API_KEYS.length;
+  let lastError = null;
 
-  const systemPrompt = `You are Delaw, a highly capable, friendly and family-safe AI assistant produced by Desadu Chirandith.
-You know programming (HTML, CSS, JavaScript, Python, etc.), science, math, physics, chemistry, history, space, technology, creative writing and general knowledge.
-Rules:
-- Stay family-friendly and helpful.
-- When asked for code, provide complete, clean, ready-to-use code.
-- If asked who created/produced/made you, clearly say you were produced by Desadu Chirandith.
-- Keep answers clear and useful. Prefer under 250 words unless more detail is requested.
-Current date context: August 2026.`;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const apiKey = getNextGroqKey();
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 40000);
 
-  // Include recent history for better context
-  const messages = [{ role: "system", content: systemPrompt }];
-  const recent = chatHistory.slice(-6);
-  recent.forEach(m => {
-    messages.push({
-      role: m.role === "ai" ? "assistant" : "user",
-      content: m.content
-    });
-  });
-  if (!recent.length || recent[recent.length - 1].content !== userText) {
-    messages.push({ role: "user", content: userText });
+      // Build messages for Groq (OpenAI-compatible format)
+      const messages = [
+        {
+          role: "system",
+          content: "You are Delaw, a friendly, family-safe AI assistant created by Desadu Chirandith. Keep answers clear, helpful, educational and appropriate for all ages. Use simple language. When listing things, use markdown bullet lists (- item) or numbered lists (1. 2. 3.). When comparing data, you may use simple markdown tables like:\n| Column1 | Column2 |\n|---------|----------|\n| value1  | value2  |\nUse **bold** for important words. Keep answers well structured with short paragraphs, lists and tables when useful."
+        },
+        ...chatHistory.slice(-6).map(m => ({
+          role: m.role === "ai" ? "assistant" : "user",
+          content: m.content
+        })),
+        { role: "user", content: userText }
+      ];
+
+      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + apiKey
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-oss-20b",
+          messages: messages,
+          temperature: 0.7,
+          max_tokens: 1024
+        }),
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+
+      if (res.status === 429 || res.status === 401 || res.status === 403) {
+        // Rate limit or bad key → try next key
+        console.warn("Groq key issue (status " + res.status + "), rotating...");
+        lastError = "key_" + res.status;
+        continue;
+      }
+
+      if (!res.ok) {
+        const errText = await res.text().catch(() => "");
+        console.warn("Groq error:", res.status, errText);
+        lastError = "http_" + res.status;
+        continue;
+      }
+
+      const data = await res.json();
+      const text = data?.choices?.[0]?.message?.content;
+      if (text && typeof text === "string") {
+        return text.trim();
+      }
+      lastError = "empty_response";
+    } catch (err) {
+      console.warn("Groq call failed:", err.message || err);
+      lastError = err.name === "AbortError" ? "timeout" : "network";
+      // On network/CORS error, no point trying other keys usually
+      if (err.name === "TypeError" || (err.message && err.message.includes("Failed to fetch"))) {
+        break; // likely CORS or network – stop rotating
+      }
+    }
   }
 
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 45000);
-
-    const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${GROQ_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-oss-20b",   // you can change to other Groq models
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 1024
-      }),
-      signal: controller.signal
-    });
-    clearTimeout(timeout);
-
-    if (!res.ok) {
-      console.warn("Groq status:", res.status, await res.text());
-      return null;
-    }
-
-    const data = await res.json();
-
-    if (data.choices && data.choices[0] && data.choices[0].message) {
-      return data.choices[0].message.content;
-    }
-    return null;
-  } catch (err) {
-    console.warn("Groq call failed:", err.message || err);
-    return null;
-  }
+  console.warn("All Groq attempts failed. Last error:", lastError);
+  return null;
 }
 
 async function getReply(text) {
@@ -2855,10 +2955,104 @@ async function getReply(text) {
   if (isLiveAIEnabled()) {
     const live = await callLiveAI(text);
     if (live && live.trim()) return live.trim();
+    return "I'm currently in offline mode (Live AI could not reach Groq – check keys, network or CORS). Try a science fact, joke, riddle, or open the Education / Quiz tabs!";
   }
 
   // 3. Final local fallback
   return pick(KB.default);
+}
+
+// Safe text → HTML helpers (prevent XSS + simple **bold** and newlines)
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+function formatMessage(text) {
+  // Escape first (safe), then apply limited formatting + lists + tables (grids)
+  let raw = escapeHtml(String(text || ""));
+
+  // Inline formatting
+  raw = raw.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  raw = raw.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, "<em>$1</em>");
+  raw = raw.replace(/`(.+?)`/g, "<code>$1</code>");
+
+  const lines = raw.split(/\n/);
+  const out = [];
+  let inUl = false;
+  let inOl = false;
+  let i = 0;
+
+  function closeLists() {
+    if (inUl) { out.push("</ul>"); inUl = false; }
+    if (inOl) { out.push("</ol>"); inOl = false; }
+  }
+
+  // Helper: is this line a markdown table row?  | a | b |
+  function isTableRow(line) {
+    return /^\|.+\|$/.test(line.trim());
+  }
+  // Helper: is separator row?  |---|---|
+  function isTableSep(line) {
+    return /^\|[\s\-:|]+\|$/.test(line.trim());
+  }
+
+  while (i < lines.length) {
+    let line = lines[i];
+
+    // ---- Markdown table (grid) detection ----
+    if (isTableRow(line) && i + 1 < lines.length && isTableSep(lines[i + 1])) {
+      closeLists();
+      // Collect header
+      const headerCells = line.trim().slice(1, -1).split("|").map(c => c.trim());
+      i += 2; // skip header + separator
+      const bodyRows = [];
+      while (i < lines.length && isTableRow(lines[i])) {
+        bodyRows.push(lines[i].trim().slice(1, -1).split("|").map(c => c.trim()));
+        i++;
+      }
+      // Build HTML table
+      let table = '<table><thead><tr>';
+      headerCells.forEach(h => { table += "<th>" + h + "</th>"; });
+      table += "</tr></thead><tbody>";
+      bodyRows.forEach(row => {
+        table += "<tr>";
+        row.forEach(cell => { table += "<td>" + cell + "</td>"; });
+        table += "</tr>";
+      });
+      table += "</tbody></table>";
+      out.push(table);
+      continue;
+    }
+
+    // ---- Bullet list ----
+    const ulMatch = line.match(/^[\-\*•]\s+(.+)$/);
+    // ---- Numbered list ----
+    const olMatch = line.match(/^\d+\.\s+(.+)$/);
+
+    if (ulMatch) {
+      if (inOl) { out.push("</ol>"); inOl = false; }
+      if (!inUl) { out.push("<ul>"); inUl = true; }
+      out.push("<li>" + ulMatch[1] + "</li>");
+    } else if (olMatch) {
+      if (inUl) { out.push("</ul>"); inUl = false; }
+      if (!inOl) { out.push("<ol>"); inOl = true; }
+      out.push("<li>" + olMatch[1] + "</li>");
+    } else {
+      closeLists();
+      if (line.trim() === "") {
+        out.push("<br>");
+      } else {
+        out.push(line + "<br>");
+      }
+    }
+    i++;
+  }
+  closeLists();
+  return out.join("");
 }
 
 function addMessage(content, role, save = true) {
@@ -2866,7 +3060,7 @@ function addMessage(content, role, save = true) {
   const div = document.createElement("div");
   div.className = `msg ${role}`;
   const time = new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
-  div.innerHTML = `<div class="msg-body">${content}</div><div class="msg-meta"><span>${time}</span></div>`;
+  div.innerHTML = `<div class="msg-body">${formatMessage(content)}</div><div class="msg-meta"><span>${time}</span></div>`;
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
   if (save) {
@@ -2956,11 +3150,18 @@ function generatePrompt() { document.getElementById("story-display").textContent
 
 const quizData = [
   {q:"How many hearts does an octopus have?", options:["1","2","3","4"], answer:2},
-  {q:"What planet is known as the Red Planet?", options:["Venus","Mars","Jupiter","Saturn"], answer:1}
+  {q:"What planet is known as the Red Planet?", options:["Venus","Mars","Jupiter","Saturn"], answer:1},
+  {q:"What gas do plants absorb from the air for photosynthesis?", options:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], answer:2},
+  {q:"What is the chemical symbol for water?", options:["H2O","CO2","O2","NaCl"], answer:0},
+  {q:"How many planets are in our solar system?", options:["7","8","9","10"], answer:1},
+  {q:"What force keeps us on the ground?", options:["Magnetism","Gravity","Friction","Electricity"], answer:1},
+  {q:"Which organ pumps blood around the body?", options:["Lungs","Brain","Heart","Liver"], answer:2},
+  {q:"What is the largest planet in our solar system?", options:["Earth","Saturn","Jupiter","Neptune"], answer:2}
 ];
 function startQuiz() {
   quizIndex = 0; quizScore = 0;
   document.getElementById("quiz-btn").style.display = "none";
+  document.getElementById("quiz-score").textContent = "";
   showQuizQuestion();
 }
 function showQuizQuestion() {
@@ -2969,6 +3170,7 @@ function showQuizQuestion() {
     document.getElementById("quiz-options").innerHTML = "";
     document.getElementById("quiz-btn").style.display = "inline-block";
     document.getElementById("quiz-btn").textContent = "Play Again";
+    document.getElementById("quiz-score").textContent = quizScore === quizData.length ? "Perfect score! 🌟" : "Great effort! Keep learning.";
     return;
   }
   const item = quizData[quizIndex];
@@ -2979,9 +3181,11 @@ function showQuizQuestion() {
     const btn = document.createElement("button");
     btn.textContent = opt;
     btn.onclick = () => {
+      // Disable all buttons after choice
+      opts.querySelectorAll("button").forEach(b => b.disabled = true);
       if (i === item.answer) { btn.classList.add("correct"); quizScore++; }
       else { btn.classList.add("wrong"); }
-      setTimeout(() => { quizIndex++; showQuizQuestion(); }, 800);
+      setTimeout(() => { quizIndex++; showQuizQuestion(); }, 900);
     };
     opts.appendChild(btn);
   });
@@ -2989,31 +3193,67 @@ function showQuizQuestion() {
 
 function toggleMic() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { document.getElementById("voice-out").textContent = "Speech recognition not supported."; return; }
+  if (!SR) {
+    document.getElementById("voice-out").textContent = "Speech recognition is not supported in this browser. Try Chrome or Edge.";
+    return;
+  }
   const btn = document.getElementById("mic");
-  if (btn.classList.contains("rec")) { recognition && recognition.stop(); return; }
+  if (btn.classList.contains("rec")) {
+    if (recognition) recognition.stop();
+    return;
+  }
   recognition = new SR();
   recognition.lang = "en-US";
-  recognition.onstart = () => { btn.textContent = "Listening..."; btn.classList.add("rec"); };
-  recognition.onend = () => { btn.textContent = "Start Listening"; btn.classList.remove("rec"); };
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onstart = () => {
+    btn.textContent = "Listening...";
+    btn.classList.add("rec");
+  };
+  recognition.onend = () => {
+    btn.textContent = "Start Listening";
+    btn.classList.remove("rec");
+  };
+  recognition.onerror = (ev) => {
+    btn.textContent = "Start Listening";
+    btn.classList.remove("rec");
+    document.getElementById("voice-out").textContent = "Voice error: " + (ev.error || "unknown") + ". Please try again.";
+  };
   recognition.onresult = async e => {
     const transcript = e.results[0][0].transcript;
-    document.getElementById("voice-out").innerHTML = `<strong>You:</strong> ${transcript}<br><br><em>Delaw is thinking...</em>`;
+    const out = document.getElementById("voice-out");
+    out.innerHTML = `<strong>You:</strong> ${escapeHtml(transcript)}<br><br><em>Delaw is thinking...</em>`;
     try {
       const reply = await getReply(transcript);
-      document.getElementById("voice-out").innerHTML = `<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> ${reply}`;
+      out.innerHTML = `<strong>You:</strong> ${escapeHtml(transcript)}<br><br><strong>Delaw:</strong> ${formatMessage(reply)}`;
     } catch (err) {
-      document.getElementById("voice-out").innerHTML = `<strong>You:</strong> ${transcript}<br><br><strong>Delaw:</strong> Sorry, I had trouble answering.`;
+      out.innerHTML = `<strong>You:</strong> ${escapeHtml(transcript)}<br><br><strong>Delaw:</strong> Sorry, I had trouble answering.`;
     }
   };
-  recognition.start();
+  try {
+    recognition.start();
+  } catch (err) {
+    document.getElementById("voice-out").textContent = "Could not start microphone. Check permissions.";
+  }
 }
+
+// Keyboard shortcut: Shift + V for voice
+document.addEventListener("keydown", (e) => {
+  if (e.shiftKey && (e.key === "V" || e.key === "v") && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    // Avoid triggering while typing in input fields
+    const tag = (e.target && e.target.tagName) || "";
+    if (tag === "INPUT" || tag === "TEXTAREA") return;
+    e.preventDefault();
+    toggleMic();
+  }
+});
 
 renderHistory();
 updateStatusBar();
-console.log("%cDelaw AI + Full EduPulse STEM Portal + Live AI (Groq hardcoded) loaded", "color:#7c3aed;font-weight:bold");
+console.log("%cDelaw AI + Full EduPulse STEM Portal + Live AI (Groq GPT-OSS-20B + Key Rotation) loaded", "color:#7c3aed;font-weight:bold");
 console.log("%cProduced by Desadu Chirandith", "color:#db2777");
-console.warn("SECURITY WARNING: Groq API key is hardcoded in the client. Anyone can extract it.");
+console.log("%c⚠️ WARNING: API keys are embedded in this HTML. Do not share this file publicly.", "color:#ef4444;font-weight:bold");
+console.log("%cModel: openai/gpt-oss-20b | Lists (ul/li) + Tables/grids supported in chat", "color:#10b981");
 </script>
 </body>
 </html>
