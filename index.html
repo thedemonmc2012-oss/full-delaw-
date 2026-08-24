@@ -3,28 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DELAW - Blue Theme + Custom Cursor</title>
+  <title>DELAW - Blue Theme + Spider-Web Particles + Triangle Cursor</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
   <style>
 :root {
-  /* Beautiful Light Theme (default) */
-  --bg: #f8fafc;
-  --bg2: #f1f5f9;
-  --card: #ffffff;
-  --border: rgba(148, 163, 184, 0.25);
-  --primary: #2563eb;
-  --secondary: #0ea5e9;
-  --gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
+  /* Blue ocean theme */
+  --bg: #0b1d3a;
+  --bg2: #123a6b;
+  --card: rgba(255, 255, 255, 0.92);
+  --border: rgba(147, 197, 253, 0.28);
+  --primary: #3b82f6;
+  --secondary: #38bdf8;
+  --gradient: linear-gradient(135deg, #2563eb, #06b6d4);
   --text: #0f172a;
-  --muted: #64748b;
+  --muted: #475569;
   --success: #10b981;
   --danger: #ef4444;
   --radius: 16px;
-  --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-  --shadow-hover: 0 12px 32px rgba(37, 99, 235, 0.15);
+  --shadow: 0 4px 20px rgba(15, 23, 42, 0.12);
+  --shadow-hover: 0 12px 32px rgba(37, 99, 235, 0.25);
   /* STEM colors */
   --physics-color: #2563eb;
   --chem-color: #0ea5e9;
@@ -43,27 +43,47 @@
   --actinide: #dc2626;
 }
 [data-theme="dark"] {
-  --bg: #09090e;
-  --bg2: #171527;
-  --card: rgba(30, 30, 46, 0.78);
-  --border: rgba(255, 255, 255, 0.08);
-  --text: #ffffff;
-  --muted: #a1a1aa;
-  --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-hover: 0 12px 32px rgba(37, 99, 235, 0.22);
+  --bg: #06101f;
+  --bg2: #0a1f40;
+  --card: rgba(15, 30, 60, 0.82);
+  --border: rgba(96, 165, 250, 0.18);
+  --text: #f0f9ff;
+  --muted: #93c5fd;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 12px 32px rgba(37, 99, 235, 0.3);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 body {
-  background: linear-gradient(160deg, var(--bg) 0%, var(--bg2) 100%);
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(56, 189, 248, 0.18), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 70%, rgba(37, 99, 235, 0.25), transparent 55%),
+    linear-gradient(165deg, var(--bg) 0%, var(--bg2) 45%, #0c4a6e 100%);
   color: var(--text);
   display: flex;
   min-height: 100vh;
   overflow-x: hidden;
   transition: background 0.35s ease, color 0.35s ease;
+  position: relative;
 }
+/* Spider-web particle layer */
+#creatures-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+#web-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+aside, main { position: relative; z-index: 1; }
 aside {
   width: 270px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(239, 246, 255, 0.88);
   backdrop-filter: blur(20px);
   border-right: 1px solid var(--border);
   display: flex;
@@ -74,7 +94,7 @@ aside {
   box-shadow: 4px 0 24px rgba(15, 23, 42, 0.04);
 }
 [data-theme="dark"] aside {
-  background: rgba(20, 20, 30, 0.55);
+  background: rgba(8, 25, 55, 0.75);
 }
 aside h2 {
   background: var(--gradient);
@@ -875,77 +895,74 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   .stem-layout { grid-template-columns: 1fr; }
 }
 
-/* ==================== CUSTOM MOUSE POINTER + GESTURES (Blue Theme) ==================== */
-html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell {
+/* ==================== TRIANGLE CURSOR (upright when idle, spins 360° while moving) ==================== */
+html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell, input, .save-btn, .back-btn {
   cursor: none !important;
 }
 #custom-cursor {
   position: fixed;
   top: 0; left: 0;
-  width: 18px; height: 18px;
-  border: 2.5px solid #2563eb;
-  border-radius: 50%;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 10px 22px 10px;
+  border-color: transparent transparent #38bdf8 transparent;
+  background: transparent;
+  border-radius: 0;
   pointer-events: none;
   z-index: 99999;
-  transform: translate(-50%, -50%);
-  transition: width 0.18s cubic-bezier(0.22, 1, 0.36, 1),
-              height 0.18s cubic-bezier(0.22, 1, 0.36, 1),
-              background 0.18s ease,
-              border-color 0.18s ease,
-              box-shadow 0.18s ease;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transform-origin: 50% 70%;
+  transition: border-width 0.15s ease, filter 0.15s ease;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.75));
+  will-change: transform, left, top;
+  box-shadow: none;
   mix-blend-mode: normal;
-  will-change: transform, width, height;
-  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
 }
 #custom-cursor.dot {
-  width: 8px; height: 8px;
-  background: #2563eb;
-  border-color: #2563eb;
-  box-shadow: 0 0 12px 2px rgba(37, 99, 235, 0.45);
+  border-width: 0 9px 20px 9px;
+  border-color: transparent transparent #38bdf8 transparent;
 }
 #custom-cursor.clicking {
-  width: 28px; height: 28px;
-  background: rgba(37, 99, 235, 0.18);
-  border-color: #0ea5e9;
-  box-shadow: 0 0 0 6px rgba(14, 165, 233, 0.2);
+  border-width: 0 12px 26px 12px;
+  border-color: transparent transparent #0ea5e9 transparent;
+  filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.9));
 }
 #custom-cursor.hovering {
-  width: 42px; height: 42px;
-  background: rgba(37, 99, 235, 0.08);
-  border-color: #3b82f6;
-  box-shadow: 0 0 20px 4px rgba(59, 130, 246, 0.25);
+  border-width: 0 14px 28px 14px;
+  border-color: transparent transparent #60a5fa transparent;
+  filter: drop-shadow(0 0 12px rgba(96, 165, 250, 0.85));
 }
 /* trail dots */
 .cursor-trail {
   position: fixed;
-  width: 6px; height: 6px;
+  width: 5px; height: 5px;
   border-radius: 50%;
-  background: #3b82f6;
+  background: #7dd3fc;
   pointer-events: none;
   z-index: 99998;
-  opacity: 0.7;
+  opacity: 0.65;
   transform: translate(-50%, -50%);
-  animation: trailFade 0.55s ease-out forwards;
+  animation: trailFade 0.5s ease-out forwards;
 }
 @keyframes trailFade {
-  0% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  0% { opacity: 0.65; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.15); }
 }
 /* click ripple */
 .cursor-ripple {
   position: fixed;
   border-radius: 50%;
-  border: 2px solid rgba(37, 99, 235, 0.6);
+  border: 2px solid rgba(56, 189, 248, 0.55);
   pointer-events: none;
   z-index: 99997;
   transform: translate(-50%, -50%) scale(0);
-  animation: rippleExpand 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: rippleExpand 0.55s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 @keyframes rippleExpand {
   0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; width: 80px; height: 80px; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; width: 70px; height: 70px; }
 }
-/* subtle magnetic pull visual on interactive elements */
 .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell, .save-btn {
   transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
 }
@@ -981,7 +998,10 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
 </head>
 <body>
 
-<!-- Custom Cursor + Gesture Elements -->
+<!-- Spider-web particles background -->
+<div id="creatures-layer" aria-hidden="true"></div>
+
+<!-- Triangle cursor -->
 <div id="custom-cursor"></div>
 
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
@@ -3481,7 +3501,131 @@ console.log("%c✓ No API keys in this HTML. Chat + images via Worker.", "color:
 console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
 
 
-// ==================== CUSTOM MOUSE POINTER + GESTURES ====================
+// ==================== SPIDER-WEB PARTICLES (avoid mouse) ====================
+(function initWebParticles() {
+  const layer = document.getElementById("creatures-layer");
+  if (!layer) return;
+
+  const canvas = document.createElement("canvas");
+  canvas.id = "web-canvas";
+  layer.appendChild(canvas);
+  const ctx = canvas.getContext("2d");
+
+  let w = 0, h = 0;
+  let mouseX = -9999, mouseY = -9999;
+  const PARTICLE_COUNT = 70;
+  const CONNECT_DIST = 130;
+  const MOUSE_REPEL_RADIUS = 140;
+  const MOUSE_REPEL_STRENGTH = 2.8;
+  const particles = [];
+
+  function resize() {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w;
+    canvas.height = h;
+  }
+  resize();
+  window.addEventListener("resize", resize);
+
+  // Soft blue tones matching the theme
+  function createParticle() {
+    return {
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.45,
+      vy: (Math.random() - 0.5) * 0.45,
+      r: 1.2 + Math.random() * 2.2,
+      baseAlpha: 0.35 + Math.random() * 0.45
+    };
+  }
+
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push(createParticle());
+  }
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  document.addEventListener("mouseleave", () => {
+    mouseX = -9999;
+    mouseY = -9999;
+  });
+
+  function animate() {
+    ctx.clearRect(0, 0, w, h);
+
+    // Update + draw particles
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+
+      // Gentle drift
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Soft boundary bounce
+      if (p.x < 0) { p.x = 0; p.vx *= -1; }
+      if (p.x > w) { p.x = w; p.vx *= -1; }
+      if (p.y < 0) { p.y = 0; p.vy *= -1; }
+      if (p.y > h) { p.y = h; p.vy *= -1; }
+
+      // Mouse repulsion — particles go aside when cursor approaches
+      const dx = p.x - mouseX;
+      const dy = p.y - mouseY;
+      const dist = Math.hypot(dx, dy);
+      if (dist < MOUSE_REPEL_RADIUS && dist > 0.5) {
+        const force = (1 - dist / MOUSE_REPEL_RADIUS) * MOUSE_REPEL_STRENGTH;
+        p.vx += (dx / dist) * force;
+        p.vy += (dy / dist) * force;
+      }
+
+      // Damping so they settle after being pushed
+      p.vx *= 0.97;
+      p.vy *= 0.97;
+
+      // Keep a tiny residual drift so they never fully stop
+      if (Math.abs(p.vx) < 0.05) p.vx += (Math.random() - 0.5) * 0.04;
+      if (Math.abs(p.vy) < 0.05) p.vy += (Math.random() - 0.5) * 0.04;
+
+      // Draw node
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(125, 211, 252, ${p.baseAlpha})`;
+      ctx.shadowColor = "rgba(56, 189, 248, 0.6)";
+      ctx.shadowBlur = 6;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+
+    // Draw spider-web connections between nearby particles
+    ctx.lineWidth = 0.7;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < CONNECT_DIST) {
+          const alpha = (1 - dist / CONNECT_DIST) * 0.28;
+          ctx.strokeStyle = `rgba(147, 197, 253, ${alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// ==================== TRIANGLE CURSOR ====================
+// Idle = normal upright triangle
+// Moving = continuously rotates 360°
 (function initCustomCursor() {
   const cursor = document.getElementById("custom-cursor");
   if (!cursor) return;
@@ -3490,16 +3634,45 @@ console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
   let mouseY = window.innerHeight / 2;
   let cursorX = mouseX;
   let cursorY = mouseY;
+  let angle = 0;           // current rotation in degrees
+  let spinSpeed = 0;       // degrees per frame while moving
+  let lastX = mouseX;
+  let lastY = mouseY;
+  let moveSpeed = 0;
   let isHovering = false;
   let isClicking = false;
   let trailThrottle = 0;
+  let idleTimer = 0;
 
-  // Smooth follow with lerp
   function animateCursor() {
-    cursorX += (mouseX - cursorX) * 0.22;
-    cursorY += (mouseY - cursorY) * 0.22;
+    cursorX += (mouseX - cursorX) * 0.28;
+    cursorY += (mouseY - cursorY) * 0.28;
+
+    // Detect if mouse is moving (using smoothed speed)
+    if (moveSpeed > 1.5) {
+      // Moving → spin continuously (faster when moving faster)
+      spinSpeed = 4 + Math.min(moveSpeed * 0.8, 18);
+      angle += spinSpeed;
+      idleTimer = 0;
+    } else {
+      // Not moving → gently return to normal upright triangle (0°)
+      idleTimer++;
+      if (idleTimer > 8) {
+        // Shortest path back to 0
+        let normalized = ((angle % 360) + 360) % 360;
+        if (normalized > 180) normalized -= 360;
+        angle -= normalized * 0.12;
+        if (Math.abs(normalized) < 0.5) angle = 0;
+      }
+    }
+
+    // Decay moveSpeed so it settles when mouse stops
+    moveSpeed *= 0.85;
+
     cursor.style.left = cursorX + "px";
     cursor.style.top = cursorY + "px";
+    // Default triangle points up; we apply pure rotation
+    cursor.style.transform = "translate(-50%, -50%) rotate(" + angle + "deg)";
     requestAnimationFrame(animateCursor);
   }
   animateCursor();
@@ -3508,19 +3681,24 @@ console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // Trail particles (throttled)
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    const speed = Math.hypot(dx, dy);
+    moveSpeed = Math.max(moveSpeed, speed);
+    lastX = e.clientX;
+    lastY = e.clientY;
+
     trailThrottle++;
-    if (trailThrottle % 3 === 0) {
+    if (trailThrottle % 3 === 0 && speed > 0.5) {
       const trail = document.createElement("div");
       trail.className = "cursor-trail";
       trail.style.left = e.clientX + "px";
       trail.style.top = e.clientY + "px";
       document.body.appendChild(trail);
-      setTimeout(() => trail.remove(), 600);
+      setTimeout(() => trail.remove(), 500);
     }
   });
 
-  // Hover detection on interactive elements
   const hoverSelectors = "a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell, .save-btn, input, .back-btn";
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(hoverSelectors)) {
@@ -3537,7 +3715,6 @@ console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
     }
   });
 
-  // Click gesture + ripple
   document.addEventListener("mousedown", (e) => {
     isClicking = true;
     cursor.classList.add("clicking");
@@ -3547,10 +3724,10 @@ console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
     ripple.className = "cursor-ripple";
     ripple.style.left = e.clientX + "px";
     ripple.style.top = e.clientY + "px";
-    ripple.style.width = "20px";
-    ripple.style.height = "20px";
+    ripple.style.width = "18px";
+    ripple.style.height = "18px";
     document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 650);
+    setTimeout(() => ripple.remove(), 550);
   });
   document.addEventListener("mouseup", () => {
     isClicking = false;
@@ -3559,18 +3736,11 @@ console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
     else cursor.classList.add("dot");
   });
 
-  // Default state
   cursor.classList.add("dot");
 
-  // Hide on touch devices / leave window
-  document.addEventListener("mouseleave", () => {
-    cursor.style.opacity = "0";
-  });
-  document.addEventListener("mouseenter", () => {
-    cursor.style.opacity = "1";
-  });
+  document.addEventListener("mouseleave", () => { cursor.style.opacity = "0"; });
+  document.addEventListener("mouseenter", () => { cursor.style.opacity = "1"; });
 
-  // Touch devices: restore normal cursor
   if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
     cursor.style.display = "none";
     document.documentElement.style.cursor = "auto";
