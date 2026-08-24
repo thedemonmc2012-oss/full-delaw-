@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DELAW - Connected AI</title>
+  <title>DELAW - Blue Theme + Custom Cursor</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
@@ -15,29 +15,29 @@
   --bg2: #f1f5f9;
   --card: #ffffff;
   --border: rgba(148, 163, 184, 0.25);
-  --primary: #7c3aed;
-  --secondary: #db2777;
-  --gradient: linear-gradient(135deg, #8b5cf6, #ec4899);
+  --primary: #2563eb;
+  --secondary: #0ea5e9;
+  --gradient: linear-gradient(135deg, #3b82f6, #06b6d4);
   --text: #0f172a;
   --muted: #64748b;
   --success: #10b981;
   --danger: #ef4444;
   --radius: 16px;
   --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
-  --shadow-hover: 0 12px 32px rgba(124, 58, 237, 0.12);
+  --shadow-hover: 0 12px 32px rgba(37, 99, 235, 0.15);
   /* STEM colors */
-  --physics-color: #7c3aed;
-  --chem-color: #db2777;
-  --math-color: #d97706;
-  --it-color: #059669;
-  --sci-color: #2563eb;
+  --physics-color: #2563eb;
+  --chem-color: #0ea5e9;
+  --math-color: #0284c7;
+  --it-color: #0891b2;
+  --sci-color: #1d4ed8;
   --nonmetal: #3b82f6;
-  --noble: #8b5cf6;
+  --noble: #3b82f6;
   --alkali: #ef4444;
   --alkaline: #f97316;
   --metalloid: #10b981;
   --halogen: #06b6d4;
-  --transition: #ec4899;
+  --transition: #06b6d4;
   --post-transition: #6366f1;
   --lanthanide: #f59e0b;
   --actinide: #dc2626;
@@ -50,7 +50,7 @@
   --text: #ffffff;
   --muted: #a1a1aa;
   --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  --shadow-hover: 0 12px 32px rgba(139, 92, 246, 0.2);
+  --shadow-hover: 0 12px 32px rgba(37, 99, 235, 0.22);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 body {
@@ -107,7 +107,7 @@ aside h2 {
   font-weight: 700;
   color: white;
   font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
 }
 .nav-item {
   padding: 11px 14px;
@@ -120,13 +120,13 @@ aside h2 {
   border: 1px solid transparent;
 }
 .nav-item:hover {
-  background: rgba(124, 58, 237, 0.08);
+  background: rgba(37, 99, 235, 0.1);
   color: var(--text);
 }
 .nav-item.active {
   background: var(--gradient);
   color: white;
-  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.35);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
 }
 .sidebar-footer {
   margin-top: auto;
@@ -176,11 +176,47 @@ main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
   background: var(--primary);
   color: white;
   border-color: var(--primary);
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
 }
 .content { flex: 1; overflow-y: auto; padding: 28px 32px; }
 .tab { display: none; animation: fade 0.3s ease; }
 .tab.active { display: block; }
+
+/* AI Chat Studio — full available height (sidebar stays) */
+#chat.tab.active {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: calc(100vh - 72px);
+}
+#chat.tab.active > h1 {
+  font-size: 1.35rem;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+}
+#chat.tab.active > .subtitle {
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+#chat.tab.active .chat-wrap {
+  flex: 1;
+  height: auto;
+  max-height: none;
+  min-height: 0;
+}
+#chat.tab.active .suggestions {
+  flex-shrink: 0;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+/* When chat is open, content area fills and does not scroll as a whole */
+main:has(#chat.tab.active) .content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 16px 24px 18px;
+}
 @keyframes fade {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: none; }
@@ -203,7 +239,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 }
 .card:hover {
   transform: translateY(-5px);
-  border-color: rgba(124, 58, 237, 0.35);
+  border-color: rgba(37, 99, 235, 0.4);
   box-shadow: var(--shadow-hover);
 }
 .card h3 { margin-bottom: 8px; font-size: 1.1rem; font-weight: 600; }
@@ -222,7 +258,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   display: flex;
   flex-direction: column;
   height: calc(100vh - 180px);
-  max-height: 640px;
+  max-height: none;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -260,27 +296,27 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   animation: fade 0.25s ease;
 }
 .msg.ai {
-  background: #f5f3ff;
-  border: 1px solid #ede9fe;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
   align-self: flex-start;
   border-bottom-left-radius: 4px;
-  color: #1e1b4b;
+  color: #1e3a8a;
 }
 [data-theme="dark"] .msg.ai {
-  background: rgba(139, 92, 246, 0.12);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  background: rgba(37, 99, 235, 0.12);
+  border: 1px solid rgba(37, 99, 235, 0.25);
   color: var(--text);
 }
 .msg.user {
-  background: #fdf2f8;
-  border: 1px solid #fce7f3;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
   align-self: flex-end;
   border-bottom-right-radius: 4px;
-  color: #831843;
+  color: #1e3a8a;
 }
 [data-theme="dark"] .msg.user {
-  background: rgba(236, 72, 153, 0.14);
-  border: 1px solid rgba(236, 72, 153, 0.25);
+  background: rgba(37, 99, 235, 0.14);
+  border: 1px solid rgba(37, 99, 235, 0.28);
   color: var(--text);
 }
 .msg-meta {
@@ -316,12 +352,12 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   text-align: left;
 }
 .msg-body th {
-  background: rgba(124, 58, 237, 0.1);
+  background: rgba(37, 99, 235, 0.12);
   font-weight: 600;
   color: var(--primary);
 }
 .msg-body tr:nth-child(even) td {
-  background: rgba(124, 58, 237, 0.03);
+  background: rgba(37, 99, 235, 0.04);
 }
 .msg-body pre, .msg-body code {
   font-family: 'Cascadia Code', 'Fira Code', monospace;
@@ -364,7 +400,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 [data-theme="dark"] .chat-input input {
   background: rgba(0, 0, 0, 0.22);
 }
-.chat-input input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12); }
+.chat-input input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
 .chat-input button {
   background: var(--gradient);
   color: white;
@@ -400,7 +436,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 .chip:hover {
   border-color: var(--primary);
   color: var(--primary);
-  background: #f5f3ff;
+  background: #eff6ff;
 }
 .voice-box {
   background: var(--card);
@@ -422,9 +458,9 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   cursor: pointer;
   margin-top: 18px;
   transition: all 0.25s;
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
 }
-.mic-btn:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4); }
+.mic-btn:hover { transform: scale(1.04); box-shadow: 0 8px 24px rgba(37, 99, 235, 0.45); }
 .mic-btn.rec {
   background: #ef4444;
   animation: pulse 1.4s infinite;
@@ -478,7 +514,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 [data-theme="dark"] .form-group input {
   background: rgba(0, 0, 0, 0.2);
 }
-.form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1); }
+.form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12); }
 .save-btn {
   background: var(--gradient);
   color: white;
@@ -488,7 +524,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
 }
 .save-btn:hover { opacity: 0.93; transform: translateY(-1px); }
 .module-box {
@@ -520,7 +556,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 }
 .quiz-options button:hover {
   border-color: var(--primary);
-  background: #f5f3ff;
+  background: #eff6ff;
 }
 .quiz-options button.correct {
   background: rgba(16, 185, 129, 0.12);
@@ -531,17 +567,17 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   border-color: var(--danger);
 }
 .fact-card {
-  background: #f5f3ff;
-  border: 1px solid #ede9fe;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
   border-radius: 12px;
   padding: 16px 18px;
   margin-bottom: 10px;
   line-height: 1.55;
-  color: #1e1b4b;
+  color: #1e3a8a;
 }
 [data-theme="dark"] .fact-card {
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.25);
   color: var(--text);
 }
 .story-box {
@@ -583,7 +619,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 }
 .stem-card:hover {
   transform: translateY(-5px);
-  border-color: rgba(124, 58, 237, 0.4);
+  border-color: rgba(37, 99, 235, 0.45);
   box-shadow: var(--shadow-hover);
 }
 .stem-card-tag {
@@ -652,7 +688,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   box-shadow: var(--shadow);
 }
 .formula-box {
-  background: #f5f3ff;
+  background: #eff6ff;
   border-left: 4px solid var(--primary);
   padding: 1rem 1.1rem;
   margin: 1rem 0;
@@ -660,10 +696,10 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   font-size: 1.02rem;
   border-radius: 0 8px 8px 0;
   white-space: pre-wrap;
-  color: #1e1b4b;
+  color: #1e3a8a;
 }
 [data-theme="dark"] .formula-box {
-  background: rgba(139, 92, 246, 0.1);
+  background: rgba(37, 99, 235, 0.1);
   color: var(--text);
 }
 .back-btn {
@@ -684,7 +720,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 .back-btn:hover {
   color: var(--text);
   border-color: var(--primary);
-  background: #f5f3ff;
+  background: #eff6ff;
 }
 /* Periodic Table */
 .ptable-container {
@@ -817,11 +853,11 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   color: white;
   border-color: var(--primary);
 }
-.calc-btn.op { background: #f5f3ff; color: var(--primary); border-color: #ede9fe; }
+.calc-btn.op { background: #eff6ff; color: var(--primary); border-color: #dbeafe; }
 .calc-btn.fn { background: #ecfeff; color: #0891b2; border-color: #cffafe; font-size: 0.8rem; }
 .calc-btn.clear { background: #fef2f2; color: #ef4444; border-color: #fecaca; }
 .calc-btn.equals { background: var(--primary); color: white; border-color: var(--primary); }
-[data-theme="dark"] .calc-btn.op { background: rgba(139, 92, 246, 0.15); color: var(--primary); }
+[data-theme="dark"] .calc-btn.op { background: rgba(37, 99, 235, 0.15); color: var(--primary); }
 [data-theme="dark"] .calc-btn.fn { background: rgba(6, 182, 212, 0.12); color: #22d3ee; }
 [data-theme="dark"] .calc-btn.clear { background: rgba(239, 68, 68, 0.15); color: #f87171; }
 @media (max-width: 860px) {
@@ -833,12 +869,121 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   aside.open { transform: translateX(0); }
   .menu-btn { display: block; }
   .content { padding: 18px 16px; }
-  .chat-wrap { height: calc(100vh - 150px); }
+  .chat-wrap { height: calc(100vh - 140px); max-height: none; }
+  main:has(#chat.tab.active) .content { padding: 12px 14px 14px; }
+  #chat.tab.active { min-height: calc(100vh - 64px); }
   .stem-layout { grid-template-columns: 1fr; }
 }
+
+/* ==================== CUSTOM MOUSE POINTER + GESTURES (Blue Theme) ==================== */
+html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell {
+  cursor: none !important;
+}
+#custom-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 18px; height: 18px;
+  border: 2.5px solid #2563eb;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+              height 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+              background 0.18s ease,
+              border-color 0.18s ease,
+              box-shadow 0.18s ease;
+  mix-blend-mode: normal;
+  will-change: transform, width, height;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.35);
+}
+#custom-cursor.dot {
+  width: 8px; height: 8px;
+  background: #2563eb;
+  border-color: #2563eb;
+  box-shadow: 0 0 12px 2px rgba(37, 99, 235, 0.45);
+}
+#custom-cursor.clicking {
+  width: 28px; height: 28px;
+  background: rgba(37, 99, 235, 0.18);
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 6px rgba(14, 165, 233, 0.2);
+}
+#custom-cursor.hovering {
+  width: 42px; height: 42px;
+  background: rgba(37, 99, 235, 0.08);
+  border-color: #3b82f6;
+  box-shadow: 0 0 20px 4px rgba(59, 130, 246, 0.25);
+}
+/* trail dots */
+.cursor-trail {
+  position: fixed;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #3b82f6;
+  pointer-events: none;
+  z-index: 99998;
+  opacity: 0.7;
+  transform: translate(-50%, -50%);
+  animation: trailFade 0.55s ease-out forwards;
+}
+@keyframes trailFade {
+  0% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+}
+/* click ripple */
+.cursor-ripple {
+  position: fixed;
+  border-radius: 50%;
+  border: 2px solid rgba(37, 99, 235, 0.6);
+  pointer-events: none;
+  z-index: 99997;
+  transform: translate(-50%, -50%) scale(0);
+  animation: rippleExpand 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes rippleExpand {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; width: 80px; height: 80px; }
+}
+/* subtle magnetic pull visual on interactive elements */
+.nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell, .save-btn {
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease;
+}
+
+
+/* AI generated images inside chat */
+.msg-image-wrap {
+  margin-top: 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #f1f5f9;
+  max-width: 100%;
+}
+.msg-image-wrap img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+}
+.msg-img-lq {
+  max-width: 280px;
+}
+.msg-img-hq {
+  max-width: 480px;
+}
+[data-theme="dark"] .msg-image-wrap {
+  background: rgba(0,0,0,0.3);
+}
+
 </style>
 </head>
 <body>
+
+<!-- Custom Cursor + Gesture Elements -->
+<div id="custom-cursor"></div>
+
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 <aside id="sidebar">
   <h2>DELAW</h2>
@@ -1090,7 +1235,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
               <input type="checkbox" id="live-ai-toggle" checked style="width:18px;height:18px;accent-color:var(--primary)">
               Enable Live AI
             </label>
-            <p style="font-size:0.75rem;color:var(--muted);margin-top:6px">⚠️ Direct Groq API with key rotation (keys are inside this HTML – high risk if shared). Turn off for pure offline mode.</p>
+            <p style="font-size:0.75rem;color:var(--muted);margin-top:6px">this web is very safe. Turn off for pure offline mode.</p>
           </div>
           <button type="submit" class="save-btn">Save Changes</button>
           <div id="save-msg" style="margin-top:10px;color:var(--success);font-weight:600"></div>
@@ -1106,10 +1251,10 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
         <h3 style="margin-bottom:10px">DELAW AI</h3>
         <p style="line-height:1.6;color:var(--muted);margin-bottom:14px">
           Delaw is a friendly, family-safe AI assistant made for learning, curiosity and fun.
-          Live AI calls Groq directly from the browser with automatic key rotation. <strong style="color:var(--danger)">API keys are stored in this HTML file – never share the file publicly.</strong> Offline mode works fully without the internet.
+          Live AI text and high-quality images run through your Cloudflare Worker (Groq keys stay as secrets on Cloudflare). Pollinations is used for small illustrative images. Offline mode works fully without the internet — no API keys are stored in this HTML file.
         </p>
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
-        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy + Live AI (Groq Direct + Key Rotation)</p>
+        <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy + Live AI (Cloudflare Worker Proxy)</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
           Features: Live AI Chat, Voice (Shift+V), Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, safer Calculators, expanded Quizzes, Stories, Knowledge Base and more.
         </p>
@@ -2815,7 +2960,7 @@ function isLiveAIEnabled() {
 function updateStatusBar() {
   const el = document.getElementById("status");
   if (!el) return;
-  el.textContent = isLiveAIEnabled() ? "Live AI (Groq Direct) • Ready" : "Offline Mode • Ready";
+  el.textContent = isLiveAIEnabled() ? "Live AI (Cloudflare Worker) • Ready" : "Offline Mode • Ready";
 }
 
 // Local rule-based replies (always used for identity + special commands, and as fallback)
@@ -2851,115 +2996,177 @@ function getLocalReply(text) {
   return null; // signal that we should try live AI
 }
 
-// ==================== LIVE AI – Direct Groq with Key Rotation ====================
-// ⚠️  HIGH RISK WARNING ⚠️
-// API keys are stored in this HTML file. Anyone who opens the page can steal them.
-// Use ONLY for personal local testing. Never upload this file publicly.
-// You should rotate/revoke these keys regularly in the Groq dashboard.
-const GROQ_API_KEYS = [
-  "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",
-  "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",
-  "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",
-  "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",
-  "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"
-];
+// ==================== LIVE AI via Cloudflare Worker (keys stay on Cloudflare only) ====================
+// Deploy the Worker code, add secrets GROQ_KEY_1 / GROQ_KEY_2 / ..., bind AI.
+// No API keys in this HTML file.
+const DELAW_WORKER = "https://delaw-image.thedemonmc2012.workers.dev";
 
-let groqKeyIndex = 0; // current key for rotation
-
-function getNextGroqKey() {
-  const key = GROQ_API_KEYS[groqKeyIndex % GROQ_API_KEYS.length];
-  groqKeyIndex = (groqKeyIndex + 1) % GROQ_API_KEYS.length;
-  return key;
+// Pollinations – free, no key (small illustrative images only)
+function getPollinationsImageUrl(prompt, width = 384, height = 384) {
+  const clean = encodeURIComponent(String(prompt).slice(0, 200).trim());
+  return `https://image.pollinations.ai/prompt/${clean}?width=${width}&height=${height}&nologo=true&enhance=true`;
 }
 
+// lastLiveAIError is shown when Live AI fails (so user knows why)
+let lastLiveAIError = null;
+
 async function callLiveAI(userText) {
-  // Try each key once (rotation on failure)
-  const maxAttempts = GROQ_API_KEYS.length;
-  let lastError = null;
+  lastLiveAIError = null;
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 45000);
 
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const apiKey = getNextGroqKey();
-    try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 40000);
+    const history = chatHistory.slice(-6).map(m => ({
+      role: m.role === "ai" ? "assistant" : "user",
+      content: String(m.content || "").replace(/\s*\[image\]\s*$/i, "").slice(0, 2000)
+    }));
 
-      // Build messages for Groq (OpenAI-compatible format)
-      const messages = [
-        {
-          role: "system",
-          content: "You are Delaw, a friendly, family-safe AI assistant created by Desadu Chirandith. Keep answers clear, helpful, educational and appropriate for all ages. Use simple language. When listing things, use markdown bullet lists (- item) or numbered lists (1. 2. 3.). When comparing data, you may use simple markdown tables like:\n| Column1 | Column2 |\n|---------|----------|\n| value1  | value2  |\nUse **bold** for important words. Keep answers well structured with short paragraphs, lists and tables when useful."
-        },
-        ...chatHistory.slice(-6).map(m => ({
-          role: m.role === "ai" ? "assistant" : "user",
-          content: m.content
-        })),
-        { role: "user", content: userText }
-      ];
+    const res = await fetch(DELAW_WORKER + "/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userText, history }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
 
-      const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + apiKey
-        },
-        body: JSON.stringify({
-          model: "openai/gpt-oss-20b",
-          messages: messages,
-          temperature: 0.7,
-          max_tokens: 1024
-        }),
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
+    let data = null;
+    const raw = await res.text().catch(() => "");
+    try { data = raw ? JSON.parse(raw) : null; } catch (_) {}
 
-      if (res.status === 429 || res.status === 401 || res.status === 403) {
-        // Rate limit or bad key → try next key
-        console.warn("Groq key issue (status " + res.status + "), rotating...");
-        lastError = "key_" + res.status;
-        continue;
+    if (!res.ok) {
+      const detail = (data && (data.detail || data.error)) || raw.slice(0, 200) || ("HTTP " + res.status);
+      console.warn("Chat worker error:", res.status, detail);
+      // Helpful messages for the two common Worker failures
+      if (String(detail).includes("401") || String(detail).includes("key_401")) {
+        lastLiveAIError = "Live AI error: Groq rejected the API keys (401). Create a new key at console.groq.com/keys and update Cloudflare secret GROQ_KEY_1.";
+      } else if (String(detail).includes("No Groq keys")) {
+        lastLiveAIError = "Live AI error: No Groq secrets on the Worker. Add GROQ_KEY_1 in Cloudflare → Worker → Settings → Variables and Secrets.";
+      } else {
+        lastLiveAIError = "Live AI error: " + String(detail).slice(0, 180);
       }
-
-      if (!res.ok) {
-        const errText = await res.text().catch(() => "");
-        console.warn("Groq error:", res.status, errText);
-        lastError = "http_" + res.status;
-        continue;
-      }
-
-      const data = await res.json();
-      const text = data?.choices?.[0]?.message?.content;
-      if (text && typeof text === "string") {
-        return text.trim();
-      }
-      lastError = "empty_response";
-    } catch (err) {
-      console.warn("Groq call failed:", err.message || err);
-      lastError = err.name === "AbortError" ? "timeout" : "network";
-      // On network/CORS error, no point trying other keys usually
-      if (err.name === "TypeError" || (err.message && err.message.includes("Failed to fetch"))) {
-        break; // likely CORS or network – stop rotating
-      }
+      return null;
     }
-  }
 
-  console.warn("All Groq attempts failed. Last error:", lastError);
-  return null;
+    if (data && data.reply) return String(data.reply).trim();
+    lastLiveAIError = "Live AI error: empty reply from Worker.";
+    return null;
+  } catch (err) {
+    console.warn("Chat worker failed:", err.message || err);
+    lastLiveAIError = "Live AI error: network/CORS — " + (err.message || "failed to reach Worker");
+    return null;
+  }
+}
+
+async function generateHighQualityImage(prompt) {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 90000);
+
+    const res = await fetch(DELAW_WORKER + "/image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: prompt, model: "flux", steps: 4 }),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+
+    if (!res.ok) {
+      const err = await res.text().catch(() => "");
+      console.warn("Image worker error:", res.status, err);
+      return null;
+    }
+
+    const contentType = res.headers.get("content-type") || "";
+    if (contentType.includes("image") || contentType.includes("octet-stream")) {
+      const blob = await res.blob();
+      return URL.createObjectURL(blob);
+    }
+
+    const data = await res.json().catch(() => null);
+    if (data && data.image) return "data:image/jpeg;base64," + data.image;
+    return null;
+  } catch (err) {
+    console.warn("Image worker failed:", err.message || err);
+    return null;
+  }
+}
+
+// Detect if user is explicitly asking for image generation
+function isImageGenerationRequest(text) {
+  const t = text.toLowerCase().trim();
+  return /^(generate|create|draw|make|paint|design|show me an? image|image of|picture of|photo of|illustration of)\b/.test(t) ||
+         /\b(generate|create|draw|make)\s+(an?\s+)?(image|picture|photo|illustration|art|artwork)\b/.test(t) ||
+         /\b(image|picture|photo)\s+(of|about|showing)\b/.test(t);
+}
+
+// Extract clean prompt for image models
+function extractImagePrompt(text) {
+  return text
+    .replace(/^(please\s+)?(generate|create|draw|make|paint|design)\s+(me\s+)?(an?\s+)?(image|picture|photo|illustration|art|artwork)?\s*(of|about|showing)?\s*/i, "")
+    .replace(/^(show me|i want|i need)\s+(an?\s+)?(image|picture|photo)\s*(of|about)?\s*/i, "")
+    .trim() || text.trim();
 }
 
 async function getReply(text) {
   // 1. Always try local rules first for identity & special commands
   const local = getLocalReply(text);
-  if (local !== null) return local;
+  if (local !== null) return { type: "text", content: local };
 
-  // 2. Live AI if enabled
-  if (isLiveAIEnabled()) {
-    const live = await callLiveAI(text);
-    if (live && live.trim()) return live.trim();
-    return "I'm currently in offline mode (Live AI could not reach Groq – check keys, network or CORS). Try a science fact, joke, riddle, or open the Education / Quiz tabs!";
+  // ========== BRANCH 3: High-quality image (Cloudflare Workers AI) ==========
+  if (isImageGenerationRequest(text)) {
+    const imgPrompt = extractImagePrompt(text);
+    const imageUrl = await generateHighQualityImage(imgPrompt);
+    if (imageUrl) {
+      return {
+        type: "hq-image",
+        content: `Here is your high-quality image of **${imgPrompt}** (via Cloudflare Workers AI):`,
+        image: imageUrl,
+        prompt: imgPrompt
+      };
+    }
+    // Fallback to Pollinations if CF fails
+    const fallback = getPollinationsImageUrl(imgPrompt, 768, 768);
+    return {
+      type: "hq-image",
+      content: `Cloudflare image service was busy. Here's a good alternative image of **${imgPrompt}**:`,
+      image: fallback,
+      prompt: imgPrompt
+    };
   }
 
-  // 3. Final local fallback
-  return pick(KB.default);
+  // ========== BRANCH 1: Text via Cloudflare Worker → Groq ==========
+  let textReply = null;
+  if (isLiveAIEnabled()) {
+    textReply = await callLiveAI(text);
+  }
+  if (!textReply || !textReply.trim()) {
+    // Show the real Worker error once, then fall back offline
+    if (lastLiveAIError) {
+      textReply = lastLiveAIError + "\n\n(Offline fallback) " + pick(KB.default);
+    } else if (!isLiveAIEnabled()) {
+      textReply = pick(KB.default);
+    } else {
+      textReply = pick(KB.default);
+    }
+  }
+
+  // ========== BRANCH 2: Low-quality illustrative image (Pollinations) ==========
+  // Only add a small helper image for educational / visual topics
+  const lower = text.toLowerCase();
+  const wantsIllustration = /explain|what is|how does|describe|show|animal|planet|molecule|cell|structure|diagram|look like|appearance/.test(lower) &&
+                            text.length > 12;
+
+  if (wantsIllustration) {
+    const shortPrompt = text.slice(0, 120).replace(/[?!.,]/g, " ").trim() + " simple educational illustration";
+    const smallImg = getPollinationsImageUrl(shortPrompt, 320, 320);
+    return {
+      type: "text+lq-image",
+      content: textReply,
+      image: smallImg
+    };
+  }
+
+  return { type: "text", content: textReply };
 }
 
 // Safe text → HTML helpers (prevent XSS + simple **bold** and newlines)
@@ -3055,16 +3262,24 @@ function formatMessage(text) {
   return out.join("");
 }
 
-function addMessage(content, role, save = true) {
+function addMessage(content, role, save = true, imageUrl = null, isHighQuality = false) {
   const box = document.getElementById("messages");
   const div = document.createElement("div");
   div.className = `msg ${role}`;
   const time = new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
-  div.innerHTML = `<div class="msg-body">${formatMessage(content)}</div><div class="msg-meta"><span>${time}</span></div>`;
+
+  let imageHtml = "";
+  if (imageUrl) {
+    const sizeClass = isHighQuality ? "msg-img-hq" : "msg-img-lq";
+    imageHtml = `<div class="msg-image-wrap ${sizeClass}"><img src="${imageUrl}" alt="AI generated image" loading="lazy" onerror="this.parentElement.style.display='none'"></div>`;
+  }
+
+  div.innerHTML = `<div class="msg-body">${formatMessage(content)}</div>${imageHtml}<div class="msg-meta"><span>${time}</span></div>`;
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
   if (save) {
-    chatHistory.push({role, content});
+    // Store only text for history (images are temporary blob/pollinations URLs)
+    chatHistory.push({role, content: content + (imageUrl ? " [image]" : "")});
     localStorage.setItem("delaw_history", JSON.stringify(chatHistory.slice(-80)));
   }
 }
@@ -3081,7 +3296,7 @@ async function thinkAndReply(userText) {
   isThinking = true;
   document.getElementById("send").disabled = true;
   const statusEl = document.getElementById("status");
-  if (statusEl) statusEl.textContent = isLiveAIEnabled() ? "Live AI (Groq) • Thinking..." : "Thinking...";
+  if (statusEl) statusEl.textContent = isLiveAIEnabled() ? "Live AI (Worker) • Thinking..." : "Thinking...";
 
   const box = document.getElementById("messages");
   const typing = document.createElement("div");
@@ -3092,12 +3307,22 @@ async function thinkAndReply(userText) {
   box.scrollTop = box.scrollHeight;
 
   try {
-    // Small delay so the typing dots appear smoothly
     await new Promise(r => setTimeout(r, 350));
     const reply = await getReply(userText);
     const indicator = document.getElementById("typing-indicator");
     if (indicator) indicator.remove();
-    addMessage(reply, "ai");
+
+    if (typeof reply === "string") {
+      addMessage(reply, "ai");
+    } else if (reply && reply.type === "hq-image") {
+      addMessage(reply.content, "ai", true, reply.image, true);
+    } else if (reply && reply.type === "text+lq-image") {
+      addMessage(reply.content, "ai", true, reply.image, false);
+    } else if (reply && reply.content) {
+      addMessage(reply.content, "ai");
+    } else {
+      addMessage("Sorry, I could not generate a reply.", "ai");
+    }
   } catch (err) {
     console.error(err);
     const indicator = document.getElementById("typing-indicator");
@@ -3250,10 +3475,108 @@ document.addEventListener("keydown", (e) => {
 
 renderHistory();
 updateStatusBar();
-console.log("%cDelaw AI + Full EduPulse STEM Portal + Live AI (Groq GPT-OSS-20B + Key Rotation) loaded", "color:#7c3aed;font-weight:bold");
-console.log("%cProduced by Desadu Chirandith", "color:#db2777");
-console.log("%c⚠️ WARNING: API keys are embedded in this HTML. Do not share this file publicly.", "color:#ef4444;font-weight:bold");
-console.log("%cModel: openai/gpt-oss-20b | Lists (ul/li) + Tables/grids supported in chat", "color:#10b981");
+console.log("%cDelaw AI + EduPulse STEM + Live AI (Cloudflare Worker – keys secret) loaded", "color:#2563eb;font-weight:bold");
+console.log("%cProduced by Desadu Chirandith", "color:#0ea5e9");
+console.log("%c✓ No API keys in this HTML. Chat + images via Worker.", "color:#10b981;font-weight:bold");
+console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
+
+
+// ==================== CUSTOM MOUSE POINTER + GESTURES ====================
+(function initCustomCursor() {
+  const cursor = document.getElementById("custom-cursor");
+  if (!cursor) return;
+
+  let mouseX = window.innerWidth / 2;
+  let mouseY = window.innerHeight / 2;
+  let cursorX = mouseX;
+  let cursorY = mouseY;
+  let isHovering = false;
+  let isClicking = false;
+  let trailThrottle = 0;
+
+  // Smooth follow with lerp
+  function animateCursor() {
+    cursorX += (mouseX - cursorX) * 0.22;
+    cursorY += (mouseY - cursorY) * 0.22;
+    cursor.style.left = cursorX + "px";
+    cursor.style.top = cursorY + "px";
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    // Trail particles (throttled)
+    trailThrottle++;
+    if (trailThrottle % 3 === 0) {
+      const trail = document.createElement("div");
+      trail.className = "cursor-trail";
+      trail.style.left = e.clientX + "px";
+      trail.style.top = e.clientY + "px";
+      document.body.appendChild(trail);
+      setTimeout(() => trail.remove(), 600);
+    }
+  });
+
+  // Hover detection on interactive elements
+  const hoverSelectors = "a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell, .save-btn, input, .back-btn";
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest(hoverSelectors)) {
+      isHovering = true;
+      cursor.classList.add("hovering");
+      cursor.classList.remove("dot");
+    }
+  });
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(hoverSelectors)) {
+      isHovering = false;
+      cursor.classList.remove("hovering");
+      if (!isClicking) cursor.classList.add("dot");
+    }
+  });
+
+  // Click gesture + ripple
+  document.addEventListener("mousedown", (e) => {
+    isClicking = true;
+    cursor.classList.add("clicking");
+    cursor.classList.remove("hovering", "dot");
+
+    const ripple = document.createElement("div");
+    ripple.className = "cursor-ripple";
+    ripple.style.left = e.clientX + "px";
+    ripple.style.top = e.clientY + "px";
+    ripple.style.width = "20px";
+    ripple.style.height = "20px";
+    document.body.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 650);
+  });
+  document.addEventListener("mouseup", () => {
+    isClicking = false;
+    cursor.classList.remove("clicking");
+    if (isHovering) cursor.classList.add("hovering");
+    else cursor.classList.add("dot");
+  });
+
+  // Default state
+  cursor.classList.add("dot");
+
+  // Hide on touch devices / leave window
+  document.addEventListener("mouseleave", () => {
+    cursor.style.opacity = "0";
+  });
+  document.addEventListener("mouseenter", () => {
+    cursor.style.opacity = "1";
+  });
+
+  // Touch devices: restore normal cursor
+  if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
+    cursor.style.display = "none";
+    document.documentElement.style.cursor = "auto";
+  }
+})();
+
 </script>
 </body>
 </html>
