@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DELAW - Blue Theme + Spider-Web Particles + Triangle Cursor</title>
+  <title>DELAW - Full Education Academy + Chat Studio Quizzes</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
@@ -31,6 +31,11 @@
   --math-color: #0284c7;
   --it-color: #0891b2;
   --sci-color: #1d4ed8;
+  --earth-color: #059669;
+  --astro-color: #7c3aed;
+  --env-color: #16a34a;
+  --eng-color: #db2777;
+  --health-color: #e11d48;
   --nonmetal: #3b82f6;
   --noble: #3b82f6;
   --alkali: #ef4444;
@@ -282,8 +287,9 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow: visible;
   box-shadow: var(--shadow);
+  position: relative;
 }
 .chat-toolbar {
   display: flex;
@@ -294,6 +300,8 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   background: rgba(248, 250, 252, 0.8);
   font-size: 0.82rem;
   color: var(--muted);
+  position: relative;
+  border-radius: var(--radius) var(--radius) 0 0;
 }
 [data-theme="dark"] .chat-toolbar {
   background: rgba(0, 0, 0, 0.2);
@@ -305,6 +313,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   display: flex;
   flex-direction: column;
   gap: 14px;
+  min-height: 0;
 }
 .msg {
   max-width: 80%;
@@ -347,6 +356,89 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   font-size: 0.68rem;
   color: var(--muted);
   opacity: 0.85;
+}
+/* Interactive quiz inside AI Chat Studio */
+.msg-quiz {
+  margin-top: 10px;
+  width: 100%;
+}
+.msg-quiz-header {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.msg-quiz-q {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  line-height: 1.45;
+  color: var(--text);
+}
+.msg-quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.msg-quiz-opt {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  font-weight: 500;
+}
+[data-theme="dark"] .msg-quiz-opt {
+  background: rgba(255, 255, 255, 0.06);
+}
+.msg-quiz-opt:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: #eff6ff;
+  transform: translateX(3px);
+}
+[data-theme="dark"] .msg-quiz-opt:hover:not(:disabled) {
+  background: rgba(37, 99, 235, 0.18);
+}
+.msg-quiz-opt:disabled {
+  cursor: default;
+  opacity: 0.95;
+}
+.msg-quiz-opt.correct {
+  background: rgba(16, 185, 129, 0.15) !important;
+  border-color: var(--success) !important;
+  color: #047857;
+}
+[data-theme="dark"] .msg-quiz-opt.correct {
+  color: #34d399;
+}
+.msg-quiz-opt.wrong {
+  background: rgba(239, 68, 68, 0.12) !important;
+  border-color: var(--danger) !important;
+  color: #b91c1c;
+}
+[data-theme="dark"] .msg-quiz-opt.wrong {
+  color: #f87171;
+}
+.msg-quiz-feedback {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.msg-quiz-feedback.ok { color: var(--success); }
+.msg-quiz-feedback.bad { color: var(--danger); }
+.msg.max-quiz {
+  max-width: 92%;
 }
 /* Better rendering for lists, tables and simple charts inside AI messages */
 .msg-body ul, .msg-body ol {
@@ -402,6 +494,8 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   padding: 14px 16px;
   border-top: 1px solid var(--border);
   background: rgba(248, 250, 252, 0.6);
+  align-items: center;
+  border-radius: 0 0 var(--radius) var(--radius);
 }
 [data-theme="dark"] .chat-input {
   background: rgba(0, 0, 0, 0.15);
@@ -421,7 +515,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   background: rgba(0, 0, 0, 0.22);
 }
 .chat-input input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
-.chat-input button {
+.chat-input button#send {
   background: var(--gradient);
   color: white;
   border: none;
@@ -430,9 +524,252 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s, transform 0.15s;
+  height: 44px;
 }
-.chat-input button:hover { opacity: 0.92; transform: scale(1.02); }
-.chat-input button:disabled { opacity: 0.5; cursor: not-allowed; }
+.chat-input button#send:hover { opacity: 0.92; transform: scale(1.02); }
+.chat-input button#send:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Inline mic button in chat bar */
+.mic-inline-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: white;
+  color: var(--primary);
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+[data-theme="dark"] .mic-inline-btn {
+  background: rgba(255, 255, 255, 0.07);
+}
+.mic-inline-btn:hover {
+  background: #eff6ff;
+  border-color: var(--primary);
+  color: #2563eb;
+  transform: scale(1.05);
+}
+.mic-inline-btn.rec {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: white;
+  animation: pulse 1.4s infinite;
+}
+/* Blue-themed confirm modal */
+.blue-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 29, 58, 0.55);
+  backdrop-filter: blur(8px);
+  z-index: 100000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fade 0.2s ease;
+}
+.blue-modal-overlay.show {
+  display: flex;
+}
+.blue-modal {
+  background: linear-gradient(165deg, #eff6ff 0%, #dbeafe 40%, #e0f2fe 100%);
+  border: 1px solid rgba(147, 197, 253, 0.5);
+  border-radius: 20px;
+  padding: 28px 30px;
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 20px 50px rgba(37, 99, 235, 0.25), 0 0 0 1px rgba(255,255,255,0.4) inset;
+  text-align: center;
+  animation: modalPop 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-theme="dark"] .blue-modal {
+  background: linear-gradient(165deg, #0c1e3a 0%, #123a6b 50%, #0a2744 100%);
+  border-color: rgba(96, 165, 250, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(96, 165, 250, 0.15) inset;
+}
+@keyframes modalPop {
+  from { opacity: 0; transform: scale(0.9) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+.blue-modal-icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  border-radius: 50%;
+  background: var(--gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+.blue-modal h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+.blue-modal p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+.blue-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+.blue-modal-btn {
+  padding: 11px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+}
+.blue-modal-btn.cancel {
+  background: white;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+[data-theme="dark"] .blue-modal-btn.cancel {
+  background: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+.blue-modal-btn.cancel:hover {
+  background: #f1f5f9;
+  color: var(--text);
+}
+.blue-modal-btn.confirm {
+  background: var(--gradient);
+  color: white;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+.blue-modal-btn.confirm:hover {
+  opacity: 0.93;
+  transform: translateY(-1px);
+}
+/* Blue toast notification */
+.blue-toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+  z-index: 100001;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  max-width: 90vw;
+  text-align: center;
+}
+.blue-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+/* Chat History panel */
+.history-panel {
+  display: none;
+  position: absolute;
+  top: 52px;
+  right: 12px;
+  width: 300px;
+  max-height: 360px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(37, 99, 235, 0.2);
+  z-index: 50;
+  overflow: hidden;
+  flex-direction: column;
+  animation: fade 0.2s ease;
+}
+.history-panel.show {
+  display: flex;
+}
+.history-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  background: rgba(239, 246, 255, 0.7);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+[data-theme="dark"] .history-panel-header {
+  background: rgba(0,0,0,0.2);
+}
+.history-panel-list {
+  overflow-y: auto;
+  flex: 1;
+  padding: 8px;
+}
+.history-item {
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 4px;
+  transition: background 0.15s;
+  border: 1px solid transparent;
+}
+.history-item:hover {
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.2);
+}
+.history-item.active {
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.3);
+}
+.history-item-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-item-meta {
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.history-item-del {
+  float: right;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  opacity: 0.6;
+}
+.history-item-del:hover {
+  opacity: 1;
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+}
+.history-empty {
+  padding: 24px 16px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
 .suggestions {
   display: flex;
   flex-wrap: wrap;
@@ -658,6 +995,30 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 .tag-chem { background: var(--chem-color); }
 .tag-math { background: var(--math-color); }
 .tag-it { background: var(--it-color); }
+.tag-earth { background: var(--earth-color); }
+.tag-astro { background: var(--astro-color); }
+.tag-env { background: var(--env-color); }
+.tag-eng { background: var(--eng-color); }
+.tag-health { background: var(--health-color); }
+.lesson-tip {
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin: 14px 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.lesson-tip strong { color: var(--primary); }
+.lesson-check {
+  margin: 12px 0;
+  padding-left: 4px;
+}
+.lesson-check li {
+  margin: 6px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
 .stem-workspace { display: none; }
 .stem-workspace.active { display: block; }
 .stem-header {
@@ -896,7 +1257,7 @@ h1 { font-size: 1.85rem; margin-bottom: 6px; font-weight: 700; letter-spacing: -
 }
 
 /* ==================== TRIANGLE CURSOR (upright when idle, spins 360° while moving) ==================== */
-html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell, input, .save-btn, .back-btn {
+html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .mic-inline-btn, .calc-btn, .quiz-options button, .msg-quiz-opt, .stem-topic, .element-cell, input, .save-btn, .back-btn, .blue-modal-btn, .history-item, .history-item-del {
   cursor: none !important;
 }
 #custom-cursor {
@@ -1005,6 +1366,22 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
 <div id="custom-cursor"></div>
 
 <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Blue-themed confirm modal -->
+<div class="blue-modal-overlay" id="blue-modal-overlay">
+  <div class="blue-modal">
+    <div class="blue-modal-icon" id="blue-modal-icon">🗑️</div>
+    <h3 id="blue-modal-title">Clear chat?</h3>
+    <p id="blue-modal-msg">This will remove all messages in the current chat.</p>
+    <div class="blue-modal-actions">
+      <button class="blue-modal-btn cancel" id="blue-modal-cancel">Cancel</button>
+      <button class="blue-modal-btn confirm" id="blue-modal-confirm">Confirm</button>
+    </div>
+  </div>
+</div>
+<!-- Blue toast -->
+<div class="blue-toast" id="blue-toast"></div>
+
 <aside id="sidebar">
   <h2>DELAW</h2>
   <div class="producer">Produced by <strong>Desadu Chirandith</strong></div>
@@ -1058,7 +1435,7 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
         </div>
         <div class="card" onclick="switchTab('education')">
           <h3>Education <span class="badge">STEM Portal</span></h3>
-          <p>Full EduPulse STEM Academy with Physics, Chemistry, Math, Science, IT + 118 Periodic Table.</p>
+          <p>10 subjects: Science, Physics, Chemistry, Math, IT, Earth, Astronomy, Environment, English, Health.</p>
         </div>
         <div class="card" onclick="switchTab('fun')">
           <h3>Fun & Games</h3>
@@ -1069,8 +1446,8 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
           <p>Huge library of science, space, animals and history facts.</p>
         </div>
         <div class="card" onclick="switchTab('quiz')">
-          <h3>Quiz Zone</h3>
-          <p>Test your knowledge with interactive quizzes.</p>
+          <h3>Quiz Zone <span class="badge">Online Quizzes</span></h3>
+          <p>AI-generated online quizzes on science, space, coding and more.</p>
         </div>
         <div class="card" onclick="switchTab('stories')">
           <h3>Story Time</h3>
@@ -1090,13 +1467,24 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
       <div class="chat-wrap">
         <div class="chat-toolbar">
           <span id="status">Live AI • Ready</span>
-          <div>
+          <div style="display:flex;gap:6px;position:relative">
+            <button class="btn" onclick="toggleHistoryPanel()">📜 History</button>
             <button class="btn" onclick="clearChat()">Clear</button>
             <button class="btn" onclick="exportChat()">Export</button>
+            <div class="history-panel" id="history-panel">
+              <div class="history-panel-header">
+                <span>Chat History</span>
+                <button class="btn" style="padding:4px 8px;font-size:0.75rem" onclick="toggleHistoryPanel()">✕</button>
+              </div>
+              <div class="history-panel-list" id="history-list">
+                <div class="history-empty">No saved chats yet</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="chat-messages" id="messages"></div>
         <div class="chat-input">
+          <button type="button" class="mic-inline-btn" id="chat-mic" onclick="toggleChatMic()" title="Voice input">🎤</button>
           <input type="text" id="input" placeholder="Message Delaw..." autocomplete="off">
           <button id="send" onclick="sendMessage()">Send</button>
         </div>
@@ -1106,6 +1494,8 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
         <div class="chip" onclick="quick('Tell me a fun science fact')">Science fact</div>
         <div class="chip" onclick="quick('Give me a riddle')">Riddle</div>
         <div class="chip" onclick="quick('Tell me a clean joke')">Clean joke</div>
+        <div class="chip" onclick="quick('Make a science quiz')">Make a quiz</div>
+        <div class="chip" onclick="quick('Create a space quiz')">Space quiz</div>
         <div class="chip" onclick="quick('Explain gravity simply')">Explain gravity</div>
         <div class="chip" onclick="quick('Help me study')">Study help</div>
       </div>
@@ -1127,33 +1517,58 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
     <!-- ==================== EDUCATION = FULL EDUPULSE STEM PORTAL ==================== -->
     <div id="education" class="tab">
       <div id="stem-home">
-        <h1>EduPulse STEM Academy</h1>
-        <p class="subtitle">Full STEM Learning Portal • Produced by Desadu Chirandith</p>
+        <h1>EduPulse Learning Academy</h1>
+        <p class="subtitle">Expanded subjects • Deeper lessons • Produced by Desadu Chirandith</p>
         <div class="stem-grid">
           <div class="stem-card" onclick="openStemSubject('science')">
             <span class="stem-card-tag tag-sci">Science</span>
             <h3>Life Science & Biology</h3>
-            <p>Structure • Information Flow • Energy • Evolution + Tools</p>
+            <p>Cells • DNA • Energy • Evolution • Human systems + Tools</p>
           </div>
           <div class="stem-card" onclick="openStemSubject('physics')">
             <span class="stem-card-tag tag-physics">Physics</span>
             <h3>Classical to Modern Physics</h3>
-            <p>Mechanics • Electromagnetism • Thermodynamics • Optics • Modern Physics + Calculator</p>
+            <p>Mechanics • EM • Heat • Optics • Modern Physics + Calculator</p>
           </div>
           <div class="stem-card" onclick="openStemSubject('chemistry')">
             <span class="stem-card-tag tag-chem">Chemistry</span>
             <h3>Atoms, Molecules & Reactions</h3>
-            <p>Atoms • Molecules • Reactions • Stoichiometry + Combined Periodic Table & Calculator</p>
+            <p>Atoms • Bonds • Reactions • Moles + Periodic Table & Calculator</p>
           </div>
           <div class="stem-card" onclick="openStemSubject('maths')">
             <span class="stem-card-tag tag-math">Mathematics</span>
             <h3>Foundations to Calculus</h3>
-            <p>Branches • Constants • Real-World Uses • Calculus + Calculator</p>
+            <p>Algebra • Geometry • Stats • Calculus + Calculator</p>
           </div>
           <div class="stem-card" onclick="openStemSubject('it')">
             <span class="stem-card-tag tag-it">Information Tech</span>
             <h3>HTML, Web Dev & Python</h3>
-            <p>HTML Basics • Semantic HTML • Web Trio • Python Fundamentals</p>
+            <p>HTML • CSS ideas • JS basics • Python fundamentals</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('earth')">
+            <span class="stem-card-tag tag-earth">Earth</span>
+            <h3>Earth Science & Geography</h3>
+            <p>Rocks • Weather • Plate tectonics • Maps • Climate zones</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('astronomy')">
+            <span class="stem-card-tag tag-astro">Astronomy</span>
+            <h3>Space & the Universe</h3>
+            <p>Solar system • Stars • Galaxies • Big Bang • Space exploration</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('environment')">
+            <span class="stem-card-tag tag-env">Environment</span>
+            <h3>Environmental Science</h3>
+            <p>Ecosystems • Pollution • Climate • Conservation • Sustainability</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('english')">
+            <span class="stem-card-tag tag-eng">English</span>
+            <h3>Language & Communication</h3>
+            <p>Grammar • Writing • Reading skills • Vocabulary • Speaking tips</p>
+          </div>
+          <div class="stem-card" onclick="openStemSubject('health')">
+            <span class="stem-card-tag tag-health">Health</span>
+            <h3>Health & Human Body</h3>
+            <p>Body systems • Nutrition • Exercise • Sleep • Mental wellness</p>
           </div>
         </div>
       </div>
@@ -1214,13 +1629,38 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
     <!-- QUIZ -->
     <div id="quiz" class="tab">
       <h1>Quiz Zone</h1>
-      <p class="subtitle">Test your knowledge</p>
+      <p class="subtitle">Online quizzes • Built-in + AI-generated by Delaw</p>
       <div class="module-box">
+        <h3 style="margin-bottom:12px">Create an Online Quiz</h3>
+        <p style="color:var(--muted);font-size:0.88rem;margin-bottom:12px">Pick a topic or type your own. Delaw will build an interactive quiz for you.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px">
+          <button class="chip" onclick="generateOnlineQuiz('science')">🔬 Science</button>
+          <button class="chip" onclick="generateOnlineQuiz('space')">🚀 Space</button>
+          <button class="chip" onclick="generateOnlineQuiz('animals')">🐾 Animals</button>
+          <button class="chip" onclick="generateOnlineQuiz('history')">📜 History</button>
+          <button class="chip" onclick="generateOnlineQuiz('coding')">💻 Coding</button>
+          <button class="chip" onclick="generateOnlineQuiz('math')">🔢 Math</button>
+          <button class="chip" onclick="generateOnlineQuiz('general')">🌟 General</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px">
+          <input type="text" id="quiz-topic-input" placeholder="Or type a topic (e.g. planets, DNA, HTML)..." style="flex:1;min-width:200px;padding:11px 14px;border-radius:10px;border:1px solid var(--border);background:white;color:var(--text);font-size:0.9rem;outline:none">
+          <button class="btn" onclick="generateOnlineQuizFromInput()" style="background:var(--gradient);color:white;border:none">✨ Generate Online Quiz</button>
+        </div>
+        <p id="quiz-gen-status" style="font-size:0.8rem;color:var(--muted);min-height:1.2em"></p>
+      </div>
+      <div class="module-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+          <h3 id="quiz-title-label" style="margin:0">Quiz</h3>
+          <span id="quiz-topic-badge" class="badge" style="display:none">Topic</span>
+        </div>
         <div id="quiz-area">
-          <p class="quiz-q" id="quiz-question">Click “Start Quiz” to begin!</p>
+          <p class="quiz-q" id="quiz-question">Choose a topic above or click “Start Classic Quiz”.</p>
           <div class="quiz-options" id="quiz-options"></div>
           <p id="quiz-score" style="margin-top:12px;color:var(--muted)"></p>
-          <button class="btn" id="quiz-btn" onclick="startQuiz()">Start Quiz</button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+            <button class="btn" id="quiz-btn" onclick="startQuiz()">Start Classic Quiz</button>
+            <button class="btn" id="quiz-restart-btn" onclick="restartActiveQuiz()" style="display:none">Restart This Quiz</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1276,7 +1716,7 @@ html, body, a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .cal
         <p><strong>Producer / Creator:</strong> Desadu Chirandith</p>
         <p style="margin-top:6px"><strong>Version:</strong> Full Featured + EduPulse STEM Academy + Live AI (Cloudflare Worker Proxy)</p>
         <p style="margin-top:14px;font-size:0.88rem;color:var(--muted)">
-          Features: Live AI Chat, Voice (Shift+V), Full EduPulse STEM Portal (Science, Physics, Chemistry, Maths, IT), Complete 118-element Periodic Table, safer Calculators, expanded Quizzes, Stories, Knowledge Base and more.
+          Features: Live AI Chat, Voice (Shift+V), EduPulse Academy with 10 subjects (Science, Physics, Chemistry, Maths, IT, Earth, Astronomy, Environment, English, Health), 118-element Periodic Table, Calculators, in-chat Online Quizzes, Stories, Knowledge Base and more.
         </p>
         <p style="margin-top:12px;font-size:0.82rem;color:var(--muted)">
           Created by Desadu Chirandith for educational and personal learning use. The offline facts, quizzes and lessons are original educational material. Please do not paste long copyrighted books, songs or movies into the app.
@@ -1295,9 +1735,13 @@ const PRODUCER = "Desadu Chirandith";
 const AI_NAME = "Delaw";
 let isThinking = false;
 let recognition = null;
+let chatMicRecognition = null;
 let chatHistory = JSON.parse(localStorage.getItem("delaw_history") || "[]");
+let chatSessions = JSON.parse(localStorage.getItem("delaw_sessions") || "[]");
+let currentSessionId = localStorage.getItem("delaw_current_session") || null;
 let quizIndex = 0;
 let quizScore = 0;
+let blueModalCallback = null;
 
 // Theme
 function toggleTheme() {
@@ -1745,6 +2189,54 @@ const stemSubjectData = {
                             Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂
                         </div>`
                     },
+                    {
+                        title: "Human Body Systems",
+                        content: `
+                          <h3>Human Body Systems</h3>
+                          <p style="margin-top:0.5rem;">Organ systems work together so the body can survive and respond to change.</p>
+                          <div class="formula-box">
+Circulatory → transports oxygen and nutrients
+Respiratory → gas exchange in the lungs
+Digestive → breaks food into usable molecules
+Nervous → sensing and control
+Excretory → removes waste (kidneys)
+Endocrine → hormones coordinate long-term changes
+                          </div>
+                          <div class="lesson-tip"><strong>Homeostasis:</strong> the body keeps internal conditions (like temperature) in a stable range.</div>
+                        `
+                    },
+                    {
+                        title: "Genetics Basics",
+                        content: `
+                          <h3>Genetics Basics</h3>
+                          <div class="formula-box">
+Gene → section of DNA that influences a trait
+Allele → different versions of a gene
+Dominant / Recessive → how alleles can be expressed
+Genotype → genetic makeup
+Phenotype → observable traits
+                          </div>
+                          <h4 style="margin-top:1.2rem;">Simple Punnett Idea</h4>
+                          <div class="formula-box">
+Parents pass one allele each for a gene.
+Possible offspring combinations can be shown in a Punnett square.
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Ecology Snapshot",
+                        content: `
+                          <h3>Ecology Snapshot</h3>
+                          <div class="formula-box">
+Individual → one organism
+Population → same species in an area
+Community → different species together
+Ecosystem → community + non-living environment
+Biome → large region with similar climate and life
+                          </div>
+                          <div class="lesson-tip"><strong>Interdependence:</strong> living things rely on each other and on their environment.</div>
+                        `
+                    },
                     { title: "Periodic Table + Scientific Calculator", content: combinedToolsHTML }
                 ]
             },
@@ -2091,6 +2583,35 @@ and make better decisions in the real world.
                             </div>
                         `
                     },
+                    {
+                        title: "Geometry Essentials",
+                        content: `
+                          <h3>Geometry Essentials</h3>
+                          <div class="formula-box">
+Perimeter of rectangle = 2(L + W)
+Area of rectangle = L × W
+Area of triangle = ½ × base × height
+Area of circle = πr²
+Circumference = 2πr
+Pythagoras: a² + b² = c² (right triangle)
+                          </div>
+                          <div class="lesson-tip"><strong>Tip:</strong> Always use the same units for length when calculating area or perimeter.</div>
+                        `
+                    },
+                    {
+                        title: "Statistics & Probability",
+                        content: `
+                          <h3>Statistics & Probability</h3>
+                          <div class="formula-box">
+Mean → average of values
+Median → middle value when ordered
+Mode → most frequent value
+Range → largest − smallest
+Probability of an event = favorable outcomes / total outcomes
+Probability is between 0 (impossible) and 1 (certain)
+                          </div>
+                        `
+                    },
                     { 
                         title: "Fundamental Calculus", 
                         content: `<h3>Derivatives & Integration</h3>
@@ -2098,7 +2619,8 @@ and make better decisions in the real world.
                         <div class="formula-box">
 d/dx (xⁿ) = n · xⁿ⁻¹<br>
 ∫ xⁿ dx = (xⁿ⁺¹)/(n+1) + C
-                        </div>`
+                        </div>
+                        <div class="lesson-tip"><strong>Idea:</strong> Derivatives measure rate of change. Integrals measure accumulated quantity.</div>`
                     },
                     { 
                         title: "Standard Calculator", 
@@ -2280,6 +2802,523 @@ def greet(person):
 print(greet("Student"))
                         </div>
                         <p style="margin-top:1rem;">Python uses indentation (spaces) instead of curly braces to define code blocks. This makes the code clean and readable.</p>`
+                    },
+                    {
+                        title: "CSS Basics",
+                        content: `
+                          <h3>CSS Basics — Making Pages Look Good</h3>
+                          <p style="margin-top:0.5rem;">CSS (Cascading Style Sheets) controls colors, fonts, spacing and layout.</p>
+                          <h4 style="margin-top:1.2rem;">How to Add CSS</h4>
+                          <div class="formula-box">
+Inline: style="color:blue"
+Internal: &lt;style&gt; ... &lt;/style&gt; in the head
+External: &lt;link rel="stylesheet" href="style.css"&gt;
+                          </div>
+                          <h4 style="margin-top:1.2rem;">Common Properties</h4>
+                          <div class="formula-box">
+color, background-color
+font-size, font-family, font-weight
+margin, padding, border
+width, height, display
+flex, grid (modern layout)
+                          </div>
+                          <div class="lesson-tip"><strong>Tip:</strong> Learn the box model: content → padding → border → margin.</div>
+                        `
+                    },
+                    {
+                        title: "JavaScript Basics",
+                        content: `
+                          <h3>JavaScript Basics — Making Pages Interactive</h3>
+                          <p style="margin-top:0.5rem;">JavaScript runs in the browser and responds to clicks, inputs and timers.</p>
+                          <div class="formula-box">
+// Variables
+let score = 0;
+const name = "Delaw";
+
+// Function
+function add(a, b) {
+  return a + b;
+}
+
+// Event
+button.addEventListener("click", () => {
+  alert("Hello!");
+});
+                          </div>
+                          <h4 style="margin-top:1.2rem;">Useful Ideas</h4>
+                          <div class="formula-box">
+document.getElementById("id")
+element.textContent = "Hi"
+if / else conditions
+for and while loops
+arrays and objects
+                          </div>
+                        `
+                    }
+                ]
+            },
+            earth: {
+                title: "Earth Science & Geography",
+                badge: "Earth",
+                tagClass: "tag-earth",
+                desc: "Understand our planet — rocks, weather, maps, plate tectonics and climate zones.",
+                topics: [
+                    {
+                        title: "Layers of the Earth",
+                        content: `
+                          <h3>Layers of the Earth</h3>
+                          <p style="margin-top:0.5rem;">Earth is made of layers with different materials and temperatures.</p>
+                          <div class="formula-box">
+Crust → thin rocky outer layer (continents + ocean floor)
+Mantle → thick semi-solid rock that can flow slowly
+Outer core → liquid iron and nickel
+Inner core → solid iron and nickel (extremely hot)
+                          </div>
+                          <div class="lesson-tip"><strong>Remember:</strong> Temperature and pressure increase as you go deeper.</div>
+                          <ul class="lesson-check">
+                            <li>Which layer do we live on? → Crust</li>
+                            <li>Which layer is liquid metal? → Outer core</li>
+                          </ul>
+                        `
+                    },
+                    {
+                        title: "Rocks & the Rock Cycle",
+                        content: `
+                          <h3>Rocks & the Rock Cycle</h3>
+                          <p style="margin-top:0.5rem;">Rocks change type over long periods through heat, pressure and weathering.</p>
+                          <div class="formula-box">
+Igneous → cooled magma/lava (e.g. granite, basalt)
+Sedimentary → layers of compressed sediments (e.g. sandstone, limestone)
+Metamorphic → changed by heat & pressure (e.g. marble, slate)
+                          </div>
+                          <h4 style="margin-top:1.2rem;">Rock Cycle Idea</h4>
+                          <div class="formula-box">
+Melting → magma → cooling → igneous
+Weathering → sediments → compaction → sedimentary
+Heat & pressure → metamorphic
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Plate Tectonics",
+                        content: `
+                          <h3>Plate Tectonics</h3>
+                          <p style="margin-top:0.5rem;">Earth’s crust is broken into plates that slowly move on the mantle.</p>
+                          <div class="formula-box">
+Divergent boundary → plates move apart (new crust, mid-ocean ridges)
+Convergent boundary → plates collide (mountains, volcanoes, trenches)
+Transform boundary → plates slide past (earthquakes, e.g. San Andreas)
+                          </div>
+                          <div class="lesson-tip"><strong>Why it matters:</strong> Plate movement explains earthquakes, volcanoes and mountain ranges.</div>
+                        `
+                    },
+                    {
+                        title: "Weather & Climate",
+                        content: `
+                          <h3>Weather & Climate</h3>
+                          <p style="margin-top:0.5rem;">Weather is short-term. Climate is the long-term average of weather in a place.</p>
+                          <div class="formula-box">
+Weather → daily temperature, rain, wind, clouds
+Climate → typical pattern over many years
+Factors → latitude, altitude, ocean currents, distance from sea
+                          </div>
+                          <h4 style="margin-top:1.2rem;">Water Cycle</h4>
+                          <div class="formula-box">
+Evaporation → Condensation → Precipitation → Collection
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Maps & Coordinates",
+                        content: `
+                          <h3>Maps & Coordinates</h3>
+                          <p style="margin-top:0.5rem;">Maps help us locate places using latitude, longitude and symbols.</p>
+                          <div class="formula-box">
+Latitude → horizontal lines (Equator = 0°)
+Longitude → vertical lines (Prime Meridian = 0°)
+Scale → relates map distance to real distance
+Legend/Key → explains map symbols
+                          </div>
+                          <div class="lesson-tip"><strong>Practice:</strong> North is usually at the top of a map. Compass directions: N, E, S, W.</div>
+                        `
+                    },
+                    {
+                        title: "Continents & Oceans",
+                        content: `
+                          <h3>Continents & Oceans</h3>
+                          <div class="formula-box">
+7 Continents: Africa, Antarctica, Asia, Europe, North America, South America, Australia/Oceania
+5 Oceans: Pacific (largest), Atlantic, Indian, Southern, Arctic
+                          </div>
+                          <p style="margin-top:0.8rem;">Asia is the largest continent by area and population. The Pacific is the largest ocean.</p>
+                        `
+                    }
+                ]
+            },
+            astronomy: {
+                title: "Space & the Universe",
+                badge: "Astronomy",
+                tagClass: "tag-astro",
+                desc: "Explore the solar system, stars, galaxies and how we study the universe.",
+                topics: [
+                    {
+                        title: "The Solar System",
+                        content: `
+                          <h3>The Solar System</h3>
+                          <p style="margin-top:0.5rem;">Our solar system has the Sun, eight planets, moons, asteroids and comets.</p>
+                          <div class="formula-box">
+Order from the Sun:
+Mercury → Venus → Earth → Mars → Jupiter → Saturn → Uranus → Neptune
+
+Inner (rocky): Mercury, Venus, Earth, Mars
+Outer (gas/ice giants): Jupiter, Saturn, Uranus, Neptune
+                          </div>
+                          <div class="lesson-tip"><strong>Memory tip:</strong> My Very Educated Mother Just Served Us Noodles.</div>
+                        `
+                    },
+                    {
+                        title: "The Sun & Stars",
+                        content: `
+                          <h3>The Sun & Stars</h3>
+                          <p style="margin-top:0.5rem;">Stars are giant balls of hot gas that produce energy by nuclear fusion.</p>
+                          <div class="formula-box">
+Sun → a medium-sized star at the center of our solar system
+Fusion → hydrogen nuclei join to form helium + energy
+Star colors → blue (hottest) → white → yellow → orange → red (coolest)
+                          </div>
+                          <h4 style="margin-top:1.2rem;">Star Life Cycle (simple)</h4>
+                          <div class="formula-box">
+Nebula → Star → Red giant → White dwarf
+(Very massive stars can end as neutron stars or black holes)
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Moons, Asteroids & Comets",
+                        content: `
+                          <h3>Moons, Asteroids & Comets</h3>
+                          <div class="formula-box">
+Moon → natural satellite orbiting a planet
+Asteroids → rocky objects, many between Mars and Jupiter
+Comets → icy bodies that grow tails near the Sun
+Meteoroid → small space rock
+Meteor → streak of light in atmosphere (“shooting star”)
+Meteorite → space rock that reaches the ground
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Galaxies & the Universe",
+                        content: `
+                          <h3>Galaxies & the Universe</h3>
+                          <p style="margin-top:0.5rem;">A galaxy is a huge system of stars, gas, dust and dark matter held by gravity.</p>
+                          <div class="formula-box">
+Milky Way → our galaxy (barred spiral)
+Andromeda → nearest large galaxy
+Galaxy types → spiral, elliptical, irregular
+Universe age → about 13.8 billion years
+                          </div>
+                          <div class="lesson-tip"><strong>Big Bang:</strong> The universe expanded from a very hot, dense state and is still expanding.</div>
+                        `
+                    },
+                    {
+                        title: "Space Exploration",
+                        content: `
+                          <h3>Space Exploration</h3>
+                          <div class="formula-box">
+1957 → Sputnik 1 (first satellite)
+1961 → Yuri Gagarin (first human in space)
+1969 → Apollo 11 Moon landing
+ISS → International Space Station
+Rovers → explore Mars and other worlds
+                          </div>
+                          <p style="margin-top:0.8rem;">Telescopes (Hubble, James Webb) help us see distant stars and galaxies in amazing detail.</p>
+                        `
+                    },
+                    {
+                        title: "Day, Night & Seasons",
+                        content: `
+                          <h3>Day, Night & Seasons</h3>
+                          <div class="formula-box">
+Day & night → Earth rotates on its axis (~24 hours)
+Year → Earth orbits the Sun (~365.25 days)
+Seasons → caused by Earth’s tilted axis (about 23.5°)
+Not caused by distance from the Sun
+                          </div>
+                          <div class="lesson-tip"><strong>Key idea:</strong> Tilt changes how directly sunlight hits different parts of Earth during the year.</div>
+                        `
+                    }
+                ]
+            },
+            environment: {
+                title: "Environmental Science",
+                badge: "Environment",
+                tagClass: "tag-env",
+                desc: "Learn about ecosystems, pollution, climate change and how we can protect the planet.",
+                topics: [
+                    {
+                        title: "Ecosystems & Food Chains",
+                        content: `
+                          <h3>Ecosystems & Food Chains</h3>
+                          <p style="margin-top:0.5rem;">An ecosystem includes living things and their non-living environment interacting together.</p>
+                          <div class="formula-box">
+Producer → makes food (plants)
+Consumer → eats other organisms
+Decomposer → breaks down dead material (fungi, bacteria)
+Food chain example: Grass → Rabbit → Fox
+Energy pyramid → energy decreases at each level (~10% rule)
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Natural Resources",
+                        content: `
+                          <h3>Natural Resources</h3>
+                          <div class="formula-box">
+Renewable → can be replaced (sunlight, wind, water, timber if managed)
+Non-renewable → limited supply (coal, oil, natural gas, minerals)
+Conserve → use carefully and reduce waste
+                          </div>
+                          <div class="lesson-tip"><strong>3 Rs:</strong> Reduce → Reuse → Recycle</div>
+                        `
+                    },
+                    {
+                        title: "Pollution Types",
+                        content: `
+                          <h3>Pollution Types</h3>
+                          <div class="formula-box">
+Air pollution → smoke, vehicle exhaust, factories
+Water pollution → plastics, chemicals, sewage
+Land pollution → litter, industrial waste
+Noise pollution → loud traffic, machinery
+Light pollution → excess artificial light at night
+                          </div>
+                          <p style="margin-top:0.8rem;">Pollution harms health, wildlife and ecosystems. Prevention is better than cleanup.</p>
+                        `
+                    },
+                    {
+                        title: "Climate Change Basics",
+                        content: `
+                          <h3>Climate Change Basics</h3>
+                          <p style="margin-top:0.5rem;">Earth’s climate is warming mainly because of greenhouse gases from human activity.</p>
+                          <div class="formula-box">
+Greenhouse gases → CO₂, methane, water vapor
+Sources → burning fossil fuels, deforestation, agriculture
+Effects → rising temperatures, melting ice, extreme weather, sea-level rise
+                          </div>
+                          <div class="lesson-tip"><strong>Action ideas:</strong> Save energy, plant trees, use less plastic, support clean energy.</div>
+                        `
+                    },
+                    {
+                        title: "Biodiversity & Conservation",
+                        content: `
+                          <h3>Biodiversity & Conservation</h3>
+                          <div class="formula-box">
+Biodiversity → variety of living things in an area
+Why important → food, medicine, healthy ecosystems, beauty
+Threats → habitat loss, pollution, overhunting, climate change
+Conservation → national parks, wildlife laws, restoring habitats
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Sustainability Habits",
+                        content: `
+                          <h3>Sustainability Habits</h3>
+                          <div class="formula-box">
+Save electricity and water
+Walk, cycle or use public transport when possible
+Choose reusable bottles and bags
+Avoid food waste
+Learn and share eco-friendly ideas
+                          </div>
+                          <p style="margin-top:0.8rem;">Small daily actions by many people create a big positive impact.</p>
+                        `
+                    }
+                ]
+            },
+            english: {
+                title: "Language & Communication",
+                badge: "English",
+                tagClass: "tag-eng",
+                desc: "Build grammar, writing, reading and vocabulary skills for clear communication.",
+                topics: [
+                    {
+                        title: "Parts of Speech",
+                        content: `
+                          <h3>Parts of Speech</h3>
+                          <div class="formula-box">
+Noun → person, place, thing, idea (teacher, city, courage)
+Pronoun → replaces a noun (he, she, it, they)
+Verb → action or state (run, is, think)
+Adjective → describes a noun (bright, tall)
+Adverb → describes a verb/adjective (quickly, very)
+Preposition → shows relation (in, on, under, with)
+Conjunction → joins words/clauses (and, but, because)
+Interjection → emotion (Wow! Oh!)
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Sentences & Punctuation",
+                        content: `
+                          <h3>Sentences & Punctuation</h3>
+                          <div class="formula-box">
+Statement → ends with .
+Question → ends with ?
+Exclamation → ends with !
+Command → often starts with a verb (Please sit down.)
+
+Use commas for lists and pauses
+Use capital letters for sentence starts and names
+                          </div>
+                          <div class="lesson-tip"><strong>Tip:</strong> Every complete sentence needs a subject and a verb.</div>
+                        `
+                    },
+                    {
+                        title: "Tenses Overview",
+                        content: `
+                          <h3>Tenses Overview</h3>
+                          <div class="formula-box">
+Present simple → I learn every day.
+Past simple → I learned yesterday.
+Future simple → I will learn tomorrow.
+Present continuous → I am learning now.
+Past continuous → I was learning when you called.
+                          </div>
+                          <p style="margin-top:0.8rem;">Tense tells the time of an action. Matching tense correctly makes writing clearer.</p>
+                        `
+                    },
+                    {
+                        title: "Writing a Clear Paragraph",
+                        content: `
+                          <h3>Writing a Clear Paragraph</h3>
+                          <div class="formula-box">
+1. Topic sentence → main idea
+2. Supporting sentences → facts, examples, reasons
+3. Concluding sentence → wraps up the idea
+
+Keep one main idea per paragraph
+Use linking words: first, also, however, finally
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Reading Strategies",
+                        content: `
+                          <h3>Reading Strategies</h3>
+                          <div class="formula-box">
+Skim → get the general idea quickly
+Scan → look for a specific fact or word
+Predict → guess what comes next
+Summarize → say the main points in your own words
+Context clues → use nearby words to understand new vocabulary
+                          </div>
+                          <div class="lesson-tip"><strong>Practice:</strong> After reading, try to explain the idea in one short sentence.</div>
+                        `
+                    },
+                    {
+                        title: "Vocabulary Builders",
+                        content: `
+                          <h3>Vocabulary Builders</h3>
+                          <div class="formula-box">
+Prefix examples: un- (not), re- (again), pre- (before)
+Suffix examples: -ful (full of), -less (without), -tion (action/state)
+Synonyms → similar meaning (happy / joyful)
+Antonyms → opposite meaning (hot / cold)
+                          </div>
+                          <p style="margin-top:0.8rem;">Learn a few new words each week and use them in sentences to remember them.</p>
+                        `
+                    }
+                ]
+            },
+            health: {
+                title: "Health & Human Body",
+                badge: "Health",
+                tagClass: "tag-health",
+                desc: "Learn how the body works and how nutrition, exercise and rest support wellness.",
+                topics: [
+                    {
+                        title: "Major Body Systems",
+                        content: `
+                          <h3>Major Body Systems</h3>
+                          <div class="formula-box">
+Circulatory → heart & blood vessels move blood
+Respiratory → lungs exchange oxygen and carbon dioxide
+Digestive → breaks down food for energy and nutrients
+Nervous → brain, spinal cord and nerves control the body
+Skeletal → bones support and protect
+Muscular → muscles create movement
+Immune → defends against germs
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Nutrition Basics",
+                        content: `
+                          <h3>Nutrition Basics</h3>
+                          <div class="formula-box">
+Carbohydrates → energy (rice, bread, fruit)
+Proteins → growth and repair (eggs, beans, fish)
+Fats → energy and cell health (nuts, oils — in balance)
+Vitamins & minerals → support many body functions
+Water → hydration, temperature control, transport
+                          </div>
+                          <div class="lesson-tip"><strong>Balanced plate idea:</strong> vegetables/fruits + grains + protein + water.</div>
+                        `
+                    },
+                    {
+                        title: "Exercise & Fitness",
+                        content: `
+                          <h3>Exercise & Fitness</h3>
+                          <div class="formula-box">
+Cardio → running, swimming, cycling (heart health)
+Strength → bodyweight or resistance exercises
+Flexibility → stretching, yoga
+Aim for regular movement most days
+Warm up before and cool down after activity
+                          </div>
+                          <p style="margin-top:0.8rem;">Movement improves mood, sleep, strength and long-term health.</p>
+                        `
+                    },
+                    {
+                        title: "Sleep & Recovery",
+                        content: `
+                          <h3>Sleep & Recovery</h3>
+                          <div class="formula-box">
+Sleep helps memory, growth and immune function
+Most students need about 8–10 hours per night
+Tips: regular bedtime, less screen time before sleep, quiet dark room
+                          </div>
+                          <div class="lesson-tip"><strong>Remember:</strong> Rest is part of learning and performance, not a waste of time.</div>
+                        `
+                    },
+                    {
+                        title: "Hygiene & Disease Prevention",
+                        content: `
+                          <h3>Hygiene & Disease Prevention</h3>
+                          <div class="formula-box">
+Wash hands with soap
+Cover coughs and sneezes
+Clean cuts and keep them covered
+Stay home when very sick when possible
+Vaccines help train the immune system safely
+                          </div>
+                        `
+                    },
+                    {
+                        title: "Mental Wellness Basics",
+                        content: `
+                          <h3>Mental Wellness Basics</h3>
+                          <div class="formula-box">
+Talk to a trusted adult when stressed
+Breathe slowly: in for 4, out for 4
+Take short breaks while studying
+Be kind to yourself and others
+Balance study, play, rest and friendships
+                          </div>
+                          <p style="margin-top:0.8rem;">Mental health is as important as physical health. Asking for help is a strength.</p>
+                        `
                     }
                 ]
             }
@@ -3003,16 +4042,35 @@ function getLocalReply(text) {
     switchTab("education");
     return "Opening EduPulse STEM Academy for you!";
   }
-  if (/open quiz|start quiz/.test(t)) {
+  if (/open quiz|start quiz|quiz zone/.test(t)) {
     switchTab("quiz");
     return "Opening Quiz Zone!";
+  }
+  // Interactive online quiz INSIDE AI Chat Studio
+  if (/(make|create|generate|build|give me|start)\s+(an?\s+)?(online\s+)?quiz/.test(t) ||
+      /quiz\s+(about|on|for)\s+/.test(t) ||
+      /^quiz\s+\w+/.test(t) ||
+      /ask me (a |some )?quiz/.test(t)) {
+    let topic = "general";
+    const aboutMatch = t.match(/(?:quiz|questions?)\s+(?:about|on|for)\s+(.+)$/i) ||
+                       t.match(/(?:make|create|generate|build|give me|start)\s+(?:an?\s+)?(?:online\s+)?quiz\s+(?:about|on|for)?\s*(.+)$/i);
+    if (aboutMatch && aboutMatch[1]) {
+      topic = aboutMatch[1].replace(/[?.!]+$/, "").trim() || "general";
+    } else if (/science/.test(t)) topic = "science";
+    else if (/space|planet|star/.test(t)) topic = "space";
+    else if (/animal/.test(t)) topic = "animals";
+    else if (/history/.test(t)) topic = "history";
+    else if (/cod(e|ing)|program|html|python/.test(t)) topic = "coding";
+    else if (/math/.test(t)) topic = "math";
+
+    return { type: "chat-quiz", topic: topic };
   }
   if (/open (fun|games)|joke zone/.test(t)) {
     switchTab("fun");
     return "Opening Fun & Games!";
   }
   // Very short / empty → gentle prompt
-  if (t.length < 2) return "I'm listening! Ask me anything about science, space, math, coding, or just say hi.";
+  if (t.length < 2) return "I'm listening! Ask me anything about science, space, math, coding, quizzes, or just say hi.";
   return null; // signal that we should try live AI
 }
 
@@ -3114,7 +4172,9 @@ async function generateHighQualityImage(prompt) {
 // Detect if user is explicitly asking for image generation
 function isImageGenerationRequest(text) {
   const t = text.toLowerCase().trim();
-  return /^(generate|create|draw|make|paint|design|show me an? image|image of|picture of|photo of|illustration of)\b/.test(t) ||
+  // Never treat quiz requests as image generation
+  if (/\bquiz\b/.test(t)) return false;
+  return /^(draw|paint|design|show me an? image|image of|picture of|photo of|illustration of)\b/.test(t) ||
          /\b(generate|create|draw|make)\s+(an?\s+)?(image|picture|photo|illustration|art|artwork)\b/.test(t) ||
          /\b(image|picture|photo)\s+(of|about|showing)\b/.test(t);
 }
@@ -3130,7 +4190,11 @@ function extractImagePrompt(text) {
 async function getReply(text) {
   // 1. Always try local rules first for identity & special commands
   const local = getLocalReply(text);
-  if (local !== null) return { type: "text", content: local };
+  if (local !== null) {
+    // Special structured replies (e.g. in-chat quiz)
+    if (typeof local === "object" && local.type) return local;
+    return { type: "text", content: local };
+  }
 
   // ========== BRANCH 3: High-quality image (Cloudflare Workers AI) ==========
   if (isImageGenerationRequest(text)) {
@@ -3301,6 +4365,10 @@ function addMessage(content, role, save = true, imageUrl = null, isHighQuality =
     // Store only text for history (images are temporary blob/pollinations URLs)
     chatHistory.push({role, content: content + (imageUrl ? " [image]" : "")});
     localStorage.setItem("delaw_history", JSON.stringify(chatHistory.slice(-80)));
+    // Auto-save into session history (debounced-ish via role check — save after AI reply)
+    if (role === "ai") {
+      try { saveCurrentSession(); } catch (_) {}
+    }
   }
 }
 function renderHistory() {
@@ -3334,6 +4402,8 @@ async function thinkAndReply(userText) {
 
     if (typeof reply === "string") {
       addMessage(reply, "ai");
+    } else if (reply && reply.type === "chat-quiz") {
+      startChatStudioQuiz(reply.topic || "general");
     } else if (reply && reply.type === "hq-image") {
       addMessage(reply.content, "ai", true, reply.image, true);
     } else if (reply && reply.type === "text+lq-image") {
@@ -3366,22 +4436,395 @@ function quick(text) {
   document.getElementById("input").value = text;
   sendMessage();
 }
-function newChat() {
-  chatHistory = [];
-  localStorage.removeItem("delaw_history");
-  renderHistory();
-  switchTab("chat");
+
+// ==================== AI CHAT STUDIO — INTERACTIVE ONLINE QUIZ ====================
+// Runs entirely inside the chat messages (not a separate tab)
+let chatQuiz = {
+  questions: [],
+  index: 0,
+  score: 0,
+  topic: "general",
+  title: "Quiz",
+  active: false
+};
+
+function startChatStudioQuiz(topic) {
+  const built = (typeof buildQuizFromBank === "function")
+    ? buildQuizFromBank(topic, 6)
+    : { title: "Quiz", topic: topic || "general", questions: (typeof classicQuizData !== "undefined" ? classicQuizData.slice(0, 6) : []) };
+
+  if (!built.questions || !built.questions.length) {
+    addMessage("Sorry, I could not build a quiz right now. Try: **Make a science quiz**", "ai");
+    return;
+  }
+
+  chatQuiz = {
+    questions: built.questions.slice(),
+    index: 0,
+    score: 0,
+    topic: built.topic || topic || "general",
+    title: built.title || "Quiz",
+    active: true
+  };
+
+  const intro = `Great! Let's play an online **${chatQuiz.title}** right here in Chat Studio.\n\n` +
+    `There are **${chatQuiz.questions.length} questions**. Tap one of the 4 answers. ` +
+    `After you choose, I'll show if it's right or wrong and move to the next question. Good luck!`;
+  addMessage(intro, "ai");
+  renderChatStudioQuestion();
+  if (typeof showBlueToast === "function") showBlueToast("Online quiz started in chat!");
 }
-function clearChat() { if (confirm("Clear all messages?")) newChat(); }
+
+function renderChatStudioQuestion() {
+  const box = document.getElementById("messages");
+  if (!box || !chatQuiz.active) return;
+
+  // Finished
+  if (chatQuiz.index >= chatQuiz.questions.length) {
+    const total = chatQuiz.questions.length;
+    const score = chatQuiz.score;
+    let verdict = "Nice try! Ask me to make another quiz anytime.";
+    if (score === total) verdict = "Perfect score! You're a star! 🌟";
+    else if (score >= total * 0.7) verdict = "Great job! Keep learning.";
+    const summary =
+      `**Quiz complete!**\n\n` +
+      `Topic: **${chatQuiz.title}**\n` +
+      `Score: **${score}/${total}**\n\n` +
+      verdict +
+      `\n\nSay **"make a science quiz"** or **"create a space quiz"** for another one.`;
+    addMessage(summary, "ai");
+    chatQuiz.active = false;
+    if (typeof showBlueToast === "function") showBlueToast(`Quiz finished: ${score}/${total}`);
+    return;
+  }
+
+  const q = chatQuiz.questions[chatQuiz.index];
+  const num = chatQuiz.index + 1;
+  const total = chatQuiz.questions.length;
+  const time = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  const letters = ["A", "B", "C", "D"];
+
+  const div = document.createElement("div");
+  div.className = "msg ai max-quiz";
+  div.id = "chat-quiz-card";
+
+  let optsHtml = "";
+  (q.options || []).slice(0, 4).forEach((opt, i) => {
+    optsHtml += `<button type="button" class="msg-quiz-opt" data-idx="${i}" onclick="answerChatStudioQuiz(${i})">` +
+      `<strong>${letters[i] || (i + 1)}.</strong> ${escapeHtml(String(opt))}` +
+      `</button>`;
+  });
+
+  div.innerHTML =
+    `<div class="msg-body">` +
+      `<div class="msg-quiz">` +
+        `<div class="msg-quiz-header">` +
+          `<span>📝 ${escapeHtml(chatQuiz.title)}</span>` +
+          `<span>Question ${num} / ${total} · Score ${chatQuiz.score}</span>` +
+        `</div>` +
+        `<div class="msg-quiz-q">${escapeHtml(q.q)}</div>` +
+        `<div class="msg-quiz-options">${optsHtml}</div>` +
+        `<div class="msg-quiz-feedback" id="chat-quiz-feedback"></div>` +
+      `</div>` +
+    `</div>` +
+    `<div class="msg-meta"><span>${time}</span></div>`;
+
+  box.appendChild(div);
+  box.scrollTop = box.scrollHeight;
+
+  // Save a text snapshot in history (buttons are live only in this session)
+  chatHistory.push({
+    role: "ai",
+    content: `[Quiz Q${num}/${total}] ${q.q}`
+  });
+  localStorage.setItem("delaw_history", JSON.stringify(chatHistory.slice(-80)));
+}
+
+function answerChatStudioQuiz(optionIndex) {
+  if (!chatQuiz.active) return;
+  const card = document.getElementById("chat-quiz-card");
+  if (!card) return;
+
+  const q = chatQuiz.questions[chatQuiz.index];
+  if (!q) return;
+
+  const buttons = card.querySelectorAll(".msg-quiz-opt");
+  buttons.forEach(b => { b.disabled = true; });
+
+  const feedback = card.querySelector("#chat-quiz-feedback");
+  const correct = optionIndex === q.answer;
+
+  buttons.forEach((b, i) => {
+    if (i === q.answer) b.classList.add("correct");
+    if (i === optionIndex && !correct) b.classList.add("wrong");
+  });
+
+  if (correct) {
+    chatQuiz.score++;
+    if (feedback) {
+      feedback.textContent = "Correct! ✓";
+      feedback.className = "msg-quiz-feedback ok";
+    }
+  } else {
+    if (feedback) {
+      const rightText = (q.options && q.options[q.answer]) ? q.options[q.answer] : "";
+      feedback.textContent = "Wrong. Correct answer: " + rightText;
+      feedback.className = "msg-quiz-feedback bad";
+    }
+  }
+
+  // Remove id so next question gets a new card
+  card.id = "";
+
+  // Next question after a short pause
+  setTimeout(() => {
+    chatQuiz.index++;
+    renderChatStudioQuestion();
+  }, 1100);
+}
+
+// ==================== BLUE THEMED NOTIFICATIONS ====================
+function showBlueToast(message, duration) {
+  const toast = document.getElementById("blue-toast");
+  if (!toast) return;
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(showBlueToast._t);
+  showBlueToast._t = setTimeout(() => toast.classList.remove("show"), duration || 2800);
+}
+
+function showBlueConfirm(title, message, onConfirm, icon) {
+  const overlay = document.getElementById("blue-modal-overlay");
+  document.getElementById("blue-modal-title").textContent = title || "Are you sure?";
+  document.getElementById("blue-modal-msg").textContent = message || "";
+  document.getElementById("blue-modal-icon").textContent = icon || "🗑️";
+  blueModalCallback = onConfirm;
+  overlay.classList.add("show");
+}
+
+function hideBlueModal() {
+  document.getElementById("blue-modal-overlay").classList.remove("show");
+  blueModalCallback = null;
+}
+
+document.getElementById("blue-modal-cancel").addEventListener("click", hideBlueModal);
+document.getElementById("blue-modal-confirm").addEventListener("click", () => {
+  const cb = blueModalCallback;
+  hideBlueModal();
+  if (typeof cb === "function") cb();
+});
+document.getElementById("blue-modal-overlay").addEventListener("click", (e) => {
+  if (e.target.id === "blue-modal-overlay") hideBlueModal();
+});
+
+// ==================== CHAT HISTORY SESSIONS ====================
+function saveCurrentSession() {
+  if (!chatHistory.length) return;
+  const title = (chatHistory.find(m => m.role === "user") || {}).content || "New chat";
+  const shortTitle = String(title).replace(/\s*\[image\]\s*$/i, "").slice(0, 48) || "New chat";
+  const now = Date.now();
+  if (currentSessionId) {
+    const idx = chatSessions.findIndex(s => s.id === currentSessionId);
+    if (idx >= 0) {
+      chatSessions[idx].messages = chatHistory.slice();
+      chatSessions[idx].title = shortTitle;
+      chatSessions[idx].updatedAt = now;
+    } else {
+      chatSessions.unshift({ id: currentSessionId, title: shortTitle, messages: chatHistory.slice(), updatedAt: now });
+    }
+  } else {
+    currentSessionId = "s_" + now;
+    chatSessions.unshift({ id: currentSessionId, title: shortTitle, messages: chatHistory.slice(), updatedAt: now });
+  }
+  // Keep max 30 sessions
+  chatSessions = chatSessions.slice(0, 30);
+  localStorage.setItem("delaw_sessions", JSON.stringify(chatSessions));
+  localStorage.setItem("delaw_current_session", currentSessionId);
+  localStorage.setItem("delaw_history", JSON.stringify(chatHistory.slice(-80)));
+}
+
+function loadSession(id) {
+  const session = chatSessions.find(s => s.id === id);
+  if (!session) return;
+  // Save current first if it has messages
+  if (chatHistory.length && currentSessionId !== id) saveCurrentSession();
+  currentSessionId = id;
+  chatHistory = (session.messages || []).slice();
+  localStorage.setItem("delaw_history", JSON.stringify(chatHistory));
+  localStorage.setItem("delaw_current_session", currentSessionId);
+  renderHistory();
+  renderHistoryPanel();
+  toggleHistoryPanel(false);
+  showBlueToast("Chat loaded: " + session.title);
+}
+
+function deleteSession(id, ev) {
+  if (ev) ev.stopPropagation();
+  showBlueConfirm("Delete this chat?", "This chat will be removed from history permanently.", () => {
+    chatSessions = chatSessions.filter(s => s.id !== id);
+    localStorage.setItem("delaw_sessions", JSON.stringify(chatSessions));
+    if (currentSessionId === id) {
+      currentSessionId = null;
+      chatHistory = [];
+      localStorage.removeItem("delaw_history");
+      localStorage.removeItem("delaw_current_session");
+      renderHistory();
+    }
+    renderHistoryPanel();
+    showBlueToast("Chat deleted");
+  }, "🗂️");
+}
+
+function renderHistoryPanel() {
+  const list = document.getElementById("history-list");
+  if (!list) return;
+  if (!chatSessions.length) {
+    list.innerHTML = '<div class="history-empty">No saved chats yet.<br>Start chatting and it will appear here!</div>';
+    return;
+  }
+  list.innerHTML = chatSessions.map(s => {
+    const date = new Date(s.updatedAt || Date.now());
+    const timeStr = date.toLocaleDateString([], { month: "short", day: "numeric" }) + " " + date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    const count = (s.messages || []).length;
+    const active = s.id === currentSessionId ? " active" : "";
+    return `<div class="history-item${active}" onclick="loadSession('${s.id}')">
+      <button class="history-item-del" title="Delete" onclick="deleteSession('${s.id}', event)">✕</button>
+      <div class="history-item-title">${escapeHtml(s.title || "Chat")}</div>
+      <div class="history-item-meta">${count} messages · ${timeStr}</div>
+    </div>`;
+  }).join("");
+}
+
+function toggleHistoryPanel(force) {
+  const panel = document.getElementById("history-panel");
+  if (!panel) return;
+  if (force === false) {
+    panel.classList.remove("show");
+    return;
+  }
+  const willShow = !panel.classList.contains("show");
+  if (willShow) renderHistoryPanel();
+  panel.classList.toggle("show", willShow);
+}
+
+// Close history panel when clicking outside
+document.addEventListener("click", (e) => {
+  const panel = document.getElementById("history-panel");
+  if (!panel || !panel.classList.contains("show")) return;
+  if (!e.target.closest("#history-panel") && !e.target.closest("[onclick*=toggleHistoryPanel]")) {
+    panel.classList.remove("show");
+  }
+});
+
+function newChat() {
+  // Save current conversation into history before clearing
+  if (chatHistory.length) saveCurrentSession();
+  chatHistory = [];
+  currentSessionId = null;
+  localStorage.removeItem("delaw_history");
+  localStorage.removeItem("delaw_current_session");
+  renderHistory();
+  renderHistoryPanel();
+  switchTab("chat");
+  showBlueToast("New chat started");
+}
+
+function clearChat() {
+  showBlueConfirm(
+    "Clear all messages?",
+    "This will remove messages from the current chat. Saved history sessions stay safe.",
+    () => {
+      chatHistory = [];
+      localStorage.removeItem("delaw_history");
+      // Also clear the current session content if it exists
+      if (currentSessionId) {
+        const idx = chatSessions.findIndex(s => s.id === currentSessionId);
+        if (idx >= 0) {
+          chatSessions.splice(idx, 1);
+          localStorage.setItem("delaw_sessions", JSON.stringify(chatSessions));
+        }
+        currentSessionId = null;
+        localStorage.removeItem("delaw_current_session");
+      }
+      renderHistory();
+      renderHistoryPanel();
+      showBlueToast("Chat cleared successfully");
+    },
+    "🗑️"
+  );
+}
+
 function exportChat() {
   let out = `Delaw AI Chat\nProduced by ${PRODUCER}\n\n`;
   chatHistory.forEach(m => out += `[${m.role}] ${m.content}\n\n`);
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([out], {type:"text/plain"}));
+  a.href = URL.createObjectURL(new Blob([out], { type: "text/plain" }));
   a.download = "delaw-chat.txt";
   a.click();
+  showBlueToast("Chat exported");
 }
+
 document.getElementById("input").addEventListener("keydown", e => { if (e.key === "Enter") sendMessage(); });
+
+// ==================== CHAT BAR MIC (connected to voice) ====================
+function toggleChatMic() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const btn = document.getElementById("chat-mic");
+  if (!SR) {
+    showBlueToast("Speech recognition not supported. Try Chrome or Edge.");
+    return;
+  }
+  if (btn && btn.classList.contains("rec")) {
+    if (chatMicRecognition) chatMicRecognition.stop();
+    return;
+  }
+  chatMicRecognition = new SR();
+  chatMicRecognition.lang = "en-US";
+  chatMicRecognition.interimResults = false;
+  chatMicRecognition.maxAlternatives = 1;
+  chatMicRecognition.onstart = () => {
+    if (btn) {
+      btn.classList.add("rec");
+      btn.textContent = "⏹";
+      btn.title = "Stop listening";
+    }
+    const statusEl = document.getElementById("status");
+    if (statusEl) statusEl.textContent = "🎤 Listening...";
+  };
+  chatMicRecognition.onend = () => {
+    if (btn) {
+      btn.classList.remove("rec");
+      btn.textContent = "🎤";
+      btn.title = "Voice input";
+    }
+    updateStatusBar();
+  };
+  chatMicRecognition.onerror = (ev) => {
+    if (btn) {
+      btn.classList.remove("rec");
+      btn.textContent = "🎤";
+    }
+    updateStatusBar();
+    showBlueToast("Voice error: " + (ev.error || "unknown"));
+  };
+  chatMicRecognition.onresult = (e) => {
+    const transcript = e.results[0][0].transcript;
+    const input = document.getElementById("input");
+    if (input) {
+      input.value = transcript;
+      input.focus();
+    }
+    // Auto-send the spoken message into chat
+    if (transcript.trim()) {
+      sendMessage();
+    }
+  };
+  try {
+    chatMicRecognition.start();
+  } catch (err) {
+    showBlueToast("Could not start microphone. Check permissions.");
+  }
+}
 
 function showJoke() { document.getElementById("joke-box").textContent = pick(KB.jokes); }
 function showRiddle() { const r = pick(KB.riddles); document.getElementById("riddle-box").innerHTML = r.question + "<br><br><strong>Answer:</strong> " + r.answer; }
@@ -3393,7 +4836,8 @@ function randomFact(type) {
 function generateStory() { document.getElementById("story-display").textContent = pick(KB.stories); }
 function generatePrompt() { document.getElementById("story-display").textContent = pick(KB.prompts); }
 
-const quizData = [
+// ==================== ONLINE QUIZ ENGINE (Delaw can generate quizzes) ====================
+const classicQuizData = [
   {q:"How many hearts does an octopus have?", options:["1","2","3","4"], answer:2},
   {q:"What planet is known as the Red Planet?", options:["Venus","Mars","Jupiter","Saturn"], answer:1},
   {q:"What gas do plants absorb from the air for photosynthesis?", options:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"], answer:2},
@@ -3403,37 +4847,269 @@ const quizData = [
   {q:"Which organ pumps blood around the body?", options:["Lungs","Brain","Heart","Liver"], answer:2},
   {q:"What is the largest planet in our solar system?", options:["Earth","Saturn","Jupiter","Neptune"], answer:2}
 ];
-function startQuiz() {
-  quizIndex = 0; quizScore = 0;
+
+// Topic quiz banks — Delaw uses these to build online quizzes offline
+const quizBanks = {
+  science: [
+    {q:"What is the chemical symbol for gold?", options:["Go","Gd","Au","Ag"], answer:2},
+    {q:"How many bones are in an adult human body?", options:["196","206","216","186"], answer:1},
+    {q:"What gas do plants release during photosynthesis?", options:["Carbon dioxide","Nitrogen","Oxygen","Helium"], answer:2},
+    {q:"What is H2O commonly known as?", options:["Salt","Water","Sugar","Air"], answer:1},
+    {q:"Which planet is closest to the Sun?", options:["Venus","Earth","Mercury","Mars"], answer:2},
+    {q:"What is the hardest natural substance?", options:["Steel","Diamond","Quartz","Iron"], answer:1},
+    {q:"What part of the cell contains DNA?", options:["Cytoplasm","Nucleus","Membrane","Ribosome"], answer:1},
+    {q:"At what temperature does water boil (Celsius)?", options:["90°C","100°C","110°C","80°C"], answer:1}
+  ],
+  space: [
+    {q:"What is the name of our galaxy?", options:["Andromeda","Milky Way","Orion","Whirlpool"], answer:1},
+    {q:"How many planets are in the solar system?", options:["7","8","9","10"], answer:1},
+    {q:"Which planet is known for its rings?", options:["Jupiter","Uranus","Saturn","Neptune"], answer:2},
+    {q:"What is a light-year a measure of?", options:["Time","Distance","Speed","Brightness"], answer:1},
+    {q:"Who was the first person on the Moon?", options:["Buzz Aldrin","Yuri Gagarin","Neil Armstrong","John Glenn"], answer:2},
+    {q:"What is the hottest planet in our solar system?", options:["Mercury","Venus","Mars","Jupiter"], answer:1},
+    {q:"What force keeps planets in orbit?", options:["Magnetism","Gravity","Friction","Electricity"], answer:1},
+    {q:"What is the Sun mainly made of?", options:["Oxygen & nitrogen","Hydrogen & helium","Carbon & iron","Water & rock"], answer:1}
+  ],
+  animals: [
+    {q:"How many hearts does an octopus have?", options:["1","2","3","4"], answer:2},
+    {q:"What is a group of lions called?", options:["Herd","Pack","Pride","Flock"], answer:2},
+    {q:"Which animal is known as the King of the Jungle?", options:["Tiger","Elephant","Lion","Gorilla"], answer:2},
+    {q:"What do bees collect from flowers?", options:["Water","Nectar","Leaves","Seeds"], answer:1},
+    {q:"Which bird cannot fly?", options:["Eagle","Penguin","Sparrow","Hawk"], answer:1},
+    {q:"What is the largest mammal?", options:["Elephant","Blue whale","Giraffe","Hippo"], answer:1},
+    {q:"How many legs does a spider have?", options:["6","8","10","4"], answer:1},
+    {q:"Which animal can change color to blend in?", options:["Chameleon","Dog","Horse","Cow"], answer:0}
+  ],
+  history: [
+    {q:"Who was the first President of the United States?", options:["Abraham Lincoln","Thomas Jefferson","George Washington","John Adams"], answer:2},
+    {q:"In which year did World War II end?", options:["1943","1944","1945","1946"], answer:2},
+    {q:"Where were the ancient pyramids built?", options:["Greece","Rome","Egypt","China"], answer:2},
+    {q:"Who invented the light bulb (popularly credited)?", options:["Newton","Edison","Einstein","Tesla"], answer:1},
+    {q:"What wall fell in 1989?", options:["Great Wall of China","Berlin Wall","Hadrian's Wall","Western Wall"], answer:1},
+    {q:"Which civilization built Machu Picchu?", options:["Aztec","Maya","Inca","Olmec"], answer:2},
+    {q:"Who painted the Mona Lisa?", options:["Michelangelo","Raphael","Leonardo da Vinci","Donatello"], answer:2},
+    {q:"In which country did the Industrial Revolution begin?", options:["France","Germany","United States","Britain"], answer:3}
+  ],
+  coding: [
+    {q:"What does HTML stand for?", options:["Hyper Text Markup Language","High Tech Modern Language","Home Tool Markup Language","Hyperlinks and Text Markup Language"], answer:0},
+    {q:"Which language is used to style web pages?", options:["HTML","Python","CSS","SQL"], answer:2},
+    {q:"What does CSS stand for?", options:["Computer Style Sheets","Cascading Style Sheets","Creative Style System","Colorful Style Sheets"], answer:1},
+    {q:"Which symbol starts a comment in Python?", options:["//","/*","#","--"], answer:2},
+    {q:"What is a loop used for?", options:["Storing data","Repeating code","Styling pages","Connecting to internet"], answer:1},
+    {q:"Which is a JavaScript framework?", options:["Django","React","Laravel","Flask"], answer:1},
+    {q:"What does CPU stand for?", options:["Central Processing Unit","Computer Personal Unit","Central Program Utility","Control Processing Unit"], answer:0},
+    {q:"Binary uses which two digits?", options:["0 and 1","1 and 2","A and B","Yes and No"], answer:0}
+  ],
+  math: [
+    {q:"What is 7 × 8?", options:["54","56","63","48"], answer:1},
+    {q:"What is the square root of 81?", options:["8","9","10","7"], answer:1},
+    {q:"How many degrees in a right angle?", options:["45","90","180","360"], answer:1},
+    {q:"What is 15% of 200?", options:["20","25","30","35"], answer:2},
+    {q:"What is the value of π (approx)?", options:["2.14","3.14","4.14","3.41"], answer:1},
+    {q:"What is 12²?", options:["124","144","132","156"], answer:1},
+    {q:"How many sides does a hexagon have?", options:["5","6","7","8"], answer:1},
+    {q:"What is 100 ÷ 4?", options:["20","25","30","40"], answer:1}
+  ],
+  general: [
+    {q:"How many continents are there?", options:["5","6","7","8"], answer:2},
+    {q:"What is the capital of France?", options:["London","Berlin","Paris","Madrid"], answer:2},
+    {q:"Which ocean is the largest?", options:["Atlantic","Indian","Arctic","Pacific"], answer:3},
+    {q:"How many days are in a leap year?", options:["365","366","364","360"], answer:1},
+    {q:"What color do you get mixing blue and yellow?", options:["Purple","Green","Orange","Brown"], answer:1},
+    {q:"How many hours are in a day?", options:["12","24","36","48"], answer:1},
+    {q:"What is the tallest mountain on Earth?", options:["K2","Kangchenjunga","Mount Everest","Lhotse"], answer:2},
+    {q:"Which instrument has 88 keys?", options:["Guitar","Violin","Piano","Flute"], answer:2}
+  ]
+};
+
+// Keyword → topic mapping for custom topics
+const topicKeywords = {
+  science: ["science","biology","chemistry","physics","atom","cell","dna","molecule","energy","experiment"],
+  space: ["space","planet","star","galaxy","moon","sun","astronaut","nasa","orbit","cosmos","astronomy"],
+  animals: ["animal","animals","bird","fish","mammal","insect","wildlife","zoo","pet"],
+  history: ["history","war","ancient","king","queen","empire","civilization","museum","past"],
+  coding: ["coding","code","programming","html","css","javascript","python","computer","software","web"],
+  math: ["math","maths","mathematics","number","algebra","geometry","calculate","equation","fraction"],
+  general: ["general","random","mixed","fun","knowledge","trivia","everything"]
+};
+
+let activeQuizData = classicQuizData.slice();
+let activeQuizTitle = "Classic Quiz";
+
+function shuffleArray(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function resolveQuizTopic(topic) {
+  const t = String(topic || "").toLowerCase().trim();
+  if (quizBanks[t]) return t;
+  for (const [key, words] of Object.entries(topicKeywords)) {
+    if (words.some(w => t.includes(w))) return key;
+  }
+  return "general";
+}
+
+function buildQuizFromBank(topic, count) {
+  const key = resolveQuizTopic(topic);
+  const bank = quizBanks[key] || quizBanks.general;
+  const n = Math.min(count || 6, bank.length);
+  return {
+    title: key.charAt(0).toUpperCase() + key.slice(1) + " Quiz",
+    topic: key,
+    questions: shuffleArray(bank).slice(0, n)
+  };
+}
+
+function setActiveQuiz(questions, title, topicLabel) {
+  activeQuizData = questions.slice();
+  activeQuizTitle = title || "Quiz";
+  quizIndex = 0;
+  quizScore = 0;
+  const label = document.getElementById("quiz-title-label");
+  if (label) label.textContent = activeQuizTitle;
+  const badge = document.getElementById("quiz-topic-badge");
+  if (badge) {
+    badge.style.display = "inline-block";
+    badge.textContent = topicLabel || activeQuizTitle;
+  }
   document.getElementById("quiz-btn").style.display = "none";
+  const restart = document.getElementById("quiz-restart-btn");
+  if (restart) restart.style.display = "inline-block";
   document.getElementById("quiz-score").textContent = "";
   showQuizQuestion();
 }
+
+function startQuiz() {
+  setActiveQuiz(classicQuizData, "Classic Quiz", "Classic");
+}
+
+function restartActiveQuiz() {
+  if (!activeQuizData.length) return startQuiz();
+  quizIndex = 0;
+  quizScore = 0;
+  document.getElementById("quiz-score").textContent = "";
+  document.getElementById("quiz-btn").style.display = "none";
+  const restart = document.getElementById("quiz-restart-btn");
+  if (restart) restart.style.display = "inline-block";
+  showQuizQuestion();
+}
+
 function showQuizQuestion() {
-  if (quizIndex >= quizData.length) {
-    document.getElementById("quiz-question").textContent = `Finished! Score: ${quizScore}/${quizData.length}`;
+  if (quizIndex >= activeQuizData.length) {
+    document.getElementById("quiz-question").textContent = `Finished! Score: ${quizScore}/${activeQuizData.length}`;
     document.getElementById("quiz-options").innerHTML = "";
     document.getElementById("quiz-btn").style.display = "inline-block";
-    document.getElementById("quiz-btn").textContent = "Play Again";
-    document.getElementById("quiz-score").textContent = quizScore === quizData.length ? "Perfect score! 🌟" : "Great effort! Keep learning.";
+    document.getElementById("quiz-btn").textContent = "Start Classic Quiz";
+    const restart = document.getElementById("quiz-restart-btn");
+    if (restart) restart.style.display = "inline-block";
+    document.getElementById("quiz-score").textContent =
+      quizScore === activeQuizData.length ? "Perfect score! 🌟" :
+      quizScore >= activeQuizData.length * 0.7 ? "Great job! Keep learning." :
+      "Nice try! Generate another quiz to practice more.";
+    if (typeof showBlueToast === "function") {
+      showBlueToast(`Quiz complete: ${quizScore}/${activeQuizData.length}`);
+    }
     return;
   }
-  const item = quizData[quizIndex];
-  document.getElementById("quiz-question").textContent = `Q${quizIndex+1}. ${item.q}`;
+  const item = activeQuizData[quizIndex];
+  document.getElementById("quiz-question").textContent = `Q${quizIndex + 1}. ${item.q}`;
   const opts = document.getElementById("quiz-options");
   opts.innerHTML = "";
   item.options.forEach((opt, i) => {
     const btn = document.createElement("button");
     btn.textContent = opt;
     btn.onclick = () => {
-      // Disable all buttons after choice
       opts.querySelectorAll("button").forEach(b => b.disabled = true);
       if (i === item.answer) { btn.classList.add("correct"); quizScore++; }
-      else { btn.classList.add("wrong"); }
+      else {
+        btn.classList.add("wrong");
+        // highlight correct answer
+        const correctBtn = opts.children[item.answer];
+        if (correctBtn) correctBtn.classList.add("correct");
+      }
       setTimeout(() => { quizIndex++; showQuizQuestion(); }, 900);
     };
     opts.appendChild(btn);
   });
+}
+
+function generateOnlineQuiz(topic) {
+  const status = document.getElementById("quiz-gen-status");
+  if (status) status.textContent = "Building your online quiz...";
+  const built = buildQuizFromBank(topic, 6);
+  setActiveQuiz(built.questions, built.title, built.topic);
+  if (status) status.textContent = `Ready: ${built.title} (${built.questions.length} questions)`;
+  if (typeof showBlueToast === "function") showBlueToast("Online quiz ready: " + built.title);
+  switchTab("quiz");
+  return built;
+}
+
+function generateOnlineQuizFromInput() {
+  const input = document.getElementById("quiz-topic-input");
+  const topic = (input && input.value.trim()) || "general";
+  // Use AI-enhanced path for custom topics; instant bank for known topics
+  if (typeof generateOnlineQuizWithAI === "function") {
+    generateOnlineQuizWithAI(topic);
+  } else {
+    generateOnlineQuiz(topic);
+  }
+}
+
+// Parse simple quiz JSON from live AI (optional enhancement)
+function tryParseAIQuiz(text) {
+  try {
+    const match = String(text).match(/\[[\s\S]*\]/);
+    if (!match) return null;
+    const arr = JSON.parse(match[0]);
+    if (!Array.isArray(arr) || !arr.length) return null;
+    const questions = arr.map(item => {
+      const options = item.options || item.choices || [];
+      let answer = item.answer;
+      if (typeof answer === "string") {
+        const idx = options.findIndex(o => String(o).toLowerCase() === answer.toLowerCase());
+        answer = idx >= 0 ? idx : 0;
+      }
+      return {
+        q: item.q || item.question || "Question",
+        options: options.slice(0, 4),
+        answer: typeof answer === "number" ? answer : 0
+      };
+    }).filter(q => q.options.length >= 2);
+    return questions.length ? questions : null;
+  } catch (_) {
+    return null;
+  }
+}
+
+async function generateOnlineQuizWithAI(topic) {
+  const status = document.getElementById("quiz-gen-status");
+  if (status) status.textContent = "Asking Delaw to create a quiz...";
+  // Always start with offline bank so user gets a quiz instantly
+  const built = buildQuizFromBank(topic, 6);
+  setActiveQuiz(built.questions, built.title + " (Online)", built.topic);
+  if (status) status.textContent = `Quiz ready: ${built.title}`;
+  if (typeof showBlueToast === "function") showBlueToast("Delaw created a " + built.topic + " quiz!");
+  switchTab("quiz");
+
+  // Optionally try live AI for a custom topic quiz (non-blocking enhancement)
+  if (isLiveAIEnabled && isLiveAIEnabled() && topic && !quizBanks[resolveQuizTopic(topic)]) {
+    try {
+      const prompt = `Create exactly 5 multiple-choice quiz questions about "${topic}" for students. Reply ONLY with a JSON array, no other text. Format: [{"q":"question","options":["A","B","C","D"],"answer":0}] where answer is the index of the correct option (0-3).`;
+      const reply = await callLiveAI(prompt);
+      const parsed = tryParseAIQuiz(reply);
+      if (parsed && parsed.length >= 3) {
+        setActiveQuiz(parsed, "AI Quiz: " + topic, topic);
+        if (status) status.textContent = `AI quiz ready about "${topic}" (${parsed.length} questions)`;
+        if (typeof showBlueToast === "function") showBlueToast("AI quiz loaded: " + topic);
+      }
+    } catch (_) { /* keep offline quiz */ }
+  }
+  return built;
 }
 
 function toggleMic() {
@@ -3495,9 +5171,28 @@ document.addEventListener("keydown", (e) => {
 
 renderHistory();
 updateStatusBar();
+// Migrate existing single history into a session if needed
+if (chatHistory.length && !currentSessionId) {
+  try { saveCurrentSession(); } catch (_) {}
+}
+renderHistoryPanel();
+
+// Quiz topic input: press Enter to generate
+(function () {
+  const qInput = document.getElementById("quiz-topic-input");
+  if (qInput) {
+    qInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        generateOnlineQuizFromInput();
+      }
+    });
+  }
+})();
 console.log("%cDelaw AI + EduPulse STEM + Live AI (Cloudflare Worker – keys secret) loaded", "color:#2563eb;font-weight:bold");
 console.log("%cProduced by Desadu Chirandith", "color:#0ea5e9");
 console.log("%c✓ No API keys in this HTML. Chat + images via Worker.", "color:#10b981;font-weight:bold");
+console.log("%c✓ Chat History + Mic-in-chat + Blue notifications", "color:#10b981;font-weight:bold");
 console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
 
 
@@ -3699,7 +5394,7 @@ console.log("%cWorker: " + DELAW_WORKER, "color:#0ea5e9");
     }
   });
 
-  const hoverSelectors = "a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .calc-btn, .quiz-options button, .stem-topic, .element-cell, .save-btn, input, .back-btn";
+  const hoverSelectors = "a, button, .nav-item, .card, .stem-card, .chip, .btn, .mic-btn, .mic-inline-btn, .calc-btn, .quiz-options button, .msg-quiz-opt, .stem-topic, .element-cell, .save-btn, input, .back-btn, .blue-modal-btn, .history-item";
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(hoverSelectors)) {
       isHovering = true;
